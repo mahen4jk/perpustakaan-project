@@ -172,19 +172,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <i class="fa-solid fa-user"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <div class="card card-primary card-outline">
-              <div class="card-body box-profile">
-                <div class="text-center">
-                <i class="fa-solid fa-circle-user fa-xl"></i>
-                </div>
-
-                <h3 class="profile-username text-center">Nina Mcintire</h3>
-
-                <p class="text-muted text-center">Software Engineer</p>
-
-                <a href="{{route('logout')}}" class="btn btn-primary btn-block"><i class="fa-solid fa-power-off"></i><b>Logout</b></a>
+            <div class="card-body box-profile">
+              <div class="text-center">
+                <i class="fa-solid fa-circle-user fa-2xl" src="" alt="ProfilePicture"></i>
               </div>
-              <!-- /.card-body -->
+              <h3 class="profile-username text-center">{{auth()->user()->name}}</h3>
+              <p class="text-muted text-center">{{auth()->user()->level}}</p>
+              <a href="{{route('logout')}}" class="btn btn-primary btn-block"><i class="fa-solid fa-power-off"></i><b>Logout</b></a>
             </div>
             <!-- /.card -->
           </div>
@@ -196,7 +190,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="{{url('admin')}}" class="brand-link">
+      <a href="{{url('index')}}" class="brand-link">
         <img src="{{url('lte/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">AdminLTE 3</span>
       </a>
@@ -206,10 +200,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="image">
-            <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+            <img src="{{url('lte/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
-            <a href="#" class="d-block">Alexander Pierce</a>
+            <a href="#" class="d-block">{{auth()->user()->name}}</a>
           </div>
         </div>
 

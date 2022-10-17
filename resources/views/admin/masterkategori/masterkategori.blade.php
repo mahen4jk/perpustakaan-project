@@ -1,4 +1,4 @@
-@extends('tempplate')
+@extends('admin.tempplate')
 
 @section('header')
 <div class="content-header">
