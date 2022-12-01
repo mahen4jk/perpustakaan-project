@@ -1,4 +1,4 @@
-@extends('admin.tempplate')
+@extends('admin.template')
 
 @section('header')
 <div class="content-header">
@@ -9,7 +9,7 @@
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{url('index')}}">Home</a></li>
                     <li class="breadcrumb-item active">Master Kategori</li>
                 </ol>
             </div><!-- /.col -->
@@ -25,80 +25,60 @@
         <div class="col-lg-auto">
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h5 class="m-0 bi"> <i class="fa-solid fa-book"></i> Master Buku</h5>
+                    <h5 class="m-0 bi"><i class="fa-solid fa-folder-minus"></i> Master Kategori</h5>
                 </div>
                 <div class="card-body">
-                    <a href="{{url('buku/tambahbuku')}}" class="btn btn-success"><i class="fa-solid fa-plus"></i> Tambah Data Buku</a>
+                    <a href="{{url('kategori/tambahkategori')}}" class="btn btn-success"><i class="fa-solid fa-plus"></i> Tambah Data Kategori</a>
                     <div class="row">
                         <div class="col-lg-7">
                         </div>
-                        <div class="col-lg-5">
+                        <!-- <div class="col-lg-5">
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
                                 </div>
                                 <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
                             </div>
-                        </div>
+                        </div> --> <br/>
                     </div>
-                    <table class="table table-hover">
-                        <thead class="thead-light">
-                            <tr>
-                                <th style="text-align:center">No</th>
-                                <th style="text-align:center">Id Buku</th>
-                                <th style="text-align:center">Judul Buku</th>
-                                <th style="text-align:center">Kategori</th>
-                                <th style="text-align:center">Pengarang</th>
-                                <th style="text-align:center">Penerbit</th>
-                                <th style="text-align:center">Stok Tersedia</th>
-                                <th style="text-align:center">Stok Dipinjam</th>
-                                <th style="text-align:center">Pilihan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="text-align:center">1</td>
-                                <td>July</td>
-                                <td>Dooley</td>
-                                <td>july@example.com</td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <th style="text-align:center">No</th>
-                            <th style="text-align:center">Id Buku</th>
-                            <th style="text-align:center">Judul Buku</th>
-                            <th style="text-align:center">Kategori</th>
-                            <th style="text-align:center">Pengarang</th>
-                            <th style="text-align:center">Penerbit</th>
-                            <th style="text-align:center">Stok Tersedia</th>
-                            <th style="text-align:center">Stok Dipinjam</th>
-                            <th style="text-align:center">Pilihan</th>
-                        </tfoot>
-                    </table>
+                    <div class="table-responsive">
+                        <table id="example2" class="table table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th style="width:1px; white-space:nowrap; text-align:center;">No</th>
+                                    <th style="width:1px; white-space:nowrap;">Kategori</th>
+                                    <th style="width:1px; white-space:nowrap;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $no = 1;
+                                ?>
+                                @foreach ($kategori as $KAT)
+                                <tr>
+                                    <td style="text-align:center;"><?php echo $no++; ?></td>
+                                    <td>{{$KAT->kategori}}</td>
+                                    <td>
+                                        <a href="editKat/{{$KAT->id_kategori}}" class="btn btn-warning" role="button">
+                                            <i class="fa-solid fa-pen-nib"></i>&nbsp;Ubah
+                                        </a>
+                                        <a href="#" class="btn btn-danger btnDelKAT" data-id="{{$KAT->id_kategori}}" data-name="{{$KAT->kategori}}" role="button">
+                                            <i class="fa-solid fa-trash"></i>&nbsp;Hapus</button>
+                                        </a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                            <tfoot>
+                                <th style="width:1px; white-space:nowrap; text-align:center;">No</th>
+                                <th style="width:1px; white-space:nowrap;">Kategori</th>
+                                <th style="width:1px; white-space:nowrap;">Actions</th>
+                            </tfoot>
+                        </table>
+                    </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <p>Jumlah Data : </p>
-                        </div>
-                        <div class="col-lg-6">
-                            <nav aria-label="Page navigation example">
-                                <ul class="pagination" style="float:right;">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
-                                            <span class="sr-only">Previous</span>
-                                        </a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                            <span class="sr-only">Next</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
+                            <p>Jumlah Data : {{$kategori->count()}}</p>
                         </div>
                     </div>
                 </div>
