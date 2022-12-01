@@ -39,6 +39,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ url('lte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ url('lte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet"
+        href="{{ url('lte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
+
+    {{-- Date and Time Picker --}}
+    <link rel="stylesheet" href="{{ url('assets/css/bootstrap-datepicker.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ url('lte/dist/css/adminlte.min.css') }}">
     <link href="{{ url('assets/image/logo.png') }}" rel="shortcut icon">
@@ -120,7 +126,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
                                         John Pierce
-                                        <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
+                                        <span class="float-right text-sm text-muted"><i
+                                                class="fas fa-star"></i></span>
                                     </h3>
                                     <p class="text-sm">I got your message bro</p>
                                     <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
@@ -400,6 +407,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ url('lte/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
     <script src="{{ url('lte/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ url('lte/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+    <!-- InputMask -->
+    <script src="{{ url('assets/js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ url('lte/plugins/moment/moment.min.js') }}"></script>
+    <script src="{{ url('assets/js/moment.js') }}"></script>
+    <script src="{{ url('lte/plugins/inputmask/jquery.inputmask.min.js') }}"></script>
     <!-- SweetAlert2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
@@ -424,7 +436,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             });
 
             //Modal Detail Buku
-            $(document).on('click','#detail-buku',function(){
+            $(document).on('click', '#detail-buku', function() {
                 var id_buku = $(this).data('id_buku');
                 var judul = $(this).data('judul');
                 var isbn = $(this).data('isbn');
@@ -464,52 +476,80 @@ scratch. This page gets rid of all links and provides the needed markup only.
             $('.btnDelKAT').click(function() {
                 var kategoriid = $(this).attr('data-id');
                 var kategorinm = $(this).attr('data-name');
-                Swal.fire({
-                    title: 'Yakin ?',
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                })
+                swalWithBootstrapButtons.fire({
+                    title: 'Yakin?',
                     text: "Kamu akan menghapus data kategori dengan nama " + kategorinm + "",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
                 }).then((result) => {
                     if (result.isConfirmed) {
                         window.location = "hapusKAT/" + kategoriid + "";
-                        Swal.fire(
+                        swalWithBootstrapButtons.fire(
                             'Deleted!',
-                            'Data berhasil dihapus',
+                            'Data telah Berhasil dihapus',
                             'success'
                         )
-                    } else {
-                        swal("Data tidak jadi dihapus");
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            'Data tidak jadi dihapus',
+                            'error'
+                        )
                     }
-                });
+                })
             });
 
             // Delete Penerbit
             $('.btnDelPEN').click(function() {
                 var penerbitid = $(this).attr('data-id');
                 var penerbitnm = $(this).attr('data-name');
-                Swal.fire({
-                    title: 'Yakin ?',
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                })
+                swalWithBootstrapButtons.fire({
+                    title: 'Yakin?',
                     text: "Kamu akan menghapus data penerbit " + penerbitnm + "",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
                 }).then((result) => {
                     if (result.isConfirmed) {
                         window.location = "hapusPEN/" + penerbitid + "";
-                        Swal.fire(
+                        swalWithBootstrapButtons.fire(
                             'Deleted!',
-                            'Data berhasil dihapus',
+                            'Data telah Berhasil dihapus',
                             'success'
                         )
-                    } else {
-                        swal("Data tidak jadi dihapus");
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            'Data tidak jadi dihapus',
+                            'error'
+                        )
                     }
-                });
+                })
             });
             // Delete Kelas
             $('.btnDelKelas').click(function() {
@@ -546,6 +586,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,
+            });
+
+            //Date Time Picker Buku
+            $('.datepicker').datepicker({
+                format: "yyyy",
+                viewMode: "years",
+                minViewMode: "years"
             });
         });
     </script>

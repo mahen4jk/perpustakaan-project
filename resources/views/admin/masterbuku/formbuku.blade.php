@@ -31,32 +31,40 @@
                     </div>
                     <div class="card-body">
                         <!-- Form -->
-                        <form asction="tmbBuku" method="POST">
+                        <form action="simpanBUKU" method="POST">
+                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
                             <div class="form-group row">
-                                <label for="staticEmail" class="col-sm-2 col-form-label">ISBN</label>
+                                <label for="staticKdBUKU" class="col-sm-2 col-form-label">Kode Buku</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="id_buku" id="id_buku" placeholder=""
+                                        value="{{ $id_buku }}" required readonly>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="staticISBN" class="col-sm-2 col-form-label">ISBN</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="ISBN" id="ISBN"
-                                        placeholder="Masukan koden ISBN">
+                                        placeholder="Masukan koden ISBN" required>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="staticEmail" class="col-sm-2 col-form-label">Judul Buku</label>
+                                <label for="staticJudul" class="col-sm-2 col-form-label">Judul Buku</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="judul" id="judul"
-                                        placeholder="Masukan koden ISBN">
+                                        placeholder="Judul Buku" required>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="staticEmail" class="col-sm-2 col-form-label">Pengarang</label>
+                                <label for="staticPengarang" class="col-sm-2 col-form-label">Pengarang</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="pengarang" id="pengarang"
-                                        placeholder="Masukan koden ISBN">
+                                        placeholder="Pengarang Buku" required>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="penerbit" class="col-sm-2 col-form-label">Penerbit</label>
+                                <label for="penerbit_id" class="col-sm-2 col-form-label">Penerbit</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control penerbit" name="id_penerbit">
+                                    <select class="form-control penerbit" name="penerbit_id" required>
                                         <option style="display:none"></option>
                                         @foreach ($penerbit as $PEN)
                                             <option value="{{ $PEN->id_penerbit }}">{{ $PEN->nama_penerbit }}</option>
@@ -65,21 +73,22 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="staticEmail" class="col-sm-2 col-form-label">Klasifikasi</label>
+                                <label for="class_id" class="col-sm-2 col-form-label">Klasifikasi</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control klasifikasi" name="id_penerbit">
+                                    <select class="form-control klasifikasi" name="class_id" required>
                                         <option style="display:none"></option>
                                         @foreach ($klasifikasi as $class)
-                                            <option value="{{ $class->id_class }}">{{ $class->id_class }}&nbsp;{{ $class->ket }}
+                                            <option value="{{ $class->id_class }}">
+                                                {{ $class->id_class }}&nbsp;{{ $class->ket }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="staticEmail" class="col-sm-2 col-form-label">Kategori</label>
+                                <label for="kategori_id" class="col-sm-2 col-form-label">Kategori</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control kategori" name="id_penerbit">
+                                    <select class="form-control kategori" name="kategori_id" required>
                                         <option style="display:none"></option>
                                         @foreach ($kategori as $KAT)
                                             <option value="{{ $KAT->id_kategori }}">{{ $KAT->kategori }}
@@ -89,23 +98,26 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="staticEmail" class="col-sm-2 col-form-label">Tahun Terbit</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="tahun_terbit" id="thn_terbit"
-                                        placeholder="Masukan koden ISBN">
+                                <label for="thn_terbit" class="col-sm-2 col-form-label">Tahun Terbit</label>
+                                <div class="col-sm-10 input-group">
+                                    <input type="text" class="form-control datepicker" name="tahun_terbit"
+                                        placeholder="Tahun Terbit Buku">
+                                    <div class="input-group-addon">
+                                        <span class="far fa-calendar-alt"></span>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="staticEmail" class="col-sm-2 col-form-label">Stock Buku</label>
+                                <label for="Stock Buku" class="col-sm-2 col-form-label">Stock Buku</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="stok_buku" id="stok"
-                                        placeholder="Masukan koden ISBN">
+                                        placeholder="Stock Buku" required>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="staticEmail" class="col-sm-2 col-form-label">Sinopsis</label>
+                                <label for="deskripsi" class="col-sm-2 col-form-label">Sinopsis</label>
                                 <div class="col-sm-10">
-                                    <textarea type="text" class="form-control" name="deskripsi" id="sinopsis" placeholder="Masukan koden ISBN"></textarea>
+                                    <textarea type="text" class="form-control" name="deskripsi" id="sinopsis" placeholder="Sinopsis Buku"></textarea>
                                 </div>
                             </div>
                             <button type="button" class="btn btn-danger float-right ml-2" onclick="kembali()"><i

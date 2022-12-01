@@ -52,6 +52,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('masterbuku', 'Admin\MstBukuCon@MasterBuku');
         #Tampilan Form dan Tambah Buku
         Route::get('tambahbuku', 'Admin\MstBukuCon@formbuku');
+        Route::post('simpanBUKU','Admin\MstBukuCon@simpanBUKU');
     });
 
     #Tampilan MasterKategori

@@ -29,9 +29,30 @@ class MstBukuCon extends Controller
     public function formbuku()
     {
         # code...
+        $kd_buku = MdBuku::kode();
         $klasifikasi = MdDDC::all();
         $penerbit = MdPenerbit::all();
         $kategori = MdKategori::all();
-        return view('admin.masterbuku.formbuku', compact('klasifikasi', 'penerbit', 'kategori'));
+        return view('admin.masterbuku.formbuku', compact('klasifikasi', 'penerbit', 'kategori'),['id_buku'=>$kd_buku]);
+    }
+
+    public function simpanBUKU(Request $BUKU)
+    {
+        # code...
+        $validate_buku = $BUKU->validate([
+            'id_buku'=>'required',
+            'ISBN'=>'required',
+            'judul'=>'required',
+            'pengarang'=>'required',
+            'penerbit_id'=>'required',
+            'class_id'=>'required',
+            'kategori_id'=>'required',
+            'stok_buku'=>'required'
+            ,
+        ]);
+        $simpan = new MdBuku();
+        $simpan->insBuku($BUKU,['id_buku'=>$validate_buku]);
+        return redirect('buku/masterbuku')->with('toast_success','Data Berhasil disimpan');
+        
     }
 }

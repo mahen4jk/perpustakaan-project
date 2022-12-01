@@ -28,7 +28,6 @@
                 <div class="small-box bg-info">
                     <div class="inner">
                         <h3>150</h3>
-
                         <p>Jumlah Buku</p>
                     </div>
                     <div class="icon">

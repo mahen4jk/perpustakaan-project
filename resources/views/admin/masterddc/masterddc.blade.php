@@ -56,7 +56,7 @@
                                 @foreach ($ddc as $klasifikasi)
                                     <tr>
                                         <td>{{ $klasifikasi->id_class }}</td>
-                                        <td>{{ $klasifikasi->about }}</td>
+                                        <td>{{ $klasifikasi->ket }}</td>
                                         <td>
                                             <a href="#" class="btn btn-warning" role="button">
                                                 <i class="fa-solid fa-pen-nib"></i>&nbsp;Ubah

@@ -47,19 +47,39 @@ class MdBuku extends Model
         return $this->belongsTo(MdKategori::class,'kategori_id','id_kategori');
     }
 
+    public static function kode()
+    {
+        # code...
+        $kd_buku = DB::table('tb_buku')->max('id_buku');
+        $addNol = '';
+        $kd_buku = str_replace("","",$kd_buku);
+        $kd_buku = (int)$kd_buku + 1;
+        $incrementKode = $kd_buku;
+
+        if (strlen($kd_buku) == 1) {
+            $addNol = "00000";
+        } elseif (strlen($kd_buku) == 2){
+            $addNol = "0000";
+        } elseif (strlen($kd_buku == 3)) {
+            $addNol = "000";
+        }
+        $kodebaru = "".$addNol.$incrementKode;
+        return $kodebaru;
+    }
+
     public function insBuku($buku)
     {
         # code...
-        DB::table('mst_buku')->insert([
+        DB::table('tb_buku')->insert([
             'id_buku' => $buku->id_buku,
             'judul' => $buku->judul,
-            'isbn' => $buku->isbn,
+            'isbn' => $buku->ISBN,
             'pengarang' => $buku->pengarang,
-            'id_penerbit' => $buku->id_penerbit,
-            'class' => $buku->class,
-            'id_kategori' => $buku->id_kategori,
+            'penerbit_id' => $buku->penerbit_id,
+            'class_id' => $buku->class_id,
+            'kategori_id' => $buku->kategori_id,
             'tahun_terbit' => $buku->tahun_terbit,
-            'stok_buku' => $buku->stok_bukku,
+            'stok_buku' => $buku->stok_buku,
             'deskripsi' => $buku->deskripsi,
             'created_at' => now(),
             'updated_at' => now()
