@@ -1,5 +1,9 @@
 @extends('admin.template')
 
+@section('title')
+    {{ 'Master Kelas' }}
+@endsection
+
 @section('header')
     <div class="content-header">
         <div class="container-fluid">
@@ -34,20 +38,20 @@
                             <div class="col-lg-7">
                             </div>
                             <!-- <div class="col-lg-5">
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
-                                </div>
-                            </div> --> <br />
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                                    </div>
+                                                    <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
+                                                </div>
+                                            </div> --> <br />
                         </div>
                         <div class="table-responsive">
-                            <table id="example2" class="table table-hover">
+                            <table id="example2" class="table table-hover table-sm table-responsive-sm">
                                 <thead class="thead-light">
                                     <tr>
-                                        <th style="width:1px; white-space:nowrap; text-align:center;">No</th>
-                                        <th style="width:1px; white-space:nowrap;">ID Kelas</th>
+                                        <th style="width:1px; white-space:nowrap;">No</th>
+                                        {{-- <th style="width:1px; white-space:nowrap;">ID Kelas</th> --}}
                                         <th style="width:1px; white-space:nowrap;">Nama Kelas</th>
                                         <th style="width:1px; white-space:nowrap;">Actions</th>
                                     </tr>
@@ -58,16 +62,17 @@
                                     ?>
                                     @foreach ($kelas as $kelas)
                                         <tr>
-                                            <td style="text-align:center;"><?php echo $no++; ?></td>
-                                            <td>{{ $kelas->id_kelas }}</td>
+                                            <td><?php echo $no++; ?></td>
+                                            {{-- <td>{{ $kelas->id_kelas }}</td> --}}
                                             <td>{{ $kelas->nama_kelas }}</td>
                                             <td>
                                                 <a href="editKEL/{{ $kelas->id_kelas }}" class="btn btn-warning"
                                                     role="button">
                                                     <i class="fa-solid fa-pen-nib"></i>&nbsp;Ubah
                                                 </a>
-                                                <a href="#" class="btn btn-danger btnDelKAT" data-id="#"
-                                                    data-name="#" role="button">
+                                                <a href="#" class="btn btn-danger btnDelKELAS"
+                                                    data-id="{{ $kelas->id_kelas }}" data-name="{{ $kelas->nama_kelas }}"
+                                                    role="button">
                                                     <i class="fa-solid fa-trash"></i>&nbsp;Hapus</button>
                                                 </a>
                                             </td>
@@ -75,10 +80,10 @@
                                     @endforeach
                                 </tbody>
                                 <tfoot>
-                                    <th style="width:1px; white-space:nowrap; text-align:center;">No</th>
-                                    <th style="width:1px; white-space:nowrap;">ID Kelas</th>
+                                    <th style="width:1px; white-space:nowrap;">No</th>
+                                    {{-- <th style="width:1px; white-space:nowrap;">ID Kelas</th> --}}
                                     <th style="width:1px; white-space:nowrap;">Nama Kelas</th>
-                                    <th style="width:1px; white-space:nowrap;">Actions/th>
+                                    <th style="width:1px; white-space:nowrap;">Actions</th>
                                 </tfoot>
                             </table>
                         </div>

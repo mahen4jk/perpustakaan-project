@@ -85,4 +85,33 @@ class MdBuku extends Model
             'updated_at' => now()
         ]);
     }
+
+    public function edit($idBuku)
+    {
+        # memunculkan data kategori ke form untuk di ubah...
+        DB::table('tb_buku')->where('id_buku', $idBuku)->get();
+    }
+
+    public function editBUKU($buku)
+    {
+        # code...
+        DB::table('tb_buku')->where('id_buku', $buku->id_buku)->update([
+            'judul' => $buku->judul,
+            'isbn' => $buku->ISBN,
+            'pengarang' => $buku->pengarang,
+            'penerbit_id' => $buku->penerbit_id,
+            'class_id' => $buku->class_id,
+            'kategori_id' => $buku->kategori_id,
+            'tahun_terbit' => $buku->tahun_terbit,
+            'stok_buku' => $buku->stok_buku,
+            'deskripsi' => $buku->deskripsi,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+    }
+    public function hpsBUKU($buku)
+    {
+        # menghapus kelas...
+        DB::table('tb_buku')->where('id_buku', $buku)->delete();
+    }
 }

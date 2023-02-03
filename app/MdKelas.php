@@ -15,6 +15,14 @@ class MdKelas extends Model
     public $timestamps = false;
     protected $fillable = ['id_kelas', 'nama_kelas'];
 
+    public function anggota()
+    {
+        # code...
+        return $this->belongsTo(MdAnggota::class,'kelas_id','id_kelas')->withDefault([
+            'ket' => 'Tidak ada'
+        ]);
+    }
+
     public function simpanKEL($kelas)
     {
         # code...
@@ -34,8 +42,7 @@ class MdKelas extends Model
     {
         # code...
         DB::table('tb_kelas')->where('id_kelas', $kelas->id_kelas)->update([
-            'nama_kelas' => $kelas->nama_kelas,
-            'id_kelas' => $kelas->id_kelas
+            'nama_kelas' => $kelas->nama_kelas
         ]);
     }
     public function hapusKEL($kelas)

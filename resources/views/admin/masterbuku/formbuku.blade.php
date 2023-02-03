@@ -1,18 +1,22 @@
 @extends('admin.template')
 
+@section('title')
+    {{ 'Form Buku' }}
+@endsection
+
 @section('header')
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Tambah Buku</h1>
+                    <h1 class="m-0">Form Buku</h1>
                     <p>Menambahkan data buku perpustakaan</p>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ url('admin') }}">Home</a></li>
                         <li class="breadcrumb-item"><a href="{{ url('buku/masterbuku') }}">Master Buku</a></li>
-                        <li class="breadcrumb-item active">Tambah Buku</li>
+                        <li class="breadcrumb-item active">Form Buku</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -99,11 +103,14 @@
                             </div>
                             <div class="form-group row">
                                 <label for="thn_terbit" class="col-sm-2 col-form-label">Tahun Terbit</label>
-                                <div class="col-sm-10 input-group">
-                                    <input type="text" class="form-control datepicker" name="tahun_terbit"
+                                <div class="col-sm-10 input-group date datepicker">
+                                    <input type="text" class="form-control" name="tahun_terbit"
                                         placeholder="Tahun Terbit Buku">
-                                    <div class="input-group-addon">
-                                        <span class="far fa-calendar-alt"></span>
+                                    {{-- <div class="input-group-addon">
+                                        <span class=""></span>
+                                    </div> --}}
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-addon btn"><i class="far fa-calendar-alt"></i></span>
                                     </div>
                                 </div>
                             </div>

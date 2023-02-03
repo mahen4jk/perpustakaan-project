@@ -1,5 +1,9 @@
 @extends('admin.template')
 
+@section('title')
+    {{'Form Kelas'}}
+@endsection
+
 @section('header')
 <div class="content-header">
     <div class="container-fluid">
@@ -36,7 +40,7 @@
                         <div class="form-group row">
                             <label for="staticEmail" class="col-sm-2 col-form-label">Kode Kelas</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="id_kelas" id="id_kelas" placeholder="Kode Kelas" value="{{$kelas->id_kelas}}">
+                                <input type="text" class="form-control" name="id_kelas" id="id_kelas" placeholder="Kode Kelas" value="{{$kelas->id_kelas}}" readonly="readonly">
                             </div>
                         </div>
                         <div class="form-group row">

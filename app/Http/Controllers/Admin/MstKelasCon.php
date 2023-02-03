@@ -25,13 +25,13 @@ class MstKelasCon extends Controller
     public function simpanCLASS(Request $KEL)
     {
         # code...
-        $validateData = $KEL->validate([
+        /* $validateData = $KEL->validate([
            'id_kelas'=>'required',
            'nama_kelas'=>'required'
-        ]);
+        ]); */
         $simpan = new MdKelas();
         $simpan->simpanKEL($KEL);
-        return redirect('kelas/masterkelas',['id_kelas'=>$validateData])->with('toast_success', 'Data Berhasil Disimpan!');
+        return redirect('kelas/masterkelas')->with('toast_success', 'Data Berhasil Disimpan!');
     }
     public function kirimKEL($idKELAS)
     {
@@ -43,13 +43,13 @@ class MstKelasCon extends Controller
     public function updateKEL(Request $KEL)
     {
         # code...
-        $validateData = $KEL->validate([
+        /* $validateData = $KEL->validate([
             'id_kelas'=>'required',
             'nama_kelas'=>'required'
-         ]);
+         ]); */
         $update = new MdKelas();
         $update->editKEL($KEL);
-        return redirect('kelas/masterkelas',['id_kelas'=>$validateData])->with('toast_success', 'Data Berhasil Diubah!');
+        return redirect('kelas/masterkelas')->with('toast_success', 'Data Berhasil Diubah!');
     }
 
     public function deleteKEL($idKELAS)
@@ -57,6 +57,6 @@ class MstKelasCon extends Controller
         # Hapus data kelas...
         $delete = new MdKelas();
         $delete->hapusKEL($idKELAS);
-        return redirect('penerbit/masterpenerbit');
+        return redirect('kelas/masterkelas');
     }
 }

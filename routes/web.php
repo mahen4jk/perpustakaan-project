@@ -26,12 +26,20 @@ Route::get('logout', 'LoginCon@logout')->name('logout');
 
 Route::group(['middleware' => ['auth']], function () {
     #Tampilan Dashboard
-    
+
     Route::get('index', 'DashController@Dashboard');
 
     #Tampilan MasterAnggota
     Route::prefix('anggota')->group(function () {
-        
+        Route::get('masteranggota','Admin\MstAnggota@MasterAnggota');
+        #Tampilan Form Kelas
+        Route::get('tambahanggota','Admin\MstAnggota@tambahanggota');
+        Route::post('simpanAnggota','Admin\MstAnggota@simpanAnggota');
+        #Update Anggota
+        Route::get('editANG/{nis}','Admin\MstAnggota@kirimAnggota');
+        Route::post('editANG/ubahAnggota','Admin\MstAnggota@ubahAnggota');
+        # Hapus Anggota
+        Route::get('hapusAnggota/{nis}','Admin\MstAnggota@hpsAnggota');
     });
 
     // Tampilan MasterKelas
@@ -44,6 +52,8 @@ Route::group(['middleware' => ['auth']], function () {
         # Siap Update Kelas
         Route::get('editKEL/{id_kelas}','Admin\MstKelasCon@kirimKEL');
         Route::post('editKEL/updateKEL','Admin\MstKelasCon@updateKEL');
+        # Hapus Kelas
+        Route::get('hapusKELAS/{id_kelas}','Admin\MstKelasCon@deleteKEL');
     });
 
     #Tampilan MasterBuku
@@ -53,12 +63,17 @@ Route::group(['middleware' => ['auth']], function () {
         #Tampilan Form dan Tambah Buku
         Route::get('tambahbuku', 'Admin\MstBukuCon@formbuku');
         Route::post('simpanBUKU','Admin\MstBukuCon@simpanBUKU');
+        #Tampilan Edit dan Ubah Buku
+        Route::get('editbuku/{id_buku}','Admin\MstBukuCon@kirimBuku');
+        Route::post('editbuku/updateBUKU','Admin\MstBukuCon@updateBUKU');
+        #Hapus buku
+        Route::get('hapusBUKU/{id_buku}','Admin\MstBukuCon@delBUKU');
     });
 
     #Tampilan MasterKategori
     Route::prefix('kategori')->group(function () {
         # Tampilan Data
-        Route::get('masterkategori', 'Admin\MstCatCon@MasterKategori'); 
+        Route::get('masterkategori', 'Admin\MstCatCon@MasterKategori');
         # Tampilan Form dan Tambah Buku
         Route::get('tambahkategori','Admin\MstCatCon@formkategori');
         Route::post('simpanKAT','Admin\MstCatCon@simpanKAT');

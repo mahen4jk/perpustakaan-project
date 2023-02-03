@@ -1,5 +1,9 @@
 @extends('admin.template')
 
+@section('title')
+    {{'Form Penerbit'}}
+@endsection
+
 @section('header')
 <div class="content-header">
     <div class="container-fluid">

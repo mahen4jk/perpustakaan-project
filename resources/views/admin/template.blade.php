@@ -8,18 +8,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script language='JavaScript'>
-        var txt = "Dashboard | Perpustakaan SMP Negeri 4 Waru | ";
-        var speed = 300;
-        var refresh = null;
 
-        function action() {
-            document.title = txt;
-            txt = txt.substring(1, txt.length) + txt.charAt(0);
-            refresh = setTimeout("action()", speed);
-        }
-        action();
-    </script>
+    <title>@yield('title') | Perpustakaan SMP Negeri 4 Waru | </title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -47,7 +37,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ url('assets/css/bootstrap-datepicker.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ url('lte/dist/css/adminlte.min.css') }}">
-    <link href="{{ url('assets/image/logo.png') }}" rel="shortcut icon">
+    <link rel="icon" href="{{ url('assets/image/logo.png') }}">
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -210,9 +200,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="{{ url('index') }}" class="brand-link">
-                <img src="{{ url('lte/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
+                <img src="{{ url('assets/image/logo.png') }}" alt="SMPN 4 WARU"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">AdminLTE 3</span>
+                <span class="brand-text font-weight-light">SMP Negeri 4 Waru</span>
             </a>
 
             <!-- Sidebar -->
@@ -248,10 +238,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                         <li
-                            class="nav-item {{ Request()->is('/anggota/masteranggota', 'kelas/masterkelas') ? 'menu-open' : '' }}">
+                            class="nav-item {{ Request()->is('anggota/masteranggota', 'kelas/masterkelas') ? 'menu-open' : '' }}">
                             <a href="#"
-                                class="nav-link {{ Request()->is('/anggota/masteranggota', 'kelas/masterkelas') ? 'active' : '' }}">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                class="nav-link {{ Request()->is('anggota/masteranggota', 'kelas/masterkelas') ? 'active' : '' }}">
+                                <i class="nav-icon fa-regular fa-user"></i>
                                 <p>
                                     Anggota
                                     <i class="right fas fa-angle-left"></i>
@@ -259,8 +249,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#"
-                                        class="nav-link {{ Request()->is('/anggota/masteranggota') ? 'active' : '' }}">
+                                    <a href="{{ url('anggota/masteranggota') }}"
+                                        class="nav-link {{ Request()->is('anggota/masteranggota') ? 'active' : '' }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Master Anggota</p>
                                     </a>
@@ -278,7 +268,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             class="nav-item {{ Request()->is('buku/masterbuku', 'kategori/masterkategori', 'penerbit/masterpenerbit', 'ddc/masterddc') ? 'menu-open' : '' }}">
                             <a href="#"
                                 class="nav-link {{ Request()->is('buku/masterbuku', 'kategori/masterkategori', 'penerbit/masterpenerbit', 'ddc/masterddc') ? 'active' : '' }}">
-                                <i class="bi bi-book"></i>
+                                <i class="nav-icon fa-solid fa-book"></i>
                                 <p>
                                     Buku
                                     <i class="right fas fa-angle-left"></i>
@@ -422,6 +412,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 placeholder: "Pilih Penerbit",
                 allowClear: true
             });
+            //select-option penerbit
+            $('.kelas').select2({
+                theme: 'bootstrap4',
+                placeholder: "Pilih Kelas",
+                allowClear: true
+            });
             //select-option klasifikasi
             $('.klasifikasi').select2({
                 theme: 'bootstrap4',
@@ -435,6 +431,61 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 allowClear: true
             });
 
+            //Modal Detail Anggota
+            $(document).on('click', '#detail-anggota', function() {
+                var nis = $(this).data('nis');
+                var nm_lengkap = $(this).data('nm_lengkap');
+                var j_kelamin = $(this).data('j_kelamin');
+                var kelas = $(this).data('kelas');
+                var no_hp = $(this).data('no_hp');
+                var status = $(this).data('status');
+                $('#nis').text(nis);
+                $('#nm_lengkap').text(nm_lengkap);
+                $('#j_kelamin').text(j_kelamin);
+                $('#kelas').text(kelas);
+                $('#no_hp').text(no_hp);
+                $('#status').text(status);
+            })
+
+            //Delete Anggota
+            $('.btnDelAnggota').click(function() {
+                var anggotaid = $(this).attr('data-id');
+                var namaanggota = $(this).attr('data-name');
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                })
+                swalWithBootstrapButtons.fire({
+                    title: 'Yakin?',
+                    text: "Kamu akan menghapus data anggota bernama " + namaanggota + "",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "hapusAnggota/" + anggotaid + "";
+                        swalWithBootstrapButtons.fire(
+                            'Deleted!',
+                            'Data telah Berhasil dihapus',
+                            'success'
+                        )
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            'Data tidak jadi dihapus',
+                            'error'
+                        )
+                    }
+                })
+            })
             //Modal Detail Buku
             $(document).on('click', '#detail-buku', function() {
                 var id_buku = $(this).data('id_buku');
@@ -458,6 +509,46 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 $('#stok_buku').text(stok_buku);
                 $('#deskripsi').text(deskripsi);
             })
+
+            //Delete Buku
+            $('.btnDelBUKU').click(function() {
+                var bukuid = $(this).attr('data-id');
+                var jdlbuku = $(this).attr('data-name');
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                })
+                swalWithBootstrapButtons.fire({
+                    title: 'Yakin?',
+                    text: "Kamu akan menghapus data buku dengan judul " + jdlbuku + "",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "hapusBUKU/" + bukuid + "";
+                        swalWithBootstrapButtons.fire(
+                            'Deleted!',
+                            'Data telah Berhasil dihapus',
+                            'success'
+                        )
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            'Data tidak jadi dihapus',
+                            'error'
+                        )
+                    }
+                })
+            })
             //Modal Detail Penerbit
             $(document).on('click', '#detail-penerbit', function() {
                 var id_penerbit = $(this).data('id_penerbit');
@@ -472,10 +563,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 $('#email').text(email);
             });
 
-            // Delete Kategori
-            $('.btnDelKAT').click(function() {
-                var kategoriid = $(this).attr('data-id');
-                var kategorinm = $(this).attr('data-name');
+            // Delete Kelas
+            $('.btnDelKELAS').click(function() {
+                var kelasid = $(this).attr('data-id');
+                var namakls = $(this).attr('data-name');
                 const swalWithBootstrapButtons = Swal.mixin({
                     customClass: {
                         confirmButton: 'btn btn-success',
@@ -485,7 +576,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 })
                 swalWithBootstrapButtons.fire({
                     title: 'Yakin?',
-                    text: "Kamu akan menghapus data kategori dengan nama " + kategorinm + "",
+                    text: "Kamu akan menghapus data kelas dengan nama " + namakls + "",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Yes, delete it!',
@@ -493,7 +584,47 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     reverseButtons: true
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location = "hapusKAT/" + kategoriid + "";
+                        window.location = "hapusKELAS/" + kelasid + "";
+                        swalWithBootstrapButtons.fire(
+                            'Deleted!',
+                            'Data telah Berhasil dihapus',
+                            'success'
+                        )
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            'Data tidak jadi dihapus',
+                            'error'
+                        )
+                    }
+                })
+            });
+
+            // Delete Kategori
+            $('.btnDelKAT').click(function() {
+                var bukuid = $(this).attr('data-id');
+                var bukujdl = $(this).attr('data-name');
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                })
+                swalWithBootstrapButtons.fire({
+                    title: 'Yakin?',
+                    text: "Kamu akan menghapus data kategori dengan nama " + bukujdl + "",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "hapusKAT/" + bukuid + "";
                         swalWithBootstrapButtons.fire(
                             'Deleted!',
                             'Data telah Berhasil dihapus',
@@ -589,11 +720,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
             });
 
             //Date Time Picker Buku
-            $('.datepicker').datepicker({
+            /* $('.datepicker').click({
+                function() {
+                    $(this).datepicker('show');
+                    format: "yyyy",
+                    viewMode: "years",
+                    minViewMode: "years"
+                }
+            }); */
+            $('.datepicker').off('focus').datepicker({
                 format: "yyyy",
                 viewMode: "years",
                 minViewMode: "years"
-            });
+            }).click(
+                function() {
+                    $(this).datepicker('show');
+                }
+            );
         });
     </script>
 </body>

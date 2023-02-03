@@ -1,5 +1,9 @@
 @extends('admin.template')
 
+@section('title')
+    {{'Master Buku'}}
+@endsection
+
 @section('header')
     <div class="content-header">
         <div class="container-fluid">
@@ -36,11 +40,11 @@
                             </div>
                             <div class="col-lg-5">
                                 <!-- <div class="input-group mb-3">
-                                                                            <div class="input-group-prepend">
-                                                                                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
-                                                                            </div>
-                                                                            <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
-                                                                        </div> --> <br />
+                                    <div class="input-group-prepend">
+                                     <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                    </div>
+                                        <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
+                                    </div> --> <br />
                             </div>
                         </div>
                         <table id="example2" class="table table-hover">
@@ -56,7 +60,7 @@
                                 <?php
                                 $no = 1;
                                 ?>
-                                @foreach ($dtbuku as $katalog)
+                                @foreach ($buku as $katalog)
                                     <tr>
                                         <td style="text-align:center"><?php echo $no++; ?></td>
                                         <td>{{ $katalog->judul }}</td>
@@ -73,10 +77,13 @@
                                                 data-deskripsi="{{ $katalog->deskripsi }}">
                                                 <i class="fa-regular fa-eye"></i>&nbsp;Detail
                                             </a>
-                                            <a href="#" class="btn btn-warning btn-sm" role="button">
+                                            <a href="editbuku/{{ $katalog->id_buku }}" class="btn btn-warning btn-sm"
+                                                role="button">
                                                 <i class="fa-solid fa-pen-nib"></i>&nbsp;Ubah
                                             </a>
-                                            <a href="#" class="btn btn-danger btn-sm" role="button">
+                                            <a href="#" class="btn btn-danger btn-sm btnDelBUKU"
+                                                data-id="{{ $katalog->id_buku }}" data-name="{{ $katalog->judul }}"
+                                                role="button">
                                                 <i class="fa-solid fa-trash"></i>&nbsp;Hapus
                                             </a>
                                         </td>
