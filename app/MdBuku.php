@@ -47,6 +47,11 @@ class MdBuku extends Model
         return $this->belongsTo(MdKategori::class,'kategori_id','id_kategori');
     }
 
+    public function peminjaman()
+    {
+    	return $this->hasMany(MdPinjam::class);
+    }
+
     public static function kode()
     {
         # code...

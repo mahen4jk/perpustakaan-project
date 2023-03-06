@@ -5,15 +5,16 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
+
 class MdAnggota extends Model
 {
     //
     protected $table = 'tb_anggota';
-    protected $primarykey = 'nis';
+    protected $primarykey = 'id_anggota';
     public $incrementing = false;
     public $timestamps = false;
     protected $fillable = [
-        'nis', 'nama_lengkap', 'j_kelamin', 'kelas_id', 'hp', 'status'
+        'id_anggota', 'nis', 'nama_anggota', 'j_kelamin', 'kelas_id', 'hp', 'status', 'created_at', 'update_at'
     ];
 
     public function kelas()
@@ -24,39 +25,51 @@ class MdAnggota extends Model
         ]);
     }
 
+    public function peminjaman()
+    {
+        return $this->hasMany(MdPinjam::class);
+    }
+
     public function insAnggota($anggota)
     {
+
         # code...
         DB::table('tb_anggota')->insert([
+            'id_anggota' => $anggota->id_anggota,
             'nis' => $anggota->nis,
-            'nama_lengkap' => $anggota->nama_lengkap,
+            'nama_anggota' => $anggota->nama_anggota,
             'j_kelamin' => $anggota->j_kelamin,
             'kelas_id' => $anggota->kelas_id,
             'hp' => $anggota->hp,
             'status' => $anggota->status,
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
     }
 
     public function edit($idNIS)
     {
         # memunculkan data kategori ke form untuk di ubah...
-        DB::table('tb_anggota')->where('nis', $idNIS)->get();
+        DB::table('tb_anggota')->where('id_anggota', $idNIS)->get();
     }
 
     public function editAnggota($anggota)
     {
         # code...
-        DB::table('tb_anggota')->where('nis', $anggota->nis)->update([
-            'nama_lengkap' => $anggota->nama_lengkap,
+        DB::table('tb_anggota')->where('id_anggota', $anggota->id_anggota)->update([
+            'nis' => $anggota->nis,
+            'nama_anggota' => $anggota->nama_anggota,
             'j_kelamin' => $anggota->j_kelamin,
             'kelas_id' => $anggota->kelas_id,
             'hp' => $anggota->hp,
             'status' => $anggota->status,
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
     }
     public function delAnggota($anggota)
     {
         # menghapus kelas...
-        DB::table('tb_anggota')->where('nis', $anggota)->delete();
+        DB::table('tb_anggota')->where('id_anggota', $anggota)->delete();
     }
 }

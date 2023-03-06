@@ -1,7 +1,7 @@
 @extends('admin.template')
 
 @section('title')
-    {{'Form Kelas'}}
+    {{ 'Form DDC' }}
 @endsection
 
 @section('header')
@@ -9,13 +9,13 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Master Kelas</h1>
+                    <h1 class="m-0">Form DDC</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ url('index') }}">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{ url('kelas/masterkelas') }}">Master Kelas</a></li>
-                        <li class="breadcrumb-item active"></a>Form Kelas</li>
+                        <li class="breadcrumb-item"><a href="{{ url('ddc/masterddc') }}">Master DDC</a></li>
+                        <li class="breadcrumb-item active"></a>Form DDC</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -30,26 +30,28 @@
             <div class="col-lg-auto">
                 <div class="card card-success card-outline">
                     <div class="card-header">
-                        <h5 class="m-0 bi"> <i class="fa-solid fa-plus"></i> Tambah Kelas</h5>
+                        <h5 class="m-0 bi"> <i class="fa-solid fa-plus"></i> Tambah Kategori</h5>
                     </div>
                     <div class="card-body">
                         <!-- Form -->
-                        <form action="simpanCLASS" method="POST">
+                        <form action="ubahDDC" method="POST">
                             <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                            <div class="form-group row" hidden>
-                                <label for="staticEmail" class="col-sm-2 col-form-label">Kode Kelas</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="id_kelas" id="id_kelas"
-                                        placeholder="Kode Kelas" required readonly="readonly">
+                            @foreach ($ddc as $klasifikasi)
+                                <div class="form-group row">
+                                    <label for="staticEmail" class="col-sm-2 col-form-label">Kode DDC</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="id_class" id="DDC"
+                                            placeholder="Masukan Kode DDC" value="{{ $klasifikasi->id_class }}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="staticKAT" class="col-sm-2 col-form-label">Nama Kelas</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="kelas" id="nama_kelas"
-                                        placeholder="Masukan nama kelas" required>
+                                <div class="form-group row">
+                                    <label for="staticKAT" class="col-sm-2 col-form-label">Keterangan</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="ket" id="keterangan"
+                                            placeholder="Masukan keterangan dari kode ddc" value="{{ $klasifikasi->ket }}">
+                                    </div>
                                 </div>
-                            </div>
+                            @endforeach
                             <button type="button" class="btn btn-danger float-right ml-2" onclick="kembali()"><i
                                     class="fa-solid fa-arrow-left"></i> Kembali</button>
                             <button type="reset" class="btn btn-primary float-right ml-2"><i
@@ -63,9 +65,12 @@
             </div>
         </div>
     </div>
-    <script>
+@endsection
+
+@section('js')
+    <script type="text/javascript">
         function kembali() {
-            location.href = "{{ url('kelas/masterkelas') }}";
+            location.href = "{{ url('ddc/masterddc') }}";
         }
     </script>
 @endsection

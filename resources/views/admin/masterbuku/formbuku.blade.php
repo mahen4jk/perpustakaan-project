@@ -103,14 +103,14 @@
                             </div>
                             <div class="form-group row">
                                 <label for="thn_terbit" class="col-sm-2 col-form-label">Tahun Terbit</label>
-                                <div class="col-sm-10 input-group date datepicker">
+                                <div class="col-sm-10 input-group date dateBuku">
                                     <input type="text" class="form-control" name="tahun_terbit"
                                         placeholder="Tahun Terbit Buku">
                                     {{-- <div class="input-group-addon">
                                         <span class=""></span>
                                     </div> --}}
                                     <div class="input-group-prepend">
-                                        <span class="input-group-addon btn"><i class="far fa-calendar-alt"></i></span>
+                                        <span class="input-group-text btn"><i class="far fa-calendar-alt"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -140,9 +140,41 @@
             </div>
         </div>
     </div>
-    <script>
+@endsection
+
+@section('js')
+    <script type="text/javascript">
         function kembali() {
             location.href = "{{ url('buku/masterbuku') }}";
         }
+        $(document).ready(function() {
+            //select-option klasifikasi
+            $('.klasifikasi').select2({
+                theme: 'bootstrap4',
+                placeholder: "Pilih Klasifikasi",
+                allowClear: true
+            });
+            //select-option kategori
+            $('.kategori').select2({
+                theme: 'bootstrap4',
+                placeholder: "Pilih Kategori",
+                allowClear: true
+            });
+            //select-option penerbit
+            $('.penerbit').select2({
+                theme: 'bootstrap4',
+                placeholder: "Pilih Penerbit",
+                allowClear: true
+            });
+            $('.dateBuku').off('focus').datepicker({
+                format: "yyyy",
+                viewMode: "years",
+                minViewMode: "years"
+            }).click(
+                function() {
+                    $(this).datepicker('show');
+                }
+            );
+        })
     </script>
 @endsection

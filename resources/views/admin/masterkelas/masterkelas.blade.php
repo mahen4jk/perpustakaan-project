@@ -38,13 +38,13 @@
                             <div class="col-lg-7">
                             </div>
                             <!-- <div class="col-lg-5">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                                    <div class="input-group mb-3">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                                        </div>
+                                                        <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
                                                     </div>
-                                                    <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
-                                                </div>
-                                            </div> --> <br />
+                                                </div> --> <br />
                         </div>
                         <div class="table-responsive">
                             <table id="example2" class="table table-hover table-sm table-responsive-sm">
@@ -64,7 +64,7 @@
                                         <tr>
                                             <td><?php echo $no++; ?></td>
                                             {{-- <td>{{ $kelas->id_kelas }}</td> --}}
-                                            <td>{{ $kelas->nama_kelas }}</td>
+                                            <td>{{ $kelas->kelas }}</td>
                                             <td>
                                                 <a href="editKEL/{{ $kelas->id_kelas }}" class="btn btn-warning"
                                                     role="button">
@@ -98,4 +98,61 @@
             <!-- /.col-md-6 -->
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // Delete Kelas
+            $('.btnDelKELAS').click(function() {
+                var kelasid = $(this).attr('data-id');
+                var namakls = $(this).attr('data-name');
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                })
+                swalWithBootstrapButtons.fire({
+                    title: 'Yakin?',
+                    text: "Kamu akan menghapus data kelas dengan nama " + namakls + "",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "hapusKEL/" + kelasid + "";
+                        swalWithBootstrapButtons.fire(
+                            'Deleted!',
+                            'Data telah Berhasil dihapus',
+                            'success'
+                        )
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            'Data tidak jadi dihapus',
+                            'error'
+                        )
+                    }
+                })
+            });
+
+            // Tabel
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
 @endsection

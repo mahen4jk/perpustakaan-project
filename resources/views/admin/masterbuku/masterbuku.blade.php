@@ -1,7 +1,7 @@
 @extends('admin.template')
 
 @section('title')
-    {{'Master Buku'}}
+    {{ 'Master Buku' }}
 @endsection
 
 @section('header')
@@ -40,11 +40,11 @@
                             </div>
                             <div class="col-lg-5">
                                 <!-- <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                     <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
-                                    </div>
-                                        <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
-                                    </div> --> <br />
+                                            <div class="input-group-prepend">
+                                             <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                            </div>
+                                                <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
+                                            </div> --> <br />
                             </div>
                         </div>
                         <table id="example2" class="table table-hover">
@@ -161,4 +161,84 @@
             <!-- /.col-md-6 -->
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            //Modal Detail Buku
+            $(document).on('click', '#detail-buku', function() {
+                var id_buku = $(this).data('id_buku');
+                var judul = $(this).data('judul');
+                var isbn = $(this).data('isbn');
+                var pengarang = $(this).data('pengarang');
+                var id_penerbit = $(this).data('id_penerbit');
+                var klasifikasi = $(this).data('klasifikasi');
+                var id_kategori = $(this).data('id_kategori');
+                var tahun_terbit = $(this).data('tahun_terbit');
+                var stok_buku = $(this).data('stok_buku');
+                var deskripsi = $(this).data('deskripsi');
+                $('#id_buku').text(id_buku);
+                $('#judul').text(judul);
+                $('#isbn').text(isbn);
+                $('#pengarang').text(pengarang);
+                $('#penerbit').text(id_penerbit);
+                $('#klasifikasi').text(klasifikasi);
+                $('#kategori').text(id_kategori);
+                $('#tahun_terbit').text(tahun_terbit);
+                $('#stok_buku').text(stok_buku);
+                $('#deskripsi').text(deskripsi);
+            })
+            //Delete Buku
+            $('.btnDelBUKU').click(function() {
+                var bukuid = $(this).attr('data-id');
+                var jdlbuku = $(this).attr('data-name');
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                })
+                swalWithBootstrapButtons.fire({
+                    title: 'Yakin?',
+                    text: "Kamu akan menghapus data buku dengan judul " + jdlbuku + "",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "hapusBUKU/" + bukuid + "";
+                        swalWithBootstrapButtons.fire(
+                            'Deleted!',
+                            'Data telah Berhasil dihapus',
+                            'success'
+                        )
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            'Data tidak jadi dihapus',
+                            'error'
+                        )
+                    }
+                })
+            })
+
+            // Tabel
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
 @endsection

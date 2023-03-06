@@ -46,7 +46,7 @@
                             <div class="form-group row">
                                 <label for="staticISBN" class="col-sm-2 col-form-label">Nama Lengkap</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="nama_lengkap" id="nm_lengkap"
+                                    <input type="text" class="form-control" name="nama_anggota" id="nm_lengkap"
                                         placeholder="Masukan Nama Lengkap" required>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                                     <select class="form-control kelas" name="kelas_id" required>
                                         <option style="display:none"></option>
                                         @foreach ($kelas as $kelas)
-                                            <option value="{{ $kelas->id_kelas }}">{{ $kelas->nama_kelas }}</option>
+                                            <option value="{{ $kelas->id_kelas }}">{{ $kelas->kelas }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -88,13 +88,14 @@
                                 <div class="col-sm-10">
                                     <div class="custom-control custom-radio">
                                         <input class="custom-control-input" type="radio" name="status" id="customRadio3"
-                                            value="aktif" required>
+                                            value="Aktif" required>
                                         <label class="custom-control-label" for="customRadio3">Aktif</label>
                                     </div>
                                     <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" type="radio" name="status" id="customRadio4"
+                                            value="Tdk_Aktif" required>
                                         <label class="custom-control-label" for="customRadio4">
-                                            <input class="custom-control-input" type="radio" name="status"
-                                                id="customRadio4" value="tdk_aktif" required> Tidak Aktif
+                                            Tidak Aktif
                                         </label>
                                     </div>
                                 </div>
@@ -112,9 +113,20 @@
             </div>
         </div>
     </div>
-    <script>
+@endsection
+
+@section('js')
+    <script type="text/javascript">
         function kembali() {
             location.href = "{{ url('anggota/masteranggota') }}";
         }
+        $(document).ready(function() {
+            //select-option kelas
+            $('.kelas').select2({
+                theme: 'bootstrap4',
+                placeholder: "Pilih Kelas",
+                allowClear: true
+            });
+        })
     </script>
 @endsection

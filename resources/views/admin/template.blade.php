@@ -241,7 +241,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             class="nav-item {{ Request()->is('anggota/masteranggota', 'kelas/masterkelas') ? 'menu-open' : '' }}">
                             <a href="#"
                                 class="nav-link {{ Request()->is('anggota/masteranggota', 'kelas/masterkelas') ? 'active' : '' }}">
-                                <i class="nav-icon fa-regular fa-user"></i>
+                                <i class="nav-icon fa-solid fa-users-rectangle"></i>
                                 <p>
                                     Anggota
                                     <i class="right fas fa-angle-left"></i>
@@ -251,14 +251,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <li class="nav-item">
                                     <a href="{{ url('anggota/masteranggota') }}"
                                         class="nav-link {{ Request()->is('anggota/masteranggota') ? 'active' : '' }}">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="nav-icon fa-regular fa-user"></i>
                                         <p>Master Anggota</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ url('kelas/masterkelas') }}"
                                         class="nav-link {{ Request()->is('kelas/masterkelas') ? 'active' : '' }}">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fa-solid fa-school nav-icon"></i>
                                         <p>Master Kelas</p>
                                     </a>
                                 </li>
@@ -285,30 +285,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <li class="nav-item">
                                     <a href="{{ url('kategori/masterkategori') }}"
                                         class="nav-link {{ Request()->is('kategori/masterkategori') ? 'active' : '' }}">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fa-solid fa-tags nav-icon"></i>
                                         <p>Master Kategori</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ url('penerbit/masterpenerbit') }}"
                                         class="nav-link {{ Request()->is('penerbit/masterpenerbit') ? 'active' : '' }}">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fa-solid fa-user-tie nav-icon"></i>
                                         <p>Master Penerbit</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ url('ddc/masterddc') }}"
                                         class="nav-link {{ Request()->is('ddc/masterddc') ? 'active' : '' }}">
-                                        <i class="far fa-circle nav-icon"></i>
+                                        <i class="fa-solid fa-box-archive nav-icon"></i>
                                         <p>Master DDC</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
+                        <li
+                            class="nav-item {{ Request()->is('sirkulasi/peminjaman', 'sirkulasi/pengembalian') ? 'menu-open' : '' }}">
                             <a href="#"
-                                class="nav-link {{ Request::segment(1) === 'sirkulasi' ? 'active' : null }}">
-                                <i class="bi bi-book"></i>
+                                class="nav-link {{ Request()->is('sirkulasi/peminjaman', 'sirkulasi/pengembalian') ? 'active' : '' }}">
+                                <i class="bi bi-book nav-icon"></i>
                                 <p>
                                     Sirkulasi
                                     <i class="right fas fa-angle-left"></i>
@@ -316,17 +317,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#"
-                                        class="nav-link {{ Request::segment(1) === 'buku/masterbuku' ? 'active' : null }}">
+                                    <a href="{{ url('sirkulasi/peminjaman') }}"
+                                        class="nav-link {{ Request()->is('sirkulasi/peminjaman') ? 'active' : null }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Peminjaman</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#"
-                                        class="nav-link {{ Request::segment(1) === 'kategori/masterkategori' ? 'active' : null }}">
+                                    <a href="{{ url('sirkulasi/pengembalian') }}"
+                                        class="nav-link {{ Request()->is('sirkulasi/pengembalian') ? 'active' : null }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Pengembalian</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li
+                            class="nav-item {{ Request()->is('sirkulasi/peminjaman', 'sirkulasi/pengembalian') ? 'menu-open' : '' }}">
+                            <a href="#"
+                                class="nav-link {{ Request()->is('denda/masterdenda') ? 'active' : '' }}">
+                                <i class="fa-solid fa-dollar-sign nav-icon"></i>
+                                <p>
+                                    Denda
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ url('denda/masterdenda') }}"
+                                        class="nav-link {{ Request()->is('denda/masterdenda') ? 'active' : null }}">
+                                        <i class="fa-solid fa-dollar-sign nav-icon"></i>
+                                        <p>Master Denda</p>
                                     </a>
                                 </li>
                             </ul>
@@ -404,341 +425,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{ url('lte/plugins/inputmask/jquery.inputmask.min.js') }}"></script>
     <!-- SweetAlert2 -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        $(document).ready(function() {
-            //select-option penerbit
-            $('.penerbit').select2({
-                theme: 'bootstrap4',
-                placeholder: "Pilih Penerbit",
-                allowClear: true
-            });
-            //select-option penerbit
-            $('.kelas').select2({
-                theme: 'bootstrap4',
-                placeholder: "Pilih Kelas",
-                allowClear: true
-            });
-            //select-option klasifikasi
-            $('.klasifikasi').select2({
-                theme: 'bootstrap4',
-                placeholder: "Pilih Klasifikasi",
-                allowClear: true
-            });
-            //select-option kategori
-            $('.kategori').select2({
-                theme: 'bootstrap4',
-                placeholder: "Pilih Kategori",
-                allowClear: true
-            });
-
-            //Modal Detail Anggota
-            $(document).on('click', '#detail-anggota', function() {
-                var nis = $(this).data('nis');
-                var nm_lengkap = $(this).data('nm_lengkap');
-                var j_kelamin = $(this).data('j_kelamin');
-                var kelas = $(this).data('kelas');
-                var no_hp = $(this).data('no_hp');
-                var status = $(this).data('status');
-                $('#nis').text(nis);
-                $('#nm_lengkap').text(nm_lengkap);
-                $('#j_kelamin').text(j_kelamin);
-                $('#kelas').text(kelas);
-                $('#no_hp').text(no_hp);
-                $('#status').text(status);
-            })
-
-            //Delete Anggota
-            $('.btnDelAnggota').click(function() {
-                var anggotaid = $(this).attr('data-id');
-                var namaanggota = $(this).attr('data-name');
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-danger'
-                    },
-                    buttonsStyling: false
-                })
-                swalWithBootstrapButtons.fire({
-                    title: 'Yakin?',
-                    text: "Kamu akan menghapus data anggota bernama " + namaanggota + "",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, delete it!',
-                    cancelButtonText: 'No, cancel!',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location = "hapusAnggota/" + anggotaid + "";
-                        swalWithBootstrapButtons.fire(
-                            'Deleted!',
-                            'Data telah Berhasil dihapus',
-                            'success'
-                        )
-                    } else if (
-                        /* Read more about handling dismissals below */
-                        result.dismiss === Swal.DismissReason.cancel
-                    ) {
-                        swalWithBootstrapButtons.fire(
-                            'Cancelled',
-                            'Data tidak jadi dihapus',
-                            'error'
-                        )
-                    }
-                })
-            })
-            //Modal Detail Buku
-            $(document).on('click', '#detail-buku', function() {
-                var id_buku = $(this).data('id_buku');
-                var judul = $(this).data('judul');
-                var isbn = $(this).data('isbn');
-                var pengarang = $(this).data('pengarang');
-                var id_penerbit = $(this).data('id_penerbit');
-                var klasifikasi = $(this).data('klasifikasi');
-                var id_kategori = $(this).data('id_kategori');
-                var tahun_terbit = $(this).data('tahun_terbit');
-                var stok_buku = $(this).data('stok_buku');
-                var deskripsi = $(this).data('deskripsi');
-                $('#id_buku').text(id_buku);
-                $('#judul').text(judul);
-                $('#isbn').text(isbn);
-                $('#pengarang').text(pengarang);
-                $('#penerbit').text(id_penerbit);
-                $('#klasifikasi').text(klasifikasi);
-                $('#kategori').text(id_kategori);
-                $('#tahun_terbit').text(tahun_terbit);
-                $('#stok_buku').text(stok_buku);
-                $('#deskripsi').text(deskripsi);
-            })
-
-            //Delete Buku
-            $('.btnDelBUKU').click(function() {
-                var bukuid = $(this).attr('data-id');
-                var jdlbuku = $(this).attr('data-name');
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-danger'
-                    },
-                    buttonsStyling: false
-                })
-                swalWithBootstrapButtons.fire({
-                    title: 'Yakin?',
-                    text: "Kamu akan menghapus data buku dengan judul " + jdlbuku + "",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, delete it!',
-                    cancelButtonText: 'No, cancel!',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location = "hapusBUKU/" + bukuid + "";
-                        swalWithBootstrapButtons.fire(
-                            'Deleted!',
-                            'Data telah Berhasil dihapus',
-                            'success'
-                        )
-                    } else if (
-                        /* Read more about handling dismissals below */
-                        result.dismiss === Swal.DismissReason.cancel
-                    ) {
-                        swalWithBootstrapButtons.fire(
-                            'Cancelled',
-                            'Data tidak jadi dihapus',
-                            'error'
-                        )
-                    }
-                })
-            })
-            //Modal Detail Penerbit
-            $(document).on('click', '#detail-penerbit', function() {
-                var id_penerbit = $(this).data('id_penerbit');
-                var nama_penerbit = $(this).data('nm_penerbit');
-                var alamat = $(this).data('alamat');
-                var pic_hp = $(this).data('pic_hp');
-                var email = $(this).data('email');
-                $('#id_penerbit').text(id_penerbit);
-                $('#nm_penerbit').text(nama_penerbit);
-                $('#alamat').text(alamat);
-                $('#pic_hp').text(pic_hp);
-                $('#email').text(email);
-            });
-
-            // Delete Kelas
-            $('.btnDelKELAS').click(function() {
-                var kelasid = $(this).attr('data-id');
-                var namakls = $(this).attr('data-name');
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-danger'
-                    },
-                    buttonsStyling: false
-                })
-                swalWithBootstrapButtons.fire({
-                    title: 'Yakin?',
-                    text: "Kamu akan menghapus data kelas dengan nama " + namakls + "",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, delete it!',
-                    cancelButtonText: 'No, cancel!',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location = "hapusKELAS/" + kelasid + "";
-                        swalWithBootstrapButtons.fire(
-                            'Deleted!',
-                            'Data telah Berhasil dihapus',
-                            'success'
-                        )
-                    } else if (
-                        /* Read more about handling dismissals below */
-                        result.dismiss === Swal.DismissReason.cancel
-                    ) {
-                        swalWithBootstrapButtons.fire(
-                            'Cancelled',
-                            'Data tidak jadi dihapus',
-                            'error'
-                        )
-                    }
-                })
-            });
-
-            // Delete Kategori
-            $('.btnDelKAT').click(function() {
-                var bukuid = $(this).attr('data-id');
-                var bukujdl = $(this).attr('data-name');
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-danger'
-                    },
-                    buttonsStyling: false
-                })
-                swalWithBootstrapButtons.fire({
-                    title: 'Yakin?',
-                    text: "Kamu akan menghapus data kategori dengan nama " + bukujdl + "",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, delete it!',
-                    cancelButtonText: 'No, cancel!',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location = "hapusKAT/" + bukuid + "";
-                        swalWithBootstrapButtons.fire(
-                            'Deleted!',
-                            'Data telah Berhasil dihapus',
-                            'success'
-                        )
-                    } else if (
-                        /* Read more about handling dismissals below */
-                        result.dismiss === Swal.DismissReason.cancel
-                    ) {
-                        swalWithBootstrapButtons.fire(
-                            'Cancelled',
-                            'Data tidak jadi dihapus',
-                            'error'
-                        )
-                    }
-                })
-            });
-
-            // Delete Penerbit
-            $('.btnDelPEN').click(function() {
-                var penerbitid = $(this).attr('data-id');
-                var penerbitnm = $(this).attr('data-name');
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-danger'
-                    },
-                    buttonsStyling: false
-                })
-                swalWithBootstrapButtons.fire({
-                    title: 'Yakin?',
-                    text: "Kamu akan menghapus data penerbit " + penerbitnm + "",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, delete it!',
-                    cancelButtonText: 'No, cancel!',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location = "hapusPEN/" + penerbitid + "";
-                        swalWithBootstrapButtons.fire(
-                            'Deleted!',
-                            'Data telah Berhasil dihapus',
-                            'success'
-                        )
-                    } else if (
-                        /* Read more about handling dismissals below */
-                        result.dismiss === Swal.DismissReason.cancel
-                    ) {
-                        swalWithBootstrapButtons.fire(
-                            'Cancelled',
-                            'Data tidak jadi dihapus',
-                            'error'
-                        )
-                    }
-                })
-            });
-            // Delete Kelas
-            $('.btnDelKelas').click(function() {
-                var kelasid = $(this).attr('data-id');
-                var kelasnama = $(this).attr('data-name');
-                Swal.fire({
-                    title: 'Yakin ?',
-                    text: "Kamu akan menghapus data penerbit " + kelasnama + "",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location = "hapusKEL/" + kelasid + "";
-                        Swal.fire(
-                            'Deleted!',
-                            'Data berhasil dihapus',
-                            'success'
-                        )
-                    } else {
-                        swal("Data tidak jadi dihapus");
-                    }
-                });
-            });
-
-            // Tabel
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-            });
-
-            //Date Time Picker Buku
-            /* $('.datepicker').click({
-                function() {
-                    $(this).datepicker('show');
-                    format: "yyyy",
-                    viewMode: "years",
-                    minViewMode: "years"
-                }
-            }); */
-            $('.datepicker').off('focus').datepicker({
-                format: "yyyy",
-                viewMode: "years",
-                minViewMode: "years"
-            }).click(
-                function() {
-                    $(this).datepicker('show');
-                }
-            );
-        });
-    </script>
+    @yield('js')
 </body>
 
 </html>

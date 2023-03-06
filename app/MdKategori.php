@@ -13,7 +13,7 @@ class MdKategori extends Model
     protected $primarykey = 'id_kategori';
     public $incrementing = false;
     public $timestamps = false;
-    protected $fillable = ['id_kategori', 'kategori', 'created_at', 'updated at'];
+    protected $fillable = ['id_kategori', 'kategori', 'created_at', 'updated_at'];
 
     public function kategori()
     {
@@ -28,7 +28,7 @@ class MdKategori extends Model
         DB::table('tb_kategori')->insert([
             'kategori' => $kategori->kategori,
             'created_at' => now(),
-            'updated at' => now()
+            'updated_at' => now()
         ]);
     }
 
@@ -44,7 +44,7 @@ class MdKategori extends Model
         DB::table('tb_kategori')->where('id_kategori', $kategori->id_kategori)->update([
             'kategori' => $kategori->kategori,
             'created_at' => now(),
-            'updated at' => now()
+            'updated_at' => now()
         ]);
     }
 

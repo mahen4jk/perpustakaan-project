@@ -1,7 +1,7 @@
 @extends('admin.template')
 
 @section('title')
-    {{'Master Penerbit'}}
+    {{ 'Master Penerbit' }}
 @endsection
 
 @section('header')
@@ -39,11 +39,11 @@
                             </div>
                             <div class="col-lg-5">
                                 <!-- <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
-                                                        </div>
-                                                        <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
-                                                    </div> --> <br />
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                                            </div>
+                                                            <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
+                                                        </div> --> <br />
                             </div>
                         </div>
                         <div class="table-responsive-sm">
@@ -139,4 +139,73 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            //Modal Detail Penerbit
+            $(document).on('click', '#detail-penerbit', function() {
+                var id_penerbit = $(this).data('id_penerbit');
+                var nama_penerbit = $(this).data('nm_penerbit');
+                var alamat = $(this).data('alamat');
+                var pic_hp = $(this).data('pic_hp');
+                var email = $(this).data('email');
+                $('#id_penerbit').text(id_penerbit);
+                $('#nm_penerbit').text(nama_penerbit);
+                $('#alamat').text(alamat);
+                $('#pic_hp').text(pic_hp);
+                $('#email').text(email);
+            });
+            // Delete Penerbit
+            $('.btnDelPEN').click(function() {
+                var penerbitid = $(this).attr('data-id');
+                var penerbitnm = $(this).attr('data-name');
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                })
+                swalWithBootstrapButtons.fire({
+                    title: 'Yakin?',
+                    text: "Kamu akan menghapus data penerbit " + penerbitnm + "",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "hapusPEN/" + penerbitid + "";
+                        swalWithBootstrapButtons.fire(
+                            'Deleted!',
+                            'Data telah Berhasil dihapus',
+                            'success'
+                        )
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            'Data tidak jadi dihapus',
+                            'error'
+                        )
+                    }
+                })
+            });
+            // Tabel
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
 @endsection

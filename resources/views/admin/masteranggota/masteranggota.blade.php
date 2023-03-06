@@ -39,13 +39,13 @@
                             <div class="col-lg-7">
                             </div>
                             <!-- <div class="col-lg-5">
-                                                                                    <div class="input-group mb-3">
-                                                                                        <div class="input-group-prepend">
-                                                                                            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
-                                                                                        </div>
-                                                                                        <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
-                                                                                    </div>
-                                                                                </div> --> <br />
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
+                                        </div>
+                                    </div> --> <br />
                         </div>
                         <div class="table-responsive">
                             <table id="example2" class="table table-hover table-sm table-responsive-sm">
@@ -66,24 +66,24 @@
                                         <tr>
                                             <td><?php echo $no++; ?></td>
                                             <td>{{ $anggota->nis }}</td>
-                                            <td>{{ $anggota->nama_lengkap }}</td>
-                                            <td>{{ $anggota->kelas->nama_kelas }}</td>
+                                            <td>{{ $anggota->nama_anggota }}</td>
+                                            <td>{{ $anggota->kelas->kelas }}</td>
                                             <td>
                                                 <a id="detail-anggota" class="btn btn-default btn-sm" data-toggle="modal"
                                                     data-target="#modal-detail-anggota" data-nis="{{ $anggota->nis }}"
-                                                    data-nm_lengkap="{{ $anggota->nama_lengkap }}"
+                                                    data-nm_lengkap="{{ $anggota->nama_anggota }}"
                                                     data-j_kelamin="{{ $anggota->j_kelamin }}"
-                                                    data-kelas="{{ $anggota->kelas->nama_kelas }}"
+                                                    data-kelas="{{ $anggota->kelas->kelas }}"
                                                     data-no_hp="{{ $anggota->hp }}" data-status="{{ $anggota->status }}">
                                                     <i class="fa-regular fa-eye"></i>&nbsp;Detail
                                                 </a>
-                                                <a href="editANG/{{ encrypt($anggota->nis) }}"
+                                                <a href="editANG/{{ encrypt($anggota->id_anggota) }}"
                                                     class="btn btn-warning btn-sm" role="button">
                                                     <i class="fa-solid fa-pen-nib"></i>&nbsp;Ubah
                                                 </a>
                                                 <a href="#" class="btn btn-danger btn-sm btnDelAnggota"
-                                                    data-id="{{ $anggota->nis }}" data-name="{{ $anggota->nama_lengkap }}"
-                                                    role="button">
+                                                    data-id="{{ $anggota->id_anggota }}"
+                                                    data-name="{{ $anggota->nama_lengkap }}" role="button">
                                                     <i class="fa-solid fa-trash"></i>&nbsp;Hapus</button>
                                                 </a>
                                             </td>
@@ -147,4 +147,76 @@
             <!-- /.col-md-6 -->
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            //Modal Detail Anggota
+            $(document).on('click', '#detail-anggota', function() {
+                var nis = $(this).data('nis');
+                var nm_lengkap = $(this).data('nm_lengkap');
+                var j_kelamin = $(this).data('j_kelamin');
+                var kelas = $(this).data('kelas');
+                var no_hp = $(this).data('no_hp');
+                var status = $(this).data('status');
+                $('#nis').text(nis);
+                $('#nm_lengkap').text(nm_lengkap);
+                $('#j_kelamin').text(j_kelamin);
+                $('#kelas').text(kelas);
+                $('#no_hp').text(no_hp);
+                $('#status').text(status);
+            })
+
+            //Delete Anggota
+            $('.btnDelAnggota').click(function() {
+                var anggotaid = $(this).attr('data-id');
+                var namaanggota = $(this).attr('data-name');
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                })
+                swalWithBootstrapButtons.fire({
+                    title: 'Yakin?',
+                    text: "Kamu akan menghapus data anggota bernama " + namaanggota + "",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location = "hapusAnggota/" + anggotaid + "";
+                        swalWithBootstrapButtons.fire(
+                            'Deleted!',
+                            'Data telah Berhasil dihapus',
+                            'success'
+                        )
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire(
+                            'Cancelled',
+                            'Data tidak jadi dihapus',
+                            'error'
+                        )
+                    }
+                })
+            });
+            // Tabel
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
 @endsection

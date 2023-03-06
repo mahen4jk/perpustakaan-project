@@ -95,16 +95,16 @@
                                     <div class="col-sm-10">
                                         <div class="custom-control custom-radio">
                                             <input class="custom-control-input" type="radio" name="status"
-                                                id="customRadio3" value="aktif"
-                                                {{ $anggota->status == 'aktif' ? 'checked' : '' }} required>
+                                                id="customRadio3" value="Aktif"
+                                                {{ $anggota->status == 'Aktif' ? 'checked' : '' }} required>
                                             <label class="custom-control-label" for="customRadio3">Aktif</label>
                                         </div>
                                         <div class="custom-control custom-radio">
+                                            <input class="custom-control-input" type="radio" name="status"
+                                                id="customRadio4" value="Tdk_Aktif"
+                                                {{ $anggota->status == 'Tdk_Aktif' ? 'checked' : '' }} required>
                                             <label class="custom-control-label" for="customRadio4">
-                                                <input class="custom-control-input" type="radio" name="status"
-                                                    id="customRadio4" value="tdk_aktif"
-                                                    {{ $anggota->status == 'tdk_aktif' ? 'checked' : '' }} required> Tidak
-                                                Aktif
+                                                Tidak Aktif
                                             </label>
                                         </div>
                                     </div>
@@ -123,9 +123,19 @@
             </div>
         </div>
     </div>
-    <script>
+@endsection
+@section('js')
+    <script type="text/javascript">
         function kembali() {
             location.href = "{{ url('anggota/masteranggota') }}";
         }
+        $(document).ready(function() {
+            //select-option kelas
+            $('.kelas').select2({
+                theme: 'bootstrap4',
+                placeholder: "Pilih Kelas",
+                allowClear: true
+            });
+        })
     </script>
 @endsection

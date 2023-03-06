@@ -13,7 +13,7 @@ class MdPenerbit extends Model
     protected $primarykey = 'id_penerbit';
     public $incrementing = false;
     public $timestamps = false;
-    protected $fillable = ['id_penerbit', 'nama_penerbit', 'alamat', 'pic_hp', 'email', 'created_at', 'updated at'];
+    protected $fillable = ['id_penerbit', 'nama_penerbit', 'alamat', 'pic_hp', 'email', 'created_at', 'updated_at'];
 
     public function buku()
     {
@@ -31,7 +31,7 @@ class MdPenerbit extends Model
             'pic_hp' => $penerbit->pic_hp,
             'email' => $penerbit->email,
             'created_at' => now(),
-            'updated at' => now()
+            'updated_at' => now()
         ]);
     }
 
@@ -50,7 +50,7 @@ class MdPenerbit extends Model
             'pic_hp' => $penerbit->pic_hp,
             'email' => $penerbit->email,
             'created_at' => now(),
-            'updated at' => now()
+            'updated_at' => now()
         ]);
     }
 

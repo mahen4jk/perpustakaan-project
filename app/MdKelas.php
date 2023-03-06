@@ -13,7 +13,7 @@ class MdKelas extends Model
     protected $primarykey = 'null';
     public $incrementing = false;
     public $timestamps = false;
-    protected $fillable = ['id_kelas', 'nama_kelas'];
+    protected $fillable = ['id_kelas', 'kelas','created_at', 'updated_at'];
 
     public function anggota()
     {
@@ -28,7 +28,9 @@ class MdKelas extends Model
         # code...
         DB::table('tb_kelas')->insert([
             'id_kelas' => $kelas->id_kelas,
-            'nama_kelas' => $kelas->nama_kelas
+            'kelas' => $kelas->kelas,
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
     }
 
@@ -42,7 +44,9 @@ class MdKelas extends Model
     {
         # code...
         DB::table('tb_kelas')->where('id_kelas', $kelas->id_kelas)->update([
-            'nama_kelas' => $kelas->nama_kelas
+            'kelas' => $kelas->kelas,
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
     }
     public function hapusKEL($kelas)

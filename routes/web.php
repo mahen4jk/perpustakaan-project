@@ -31,29 +31,29 @@ Route::group(['middleware' => ['auth']], function () {
 
     #Tampilan MasterAnggota
     Route::prefix('anggota')->group(function () {
-        Route::get('masteranggota','Admin\MstAnggota@MasterAnggota');
+        Route::get('masteranggota', 'Admin\MstAnggota@MasterAnggota');
         #Tampilan Form Kelas
-        Route::get('tambahanggota','Admin\MstAnggota@tambahanggota');
-        Route::post('simpanAnggota','Admin\MstAnggota@simpanAnggota');
+        Route::get('tambahanggota', 'Admin\MstAnggota@tambahanggota');
+        Route::post('simpanAnggota', 'Admin\MstAnggota@simpanAnggota');
         #Update Anggota
-        Route::get('editANG/{nis}','Admin\MstAnggota@kirimAnggota');
-        Route::post('editANG/ubahAnggota','Admin\MstAnggota@ubahAnggota');
+        Route::get('editANG/{nis}', 'Admin\MstAnggota@kirimAnggota');
+        Route::post('editANG/ubahAnggota', 'Admin\MstAnggota@ubahAnggota');
         # Hapus Anggota
-        Route::get('hapusAnggota/{nis}','Admin\MstAnggota@hpsAnggota');
+        Route::get('hapusAnggota/{nis}', 'Admin\MstAnggota@hpsAnggota');
     });
 
     // Tampilan MasterKelas
-    Route::prefix('kelas')->group(function (){
+    Route::prefix('kelas')->group(function () {
         #Tampilan Data
         Route::get('masterkelas', 'Admin\MstKelasCon@MasterKelas');
         #Tampilan Form Kelas
         Route::get('tambahkelas', 'Admin\MstKelasCon@formKelas');
-        Route::post('simpanCLASS','Admin\MstKelasCon@simpanCLASS');
+        Route::post('simpanCLASS', 'Admin\MstKelasCon@simpanCLASS');
         # Siap Update Kelas
-        Route::get('editKEL/{id_kelas}','Admin\MstKelasCon@kirimKEL');
-        Route::post('editKEL/updateKEL','Admin\MstKelasCon@updateKEL');
+        Route::get('editKEL/{id_kelas}', 'Admin\MstKelasCon@kirimKEL');
+        Route::post('editKEL/updateKEL', 'Admin\MstKelasCon@updateKEL');
         # Hapus Kelas
-        Route::get('hapusKELAS/{id_kelas}','Admin\MstKelasCon@deleteKEL');
+        Route::get('hapusKELAS/{id_kelas}', 'Admin\MstKelasCon@deleteKEL');
     });
 
     #Tampilan MasterBuku
@@ -62,12 +62,12 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('masterbuku', 'Admin\MstBukuCon@MasterBuku');
         #Tampilan Form dan Tambah Buku
         Route::get('tambahbuku', 'Admin\MstBukuCon@formbuku');
-        Route::post('simpanBUKU','Admin\MstBukuCon@simpanBUKU');
+        Route::post('simpanBUKU', 'Admin\MstBukuCon@simpanBUKU');
         #Tampilan Edit dan Ubah Buku
-        Route::get('editbuku/{id_buku}','Admin\MstBukuCon@kirimBuku');
-        Route::post('editbuku/updateBUKU','Admin\MstBukuCon@updateBUKU');
+        Route::get('editbuku/{id_buku}', 'Admin\MstBukuCon@kirimBuku');
+        Route::post('editbuku/updateBUKU', 'Admin\MstBukuCon@updateBUKU');
         #Hapus buku
-        Route::get('hapusBUKU/{id_buku}','Admin\MstBukuCon@delBUKU');
+        Route::get('hapusBUKU/{id_buku}', 'Admin\MstBukuCon@delBUKU');
     });
 
     #Tampilan MasterKategori
@@ -75,13 +75,13 @@ Route::group(['middleware' => ['auth']], function () {
         # Tampilan Data
         Route::get('masterkategori', 'Admin\MstCatCon@MasterKategori');
         # Tampilan Form dan Tambah Buku
-        Route::get('tambahkategori','Admin\MstCatCon@formkategori');
-        Route::post('simpanKAT','Admin\MstCatCon@simpanKAT');
+        Route::get('tambahkategori', 'Admin\MstCatCon@formkategori');
+        Route::post('simpanKAT', 'Admin\MstCatCon@simpanKAT');
         # Siap Update Kategori
-        Route::get('editKat/{id_kategori}','Admin\MstCatCon@kirimKat');
-        Route::post('editKat/updateKAT','Admin\MstCatCon@updateKAT');
+        Route::get('editKat/{id_kategori}', 'Admin\MstCatCon@kirimKat');
+        Route::post('editKat/updateKAT', 'Admin\MstCatCon@updateKAT');
         # Hapus Penerbit
-        Route::get('hapusKAT/{id_kategori}','Admin\MstCatCon@deleteKAT');
+        Route::get('hapusKAT/{id_kategori}', 'Admin\MstCatCon@deleteKAT');
     });
 
     #Tampilan MasterPenerbit
@@ -90,15 +90,49 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('masterpenerbit', 'Admin\MstPenCon@mstpenerbit');
         # Tampilan form dan tambah penerbit
         Route::get('tambahpenerbit', 'Admin\MstPenCon@formpenerbit');
-        Route::post('simpanPEN','Admin\MstPenCon@simpanPEN');
+        Route::post('simpanPEN', 'Admin\MstPenCon@simpanPEN');
         # Siap update penerbit
-        Route::get('editPEN/{id_penerbit}','Admin\MstPenCon@kirimPEN');
-        Route::post('editPEN/updatePEN','Admin\MstPenCon@updatePEN');
+        Route::get('editPEN/{id_penerbit}', 'Admin\MstPenCon@kirimPEN');
+        Route::post('editPEN/updatePEN', 'Admin\MstPenCon@updatePEN');
         # Hapus Penerbit
-        Route::get('hapusPEN/{id_penerbit}','Admin\MstPenCon@deletePEN');
+        Route::get('hapusPEN/{id_penerbit}', 'Admin\MstPenCon@deletePEN');
     });
 
-    Route::prefix('ddc')->group(function() {
+    #DDC
+    Route::prefix('ddc')->group(function () {
+        #Tampilan Data DDC
         Route::get('masterddc', 'Admin\MstDDC@masterddc');
+        #Tampilan form dan tambah penerbit
+        Route::get('tambahddc','Admin\MstDDC@tambahddc');
+        Route::post('simpanDDC','Admin\MstDDC@simpanDDC');
+        #Form ubah dan ubdah DDC
+        Route::get('editDDC/{id_class}','Admin\MstDDC@kirimDDC');
+        Route::post('editDDC/ubahDDC','Admin\MstDDC@ubahDDC');
+        #Hapus DDC
+        Route::get('hapusDDC/{id_class}','Admin\MstDDC@hpsDDC');
+    });
+
+    #Sirkulasi
+    Route::prefix('sirkulasi')->group(function () {
+        #Peminjaman
+        Route::get('peminjaman','Admin\PinjamCon@viewpinjam');
+        #Form Peminjaman
+        Route::get('formpinjam','Admin\PinjamCon@formpinjam');
+        #Pengembalian
+        Route::get('pengembalian','Admin\KembaliCon@viewkembali');
+    });
+
+    Route::prefix('denda')->group(function () {
+        #Denda
+        Route::get('masterdenda','Admin\MstDenda@viewDenda');
+        #Form Denda
+        Route::get('formdenda','Admin\MstDenda@tambahDenda');
+        Route::post('simpanDenda','Admin\MstDenda@simpanDDA');
+        #Edit Denda
+        Route::get('editDenda/{id_denda}','Admin\MstDenda@kirimDenda');
+        Route::post('editDenda/ubahDDA','Admin\MstDenda@ubahDDA');
+        #Delete Denda
+        Route::get('hapusDDA/{id_denda}','Admin\MstDenda@hapusDenda');
+        // Route::get('pengembalian','Admin\KembaliCon@viewkembali');
     });
 });

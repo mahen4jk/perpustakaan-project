@@ -17,7 +17,7 @@ class MstAnggota extends Controller
         $anggota = MdAnggota::all();
         $kelas = MdKelas::all();
 
-        $kelas = MdKelas::select('id_kelas', 'nama_kelas')->get();
+        $kelas = MdKelas::select('id_kelas', 'kelas')->get();
         return view('admin.masteranggota.masteranggota',compact('anggota','kelas'));
     }
 
@@ -33,7 +33,7 @@ class MstAnggota extends Controller
         # code...
         $validate_anggota = $Anggota->validate([
             'nis' => 'required',
-            'nama_lengkap' => 'required',
+            'nama_anggota' => 'required',
             'j_kelamin' => 'required',
             'kelas_id' => 'required',
             'hp' => 'required',
@@ -49,8 +49,8 @@ class MstAnggota extends Controller
         //dd(decrypt($idNIS));
         # code...
         $kelas = MdKelas::all();
-        $nis = DB::table('tb_anggota')->where('nis', decrypt($idNIS))->get();
-        return view('admin.masteranggota.editanggota',['anggota'=> $nis],compact('kelas'));
+        $anggota = DB::table('tb_anggota')->where('id_anggota', decrypt($idNIS))->get();
+        return view('admin.masteranggota.editanggota',['anggota'=> $anggota],compact('kelas'));
     }
 
     public function ubahAnggota(Request $Anggota)
