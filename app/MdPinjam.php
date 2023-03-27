@@ -9,17 +9,18 @@ class MdPinjam extends Model
 {
     //
     protected $table = 'tb_peminjaman';
-    protected $primarykey = 'kode_transaksi';
+    protected $primarykey = 'kode_pinjam';
     public $incrementing = false;
     public $timestamps = false;
     protected $fillable = [
-        'kode_transaksi', 'tgl_pinjam', 'tgl_kembali', 'nis_anggota', 'buku_id', 'status'
+        'kode_pinjam', 'tgl_pinjam', 'tgl_kembali', 'anggota_id',
+        'buku_id', 'status', 'created_at', 'updated_at'
     ];
 
     public function Anggota()
     {
         # code...
-        return $this->belongsTo(MdAnggota::class, 'nis_anggota', 'nis')->withDefault([
+        return $this->belongsTo(MdAnggota::class, 'anggota_id', 'id_anggota')->withDefault([
             'ket' => 'Tidak ada'
         ]);
     }
@@ -35,22 +36,23 @@ class MdPinjam extends Model
     public static function kode_pinjam()
     {
         # code...
-        $kd_pinjam = DB::table('tb_peminjaman')->max('kode_transaksi');
-        $addNol = '';
-        $date = date('Y.m.d');
-        $tipepinjam = "OUT";
-        $kd_pinjam = str_replace("", "", $kd_pinjam);
+        $data = DB::table('tb_peminjaman')->max('kode_pinjam');
+        $kd_pinjam = str_replace("", "", $data);
         $kd_pinjam = (int)$kd_pinjam + 1;
         $incrementKode = $kd_pinjam;
 
         if (strlen($kd_pinjam) == 1) {
-            $addNol = "000";
+            $addNol = "00000";
         } elseif (strlen($kd_pinjam) == 2) {
-            $addNol = "00";
+            $addNol = "0000";
         } elseif (strlen($kd_pinjam == 3)) {
+            $addNol = "000";
+        } elseif (strlen($kd_pinjam == 4)) {
+            $addNol = "00";
+        } elseif (strlen($kd_pinjam == 5)) {
             $addNol = "0";
         }
-        $kodebaru = $date . '/' . $tipepinjam . '/' . $addNol . $incrementKode;
+        $kodebaru =  date('dmY') . "-OUT-" . $addNol . $incrementKode;
         return $kodebaru;
     }
 
@@ -58,15 +60,28 @@ class MdPinjam extends Model
     {
 
         # code...
-        DB::table('tb_anggota')->insert([
-            'kode_transaksi' => $pinjam->kode_transaksi,
+        DB::table('tb_peminjaman')->insert([
+            'kode_pinjam' => $pinjam->kode_pinjam,
             'tgl_pinjam' => $pinjam->tgl_pinjam,
             'tgl_kembali' => $pinjam->tgl_kembali,
-            'nis_anggota' => $pinjam->nis_anggota,
+            'anggota_id' => $pinjam->anggota_id,
             'buku_id' => $pinjam->buku_id,
-            'status' => 'pinjam'
+            'status' => 'Pinjam',
+            'created_at' => now()
         ]);
-        $pinjam->Buku->where('id_buku', $pinjam->buku_id)
-            ->update(['stok_buku' => ($pinjam->Buku->stok_buku - 1)]);
+
+        $buku = DB::table('tb_buku')->where('id_buku', $pinjam->buku_id)->first();
+        $qty_now = $buku->stok_buku;
+        $qty_new = $qty_now - 1;
+
+        DB::table('tb_buku')->where('id_buku', $pinjam->buku_id)->update([
+            'stok_buku' => $qty_new
+        ]);
+    }
+
+    // Untuk bahan testing terlebih dahulu
+    public function updatePinjam($pinjam)
+    {
+        DB::table('tb_peminjaman');
     }
 }

@@ -12,7 +12,7 @@ class MdDenda extends Model
     protected $primarykey = 'id_denda';
     public $incrementing = false;
     public $timestamps = false;
-    protected $fillable = ['id_denda', 'nominal_denda', 'status'];
+    protected $fillable = ['id_denda', 'nominal_denda', 'status', 'created_at', 'updated_at'];
 
     public function insertDenda($denda)
     {
@@ -20,7 +20,9 @@ class MdDenda extends Model
         DB::table('tb_denda')->insert([
             'id_denda' => $denda->id_denda,
             'nominal_denda' => $denda->nominal_denda,
-            'status' => $denda->status
+            'status' => $denda->status,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
     }
 
@@ -35,7 +37,8 @@ class MdDenda extends Model
         # code...
         DB::table('tb_denda')->where('id_denda', $denda->id_denda)->update([
             'nominal_denda'=>$denda->nominal_denda,
-            'status' => $denda->status
+            'status' => $denda->status,
+            'updated_at' => now(),
         ]);
     }
 

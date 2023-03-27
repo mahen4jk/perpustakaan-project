@@ -14,7 +14,7 @@ class MdAnggota extends Model
     public $incrementing = false;
     public $timestamps = false;
     protected $fillable = [
-        'id_anggota', 'nis', 'nama_anggota', 'j_kelamin', 'kelas_id', 'hp', 'status', 'created_at', 'update_at'
+        'id_anggota', 'nis', 'nama_anggota', 'j_kelamin', 'kelas_id', 'alamat', 'hp', 'status', 'created_at', 'update_at'
     ];
 
     public function kelas()
@@ -40,6 +40,7 @@ class MdAnggota extends Model
             'nama_anggota' => $anggota->nama_anggota,
             'j_kelamin' => $anggota->j_kelamin,
             'kelas_id' => $anggota->kelas_id,
+            'alamat' => $anggota->alamat,
             'hp' => $anggota->hp,
             'status' => $anggota->status,
             'created_at' => now(),
@@ -61,9 +62,9 @@ class MdAnggota extends Model
             'nama_anggota' => $anggota->nama_anggota,
             'j_kelamin' => $anggota->j_kelamin,
             'kelas_id' => $anggota->kelas_id,
+            'alamat' => $anggota->alamat,
             'hp' => $anggota->hp,
             'status' => $anggota->status,
-            'created_at' => now(),
             'updated_at' => now()
         ]);
     }

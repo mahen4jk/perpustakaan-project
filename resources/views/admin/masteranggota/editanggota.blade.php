@@ -35,21 +35,29 @@
                     <div class="card-body">
                         <!-- Form -->
                         <form action="ubahAnggota" method="POST">
-                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                            {{ csrf_field() }}
                             @foreach ($anggota as $anggota)
+                                <div class="form-group row" hidden>
+                                    <label for="staticKdBUKU" class="col-sm-2 col-form-label">ID Anggota</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="id_anggota" id="kd_anggota"
+                                            placeholder="Masukan Nomor Induk Siswa" value="{{ $anggota->id_anggota }}" readonly
+                                            required>
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <label for="staticKdBUKU" class="col-sm-2 col-form-label">NIS</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" name="nis" id="NIS"
-                                            placeholder="Masukan Nomor Induk Siswa" value="{{ $anggota->nis }}" readonly
+                                            placeholder="Masukan Nomor Induk Siswa" value="{{ $anggota->nis }}"
                                             required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="staticISBN" class="col-sm-2 col-form-label">Nama Lengkap</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" name="nama_lengkap" id="nm_lengkap"
-                                            placeholder="Masukan Nama Lengkap" value="{{ $anggota->nama_lengkap }}"
+                                        <input type="text" class="form-control" name="nama_anggota" id="nm_lengkap"
+                                            placeholder="Masukan Nama Lengkap" value="{{ $anggota->nama_anggota }}"
                                             required>
                                     </div>
                                 </div>
@@ -78,9 +86,15 @@
                                             @foreach ($kelas as $kelas)
                                                 <option value="{{ $kelas->id_kelas }}"
                                                     {{ $anggota->kelas_id == $kelas->id_kelas ? 'selected' : '' }}>
-                                                    {{ $kelas->nama_kelas }}</option>
+                                                    {{ $kelas->kelas }}</option>
                                             @endforeach
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
+                                    <div class="col-sm-10">
+                                        <textarea type="text" class="form-control" name="alamat" id="alamat" placeholder="Alamat Anggota">{{ $anggota->alamat }}</textarea>
                                     </div>
                                 </div>
                                 <div class="form-group row">

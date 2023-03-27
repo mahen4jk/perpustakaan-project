@@ -43,7 +43,7 @@ class MstDenda extends Controller
         return view('admin.masterdenda.editdenda', ['denda' => $denda]);
     }
 
-    public function ubahDDA(Request $denda)
+    public function ubahDenda(Request $denda)
     {
         # code...
         $update = new MdDenda();

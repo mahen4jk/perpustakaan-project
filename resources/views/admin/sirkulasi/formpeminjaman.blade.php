@@ -34,13 +34,13 @@
                     </div>
                     <div class="card-body">
                         <!-- Form -->
-                        <form action="simpanBUKU" method="POST">
-                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                        <form action="simpanpinjam" method="POST">
+                            {{ csrf_field() }}
                             <div class="form-group row">
                                 <label for="staticKdBUKU" class="col-sm-2 col-form-label">Kode Transaksi</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="id_buku" id="id_buku" placeholder=""
-                                        value="{{ $kode_transaksi }}" required readonly>
+                                    <input type="text" class="form-control" name="kode_pinjam" id="kd_pinjam" placeholder=""
+                                        value="{{ $kode_pinjam }}" required readonly>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -48,7 +48,7 @@
                                 <div class="col-sm-10 input-group date datepinjam">
                                     <input type="text" class="form-control" name="tgl_pinjam" id="tanggal_pinjam"
                                         placeholder="Tanggal Pinjam"
-                                        value="{{ date('d-m-Y', strtotime(Carbon\Carbon::today()->toDateString())) }}"
+                                        value="{{ date('Y-m-d', strtotime(Carbon\Carbon::today()->toDateString())) }}"
                                         required readonly>
                                     <div class="input-group-prepend">
                                         <span class="input-group-text btn"><i class="far fa-calendar-alt"></i></span>
@@ -60,7 +60,7 @@
                                 <div class="col-sm-10 input-group date datekembali">
                                     <input type="text" class="form-control" name="tgl_kembali" id="datekembali"
                                         placeholder="Tanggal Kembali"
-                                        value="{{ date('d-m-Y',strtotime(Carbon\Carbon::today()->addDay(3)->toDateString())) }}"
+                                        value="{{ date('Y-m-d',strtotime(Carbon\Carbon::today()->addDay(3)->toDateString())) }}"
                                         required>
                                     <div class="input-group-prepend">
                                         <span class="input-group-text btn"><i class="far fa-calendar-alt"></i></span>
@@ -105,7 +105,7 @@
                                     <div class="input-group">
                                         <input id="buku_judul" type="text" class="form-control" readonly="" required>
                                         <input id="buku_id" type="text" class="form-control" name="buku_id"
-                                            value="{{ old('buku_id') }}" readonly="" required>
+                                            value="{{ old('buku_id') }}" readonly="" required hidden>
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-warning btn-secondary" data-toggle="modal"
                                                 data-target="#mdlBuku"><b>Cari Buku</b>
@@ -150,17 +150,31 @@
                                 <tbody>
                                     @foreach ($Anggota as $anggota)
                                         <tr>
-                                            <td>{{ $anggota->nis }}</td>
-                                            <td>{{ $anggota->nama_lengkap }}</td>
-                                            <td>{{ $anggota->j_kelamin }}</td>
-                                            <td>{{ $anggota->kelas->nama_kelas }}</td>
-                                            <td>{{ $anggota->hp }}</td>
-                                            <td><button class="pilih_anggota btn btn-warning btn-secondary"
-                                                    data-anggota_id="<?php echo $anggota->id_anggota; ?>"
-                                                    data-nama_anggota="<?php echo $anggota->nama_lengkap; ?>">Pilih&nbsp;<span
-                                                        class="fa-solid fa-plus"></span>
-                                                </button>
-                                            </td>
+                                            @if ($anggota->status == 'Aktif')
+                                                <td>{{ $anggota->nis }}</td>
+                                                <td>{{ $anggota->nama_anggota }}</td>
+                                                <td>{{ $anggota->j_kelamin }}</td>
+                                                <td>{{ $anggota->kelas->kelas }}</td>
+                                                <td>{{ $anggota->hp }}</td>
+                                                <td><button class="pilih_anggota btn btn-warning btn-secondary"
+                                                        data-anggota_id="<?php echo $anggota->id_anggota; ?>"
+                                                        data-nama_anggota="<?php echo $anggota->nama_anggota; ?>">Pilih&nbsp;<span
+                                                            class="fa-solid fa-plus"></span>
+                                                    </button>
+                                                </td>
+                                            @else
+                                                <td hidden>{{ $anggota->nis }}</td>
+                                                <td hidden>{{ $anggota->nama_anggota }}</td>
+                                                <td hidden>{{ $anggota->j_kelamin }}</td>
+                                                <td hidden>{{ $anggota->kelas->kelas }}</td>
+                                                <td hidden>{{ $anggota->hp }}</td>
+                                                <td hidden><button class="pilih_anggota btn btn-warning btn-secondary"
+                                                        data-anggota_id="<?php echo $anggota->id_anggota; ?>"
+                                                        data-nama_anggota="<?php echo $anggota->nama_anggota; ?>">Pilih&nbsp;<span
+                                                            class="fa-solid fa-plus"></span>
+                                                    </button>
+                                                </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -199,9 +213,10 @@
                                             <td>{{ $buku->isbn }}</td>
                                             <td>{{ $buku->pengarang }}</td>
                                             <td>{{ $buku->stok_buku }}</td>
-                                            <td><button class="pilih_buku btn btn-default" data-buku_id="<?php echo $buku->id_buku; ?>"
+                                            <td><button class="pilih_buku btn btn-default"
+                                                    data-buku_id="<?php echo $buku->id_buku; ?>"
                                                     data-buku_judul="<?php echo $buku->judul; ?>">Pilih&nbsp;<span
-                                                    class="fa-solid fa-plus"></span>
+                                                        class="fa-solid fa-plus"></span>
                                                 </button>
                                             </td>
                                         </tr>
@@ -219,7 +234,7 @@
 @section('js')
     <script type="text/javascript">
         function kembali() {
-            location.href = "{{ url('buku/masterbuku') }}";
+            location.href = "{{ url('sirkulasi/peminjaman') }}";
         }
 
         $(document).on('click', ".pilih_anggota", function(e) {

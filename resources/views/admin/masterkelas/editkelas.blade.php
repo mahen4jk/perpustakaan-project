@@ -35,7 +35,7 @@
                 <div class="card-body">
                     <!-- Form -->
                     <form action="updateKEL" method="POST" id="formKELAS">
-                        <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                        {{ csrf_field() }}
                         @foreach ($kode as $kelas)
                         <div class="form-group row">
                             <label for="staticEmail" class="col-sm-2 col-form-label">Kode Kelas</label>

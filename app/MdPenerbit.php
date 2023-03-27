@@ -49,7 +49,6 @@ class MdPenerbit extends Model
             'alamat' => $penerbit->alamat,
             'pic_hp' => $penerbit->pic_hp,
             'email' => $penerbit->email,
-            'created_at' => now(),
             'updated_at' => now()
         ]);
     }

@@ -35,7 +35,7 @@
                     <div class="card-body">
                         <!-- Form -->
                         <form action="simpanAnggota" method="POST">
-                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                            {{ csrf_field() }}
                             <div class="form-group row">
                                 <label for="staticKdBUKU" class="col-sm-2 col-form-label">NIS</label>
                                 <div class="col-sm-10">
@@ -74,6 +74,12 @@
                                             <option value="{{ $kelas->id_kelas }}">{{ $kelas->kelas }}</option>
                                         @endforeach
                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
+                                <div class="col-sm-10">
+                                    <textarea type="text" class="form-control" name="alamat" id="alamat" placeholder="Alamat Anggota"></textarea>
                                 </div>
                             </div>
                             <div class="form-group row">

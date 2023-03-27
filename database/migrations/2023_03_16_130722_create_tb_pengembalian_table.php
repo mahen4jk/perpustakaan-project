@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTbPenerbitTable extends Migration
+class CreateTbPengembalianTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateTbPenerbitTable extends Migration
      */
     public function up()
     {
-        Schema::create('tb_penerbit', function (Blueprint $table) {
-            $table->increments('id_penerbit');
-            $table->string('nama_penerbit',100);
-            $table->string('alamat',225);
-            $table->char('pic_hp',25)->nullable();
-            $table->char('email',100)->nullable();
+        Schema::create('tb_pengembalian', function (Blueprint $table) {
+            $table->char('kode_kembali')->primary();
+            $table->char('pinjam_id',50);
+
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateTbPenerbitTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tb_penerbit');
+        Schema::dropIfExists('tb_pengembalian');
     }
 }

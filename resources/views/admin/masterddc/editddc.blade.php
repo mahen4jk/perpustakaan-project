@@ -35,7 +35,7 @@
                     <div class="card-body">
                         <!-- Form -->
                         <form action="ubahDDC" method="POST">
-                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                            {{ csrf_field() }}
                             @foreach ($ddc as $klasifikasi)
                                 <div class="form-group row">
                                     <label for="staticEmail" class="col-sm-2 col-form-label">Kode DDC</label>

@@ -333,7 +333,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </ul>
                         </li>
                         <li
-                            class="nav-item {{ Request()->is('sirkulasi/peminjaman', 'sirkulasi/pengembalian') ? 'menu-open' : '' }}">
+                            class="nav-item {{ Request()->is('denda/masterdenda') ? 'menu-open' : '' }}">
                             <a href="#"
                                 class="nav-link {{ Request()->is('denda/masterdenda') ? 'active' : '' }}">
                                 <i class="fa-solid fa-dollar-sign nav-icon"></i>

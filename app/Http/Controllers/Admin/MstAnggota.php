@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\AnggotaExport;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
+use App\Imports\AnggotaImport;
 use App\MdAnggota;
 use App\MdKelas;
 use Illuminate\Http\Request;
@@ -18,7 +21,36 @@ class MstAnggota extends Controller
         $kelas = MdKelas::all();
 
         $kelas = MdKelas::select('id_kelas', 'kelas')->get();
-        return view('admin.masteranggota.masteranggota',compact('anggota','kelas'));
+        return view('admin.masteranggota.masteranggota', compact('anggota', 'kelas'));
+    }
+
+    public function exportAnggota()
+    {
+        # code...
+        return Excel::download(new AnggotaExport, 'Anggota.xlsx');
+    }
+
+    public function importAnggota(Request $anggota)
+    {
+        # code...
+
+        $import = new AnggotaImport;
+
+        $this->validate($anggota, [
+            'file' => 'required|mimes:csv,xls,xlsx'
+        ]);
+
+        $file = $anggota->file('file');
+        $namafile = $file->getClientOriginalName();
+        $file->move('DataAnggota', $namafile);
+
+        Excel::import($import, public_path('/DataAnggota/' . $namafile));
+
+        if ($import->getRowCount() == 0) {
+            return redirect('anggota/masteranggota')->with('error', 'File Excel tidak memiliki data');
+        } else {
+            return redirect('anggota/masteranggota')->with('toast_success', 'File Excel berhasil di import');
+        }
     }
 
     public function tambahanggota()
@@ -32,15 +64,19 @@ class MstAnggota extends Controller
     {
         # code...
         $validate_anggota = $Anggota->validate([
+            'id_anggota' => 'required',
             'nis' => 'required',
             'nama_anggota' => 'required',
             'j_kelamin' => 'required',
             'kelas_id' => 'required',
+            'alamat' => 'required',
             'hp' => 'required',
             'status' => 'required',
         ]);
         $simpan = new MdAnggota();
-        $simpan->insAnggota($Anggota, ['nis' => $validate_anggota]);
+        $simpan->insAnggota($Anggota, ['id_anggota' => $validate_anggota]);
+
+        // dd($Anggota->all());
         return redirect('anggota/masteranggota')->with('toast_success', 'Data Berhasil disimpan');
     }
 
@@ -50,22 +86,25 @@ class MstAnggota extends Controller
         # code...
         $kelas = MdKelas::all();
         $anggota = DB::table('tb_anggota')->where('id_anggota', decrypt($idNIS))->get();
-        return view('admin.masteranggota.editanggota',['anggota'=> $anggota],compact('kelas'));
+        return view('admin.masteranggota.editanggota', ['anggota' => $anggota], compact('kelas'));
     }
 
     public function ubahAnggota(Request $Anggota)
     {
         # code...
         $validate_anggota = $Anggota->validate([
+            'id_anggota' => 'required',
             'nis' => 'required',
-            'nama_lengkap' => 'required',
+            'nama_anggota' => 'required',
             'j_kelamin' => 'required',
             'kelas_id' => 'required',
+            'alamat' => 'required',
             'hp' => 'required',
             'status' => 'required',
         ]);
         $simpan = new MdAnggota();
-        $simpan->editAnggota($Anggota, ['nis' => $validate_anggota]);
+        $simpan->editAnggota($Anggota, ['id_anggota' => $validate_anggota]);
+        // dd ($Anggota->all());
         return redirect('anggota/masteranggota')->with('toast_success', 'Data Berhasil diubah');
     }
 

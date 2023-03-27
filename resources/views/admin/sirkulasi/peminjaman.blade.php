@@ -54,25 +54,38 @@
                                     <?php
                                     $no = 1;
                                     ?>
-                                    <tr>
-                                        <td><?php echo $no++; ?></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>
-                                            <a id="detail-anggota" class="btn btn-default btn-sm" data-toggle="modal"
-                                                data-target="#modal-detail-anggota">
-                                                <i class="fa-regular fa-eye"></i>&nbsp;Detail
-                                            </a>
-                                            <a href="" class="btn btn-warning btn-sm" role="button">
-                                                <i class="fa-solid fa-pen-nib"></i>&nbsp;Ubah
-                                            </a>
-                                            <a href="#" class="btn btn-danger btn-sm btnDelAnggota" data-id=""
-                                                data-name="" role="button">
-                                                <i class="fa-solid fa-trash"></i>&nbsp;Hapus</button>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    @foreach ($Peminjaman as $pinjam)
+                                        <tr>
+
+                                            <td><?php echo $no++; ?></td>
+                                            <td>{{ $pinjam->kode_pinjam }}</td>
+                                            <td>{{ $pinjam->tgl_kembali }}</td>
+                                            <td>
+                                                @if ($pinjam->status == 'Pinjam')
+                                                    <label class="badge badge-warning">Pinjam</label>
+                                                @else
+                                                    <label class="badge badge-success">Kembali</label>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <a id="detail-anggota" class="btn btn-default btn-sm" data-toggle="modal"
+                                                    data-target="#modal-detail-anggota">
+                                                    <i class="fa-regular fa-eye"></i>&nbsp;Detail
+                                                </a>
+                                                <a href="" class="btn btn-warning btn-sm" role="button">
+                                                    <i class="fa-solid fa-pen-nib"></i>&nbsp;Ubah
+                                                </a>
+                                                {{-- <a href="#" class="btn btn-danger btn-sm btnDelAnggota" data-id=""
+                                                    data-name="" role="button">
+                                                    <i class="fa-solid fa-trash"></i>&nbsp;Hapus</button>
+                                                </a> --}}
+                                                <a href="updatePinjam/{{ $pinjam->kode_pinjam }}"
+                                                    class="btn btn-danger btn-sm" role="button">
+                                                    <i class="fa-solid fa-trash"></i>&nbsp;Test Hapus/Kembali</button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                                 <tfoot>
                                     <th style="width:1px; white-space:nowrap;">No</th>

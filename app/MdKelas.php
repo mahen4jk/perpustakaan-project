@@ -10,7 +10,7 @@ class MdKelas extends Model
     //
     //bahan yang diperlukan untuk kategori
     protected $table = 'tb_kelas';
-    protected $primarykey = 'null';
+    protected $primarykey = 'id_kelas';
     public $incrementing = false;
     public $timestamps = false;
     protected $fillable = ['id_kelas', 'kelas','created_at', 'updated_at'];
@@ -45,7 +45,6 @@ class MdKelas extends Model
         # code...
         DB::table('tb_kelas')->where('id_kelas', $kelas->id_kelas)->update([
             'kelas' => $kelas->kelas,
-            'created_at' => now(),
             'updated_at' => now()
         ]);
     }

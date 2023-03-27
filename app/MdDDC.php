@@ -43,7 +43,6 @@ class MdDDC extends Model
         # tambah data kategori...
         DB::table('tb_ddc')->where('id_class', $ddc->id_class)->update([
             'ket' => $ddc->ket,
-            'created_at' => now(),
             'updated_at' => now()
         ]);
     }

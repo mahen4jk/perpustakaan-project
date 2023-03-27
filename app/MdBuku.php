@@ -56,7 +56,6 @@ class MdBuku extends Model
     {
         # code...
         $kd_buku = DB::table('tb_buku')->max('id_buku');
-        $addNol = '';
         $kd_buku = str_replace("","",$kd_buku);
         $kd_buku = (int)$kd_buku + 1;
         $incrementKode = $kd_buku;
@@ -67,6 +66,10 @@ class MdBuku extends Model
             $addNol = "0000";
         } elseif (strlen($kd_buku == 3)) {
             $addNol = "000";
+        } elseif (strlen($kd_buku == 4)) {
+            $addNol = "00";
+        } elseif (strlen($kd_buku == 5)) {
+            $addNol = "0";
         }
         $kodebaru = "".$addNol.$incrementKode;
         return $kodebaru;
@@ -110,7 +113,6 @@ class MdBuku extends Model
             'tahun_terbit' => $buku->tahun_terbit,
             'stok_buku' => $buku->stok_buku,
             'deskripsi' => $buku->deskripsi,
-            'created_at' => now(),
             'updated_at' => now()
         ]);
     }

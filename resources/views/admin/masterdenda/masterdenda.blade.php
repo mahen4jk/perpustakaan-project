@@ -39,12 +39,15 @@
                             <div class="col-lg-7">
                             </div>
                             <div class="col-lg-5">
-                                <!-- <div class="input-group mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"></i></span>
-                                            </div>
-                                            <input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
-                                        </div> --> <br />
+                                {{-- <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i
+                                                class="fa-solid fa-magnifying-glass"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="Search" aria-label="Search"
+                                        aria-describedby="basic-addon1">
+                                </div> --}}
+                                <br />
                             </div>
                         </div>
                         <table id="example2" class="table table-hover table-sm" cellspacing="0" width="100%">
@@ -76,8 +79,9 @@
                                                 role="button">
                                                 <i class="fa-solid fa-pen-nib"></i>&nbsp;Ubah
                                             </a>
-                                            <a href="#" class="btn btn-danger btnDelDDC" data-id="{{ $denda->id_denda }}"
-                                                data-name="{{ $denda->nominal_denda }}" role="button">
+                                            <a href="#" class="btn btn-danger btnDelDDC"
+                                                data-id="{{ $denda->id_denda }}" data-name="{{ $denda->nominal_denda }}"
+                                                role="button">
                                                 <i class="fa-solid fa-trash"></i>&nbsp;Hapus
                                             </a>
                                         </td>

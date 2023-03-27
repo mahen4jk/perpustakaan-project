@@ -43,7 +43,6 @@ class MdKategori extends Model
         # menyimpan data kategori yang diubah...
         DB::table('tb_kategori')->where('id_kategori', $kategori->id_kategori)->update([
             'kategori' => $kategori->kategori,
-            'created_at' => now(),
             'updated_at' => now()
         ]);
     }

@@ -32,14 +32,16 @@ Route::group(['middleware' => ['auth']], function () {
     #Tampilan MasterAnggota
     Route::prefix('anggota')->group(function () {
         Route::get('masteranggota', 'Admin\MstAnggota@MasterAnggota');
+        Route::get('exportanggota','Admin\MstAnggota@exportAnggota');
+        Route::post('importanggota','Admin\MstAnggota@importAnggota');
         #Tampilan Form Kelas
         Route::get('tambahanggota', 'Admin\MstAnggota@tambahanggota');
         Route::post('simpanAnggota', 'Admin\MstAnggota@simpanAnggota');
         #Update Anggota
-        Route::get('editANG/{nis}', 'Admin\MstAnggota@kirimAnggota');
+        Route::get('editANG/{id_anggota}', 'Admin\MstAnggota@kirimAnggota');
         Route::post('editANG/ubahAnggota', 'Admin\MstAnggota@ubahAnggota');
         # Hapus Anggota
-        Route::get('hapusAnggota/{nis}', 'Admin\MstAnggota@hpsAnggota');
+        Route::get('hapusAnggota/{id_anggota}', 'Admin\MstAnggota@hpsAnggota');
     });
 
     // Tampilan MasterKelas
@@ -118,6 +120,8 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('peminjaman','Admin\PinjamCon@viewpinjam');
         #Form Peminjaman
         Route::get('formpinjam','Admin\PinjamCon@formpinjam');
+        Route::post('simpanpinjam','Admin\PinjamCon@simpanPinjam');
+        Route::get('updatePinjam/{kode_pinjam}','Admin\PinjamCon@ubahPinjam');
         #Pengembalian
         Route::get('pengembalian','Admin\KembaliCon@viewkembali');
     });
@@ -130,7 +134,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('simpanDenda','Admin\MstDenda@simpanDDA');
         #Edit Denda
         Route::get('editDenda/{id_denda}','Admin\MstDenda@kirimDenda');
-        Route::post('editDenda/ubahDDA','Admin\MstDenda@ubahDDA');
+        Route::post('editDenda/ubahDenda','Admin\MstDenda@ubahDenda');
         #Delete Denda
         Route::get('hapusDDA/{id_denda}','Admin\MstDenda@hapusDenda');
         // Route::get('pengembalian','Admin\KembaliCon@viewkembali');

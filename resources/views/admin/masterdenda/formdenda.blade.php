@@ -36,7 +36,7 @@
                     <div class="card-body">
                         <!-- Form -->
                         <form action="simpanDenda" method="POST">
-                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                            {{ csrf_field() }}
                             <div class="form-group row">
                                 <label for="staticDenda" class="col-sm-2 col-form-label">Denda</label>
                                 <div class="col-sm-10">

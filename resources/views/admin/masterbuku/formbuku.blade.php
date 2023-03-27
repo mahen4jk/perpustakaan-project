@@ -36,8 +36,8 @@
                     <div class="card-body">
                         <!-- Form -->
                         <form action="simpanBUKU" method="POST">
-                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
-                            <div class="form-group row">
+                            {{ csrf_field() }}
+                            <div class="form-group row" hidden>
                                 <label for="staticKdBUKU" class="col-sm-2 col-form-label">Kode Buku</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="id_buku" id="id_buku" placeholder=""

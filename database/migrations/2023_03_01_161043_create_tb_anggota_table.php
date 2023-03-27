@@ -19,7 +19,8 @@ class CreateTbAnggotaTable extends Migration
             $table->string('nama_anggota',150);
             $table->enum('j_kelamin',['L','P']);
             $table->unsignedInteger('kelas_id');
-            $table->foreign('kelas_id')->references('id_kelas')->on('tb_kelas')->onDelete('cascade');
+            $table->foreign('kelas_id')->references('id_kelas')->on('tb_kelas')->onDelete('cascade')->onUpdate('cascade');
+            $table->longText('alamat');
             $table->char('hp',25);
             $table->unique('hp');
             $table->enum('status',['Aktif','Tdk_Aktif']);

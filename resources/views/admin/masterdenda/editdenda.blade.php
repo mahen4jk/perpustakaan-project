@@ -35,13 +35,13 @@
                     </div>
                     <div class="card-body">
                         <!-- Form -->
-                        <form action="ubahDDA" method="POST">
-                            <input type="hidden" name="_token" value="<?php echo csrf_token(); ?>">
+                        <form action="ubahDenda" method="POST">
+                            {{ csrf_field() }}
                             @foreach ($denda as $denda)
-                            <div class="form-group row">
-                                <label for="staticDenda" class="col-sm-2 col-form-label">Denda</label>
+                            <div class="form-group row" hidden>
+                                <label for="staticDenda" class="col-sm-2 col-form-label">ID Denda</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="nominal_denda" id="nom_denda"
+                                    <input type="text" class="form-control" name="id_denda" id="kd_denda"
                                         placeholder="Masukan nominal denda" value="{{ $denda->id_denda }}"required readonly>
                                 </div>
                             </div>
