@@ -14,6 +14,18 @@
     <link rel="stylesheet" href="{{url ('lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{url ('lte/dist/css/adminlte.min.css')}}">
+
+    {{-- @if (session('login_error'))
+    <!-- Sweet Alert -->
+
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Mohon maaf',
+            text: '{{session('login_error')}}'
+        })
+    </script>
+    @endif --}}
 </head>
 
 <body class="hold-transition login-page">
@@ -25,7 +37,6 @@
             </div>
             <div class="card-body">
                 <p class="login-box-msg">Sign in to start your session</p>
-
                 <form action="{{route('postlogin')}}" method="post">
                     {{ csrf_field() }}
                     <div class="input-group mb-3">
@@ -60,15 +71,6 @@
                         <!-- /.col -->
                     </div>
                 </form>
-
-                <div class="social-auth-links text-center mt-2 mb-3">
-                    <a href="#" class="btn btn-block btn-primary">
-                        <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-                    </a>
-                    <a href="#" class="btn btn-block btn-danger">
-                        <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-                    </a>
-                </div>
                 <!-- /.social-auth-links -->
 
                 <p class="mb-1">
@@ -85,11 +87,13 @@
     <!-- /.login-box -->
 
     <!-- jQuery -->
+    @include('sweetalert::alert')
     <script src="{{url('lte/plugins/jquery/jquery.min.js')}}"></script>
     <!-- Bootstrap 4 -->
     <script src="{{url('lte/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
     <!-- AdminLTE App -->
     <script src="{{url('lte/dist/js/adminlte.min.js')}}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

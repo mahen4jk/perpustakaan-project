@@ -25,6 +25,11 @@ class MdAnggota extends Model
         ]);
     }
 
+    public function pengembalian()
+    {
+        return $this->hasMany(MdKembali::class);
+    }
+
     public function peminjaman()
     {
         return $this->hasMany(MdPinjam::class);

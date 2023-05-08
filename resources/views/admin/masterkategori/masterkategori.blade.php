@@ -51,6 +51,7 @@
                                 <thead class="thead-light">
                                     <tr>
                                         <th style="width:1px; white-space:nowrap; text-align:center;">No</th>
+                                        <th style="width:1px; white-space:nowrap;">Kode Kategori</th>
                                         <th style="width:1px; white-space:nowrap;">Kategori</th>
                                         <th style="width:1px; white-space:nowrap;">Actions</th>
                                     </tr>
@@ -62,6 +63,7 @@
                                     @foreach ($kategori as $KAT)
                                         <tr>
                                             <td style="text-align:center;"><?php echo $no++; ?></td>
+                                            <td>{{ $KAT->kode_kategori }}</td>
                                             <td>{{ $KAT->kategori }}</td>
                                             <td>
                                                 <a href="editKat/{{ $KAT->id_kategori }}" class="btn btn-warning"
@@ -79,6 +81,7 @@
                                 </tbody>
                                 <tfoot>
                                     <th style="width:1px; white-space:nowrap; text-align:center;">No</th>
+                                    <th style="width:1px; white-space:nowrap;">Kode Kategori</th>
                                     <th style="width:1px; white-space:nowrap;">Kategori</th>
                                     <th style="width:1px; white-space:nowrap;">Actions</th>
                                 </tfoot>

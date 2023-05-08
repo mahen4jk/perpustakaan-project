@@ -121,9 +121,13 @@ Route::group(['middleware' => ['auth']], function () {
         #Form Peminjaman
         Route::get('formpinjam','Admin\PinjamCon@formpinjam');
         Route::post('simpanpinjam','Admin\PinjamCon@simpanPinjam');
-        Route::get('updatePinjam/{kode_pinjam}','Admin\PinjamCon@ubahPinjam');
+        // Route::get('updatePinjam/{kode_pinjam}','Admin\PinjamCon@ubahPinjam');
+
         #Pengembalian
         Route::get('pengembalian','Admin\KembaliCon@viewkembali');
+        #Form Pengembalian
+        Route::get('pengembalian/{kode_pinjam}','Admin\KembaliCon@formKembali');
+        Route::post('pengembalian/kembaliBuku','Admin\KembaliCon@pengembalian');
     });
 
     Route::prefix('denda')->group(function () {

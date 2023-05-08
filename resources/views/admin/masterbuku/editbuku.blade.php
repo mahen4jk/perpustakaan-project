@@ -101,7 +101,7 @@
                                             @foreach ($kategori as $KAT)
                                                 <option value="{{ $KAT->id_kategori }}"
                                                     {{ $BUKU->kategori_id == $KAT->id_kategori ? 'selected' : '' }}>
-                                                    {{ $KAT->kategori }}
+                                                    {{$KAT->kode_kategori}}&nbsp;-&nbsp;{{ $KAT->kategori }}
                                                 </option>
                                             @endforeach
                                         </select>

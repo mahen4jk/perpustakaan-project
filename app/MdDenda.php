@@ -14,6 +14,12 @@ class MdDenda extends Model
     public $timestamps = false;
     protected $fillable = ['id_denda', 'nominal_denda', 'status', 'created_at', 'updated_at'];
 
+    public function Denda()
+    {
+        # code...
+        return $this->hasMany(MdKembali::class);
+    }
+
     public function insertDenda($denda)
     {
         # code...

@@ -39,8 +39,9 @@
                             <div class="form-group row">
                                 <label for="staticKdBUKU" class="col-sm-2 col-form-label">Kode Transaksi</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="kode_pinjam" id="kd_pinjam" placeholder=""
-                                        value="{{ $kode_pinjam }}" required readonly>
+                                    <input type="text" class="form-control" name="kode_pinjam" id="kd_pinjam"
+                                        placeholder="" value="{{ 'OUT-' . date('d-m-Y') . '-' . $kode_pinjam }}" required
+                                        readonly>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -82,7 +83,7 @@
                                         <input id="nama_anggota" type="text" class="form-control" readonly=""
                                             required>
                                         <input id="anggota_id" type="text" class="form-control" name="anggota_id"
-                                            value="{{ old('anggota_id') }}" readonly="" required>
+                                            value="{{ old('anggota_id') }}" readonly="" required hidden>
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-info btn-secondary" data-toggle="modal"
                                                 data-target="#mdlAnggota"><b>Cari Anggota</b>
@@ -149,8 +150,8 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($Anggota as $anggota)
-                                        <tr>
-                                            @if ($anggota->status == 'Aktif')
+                                        @if ($anggota->status != 'Tdk_Aktif')
+                                            <tr>
                                                 <td>{{ $anggota->nis }}</td>
                                                 <td>{{ $anggota->nama_anggota }}</td>
                                                 <td>{{ $anggota->j_kelamin }}</td>
@@ -162,20 +163,8 @@
                                                             class="fa-solid fa-plus"></span>
                                                     </button>
                                                 </td>
-                                            @else
-                                                <td hidden>{{ $anggota->nis }}</td>
-                                                <td hidden>{{ $anggota->nama_anggota }}</td>
-                                                <td hidden>{{ $anggota->j_kelamin }}</td>
-                                                <td hidden>{{ $anggota->kelas->kelas }}</td>
-                                                <td hidden>{{ $anggota->hp }}</td>
-                                                <td hidden><button class="pilih_anggota btn btn-warning btn-secondary"
-                                                        data-anggota_id="<?php echo $anggota->id_anggota; ?>"
-                                                        data-nama_anggota="<?php echo $anggota->nama_anggota; ?>">Pilih&nbsp;<span
-                                                            class="fa-solid fa-plus"></span>
-                                                    </button>
-                                                </td>
-                                            @endif
-                                        </tr>
+                                            </tr>
+                                        @endif
                                     @endforeach
                                 </tbody>
                             </table>
@@ -250,19 +239,19 @@
         });
 
         $(document).ready(function() {
-            //select-option Anggota
-            $('.Anggota').select2({
-                theme: 'bootstrap4',
-                placeholder: "Pilih Anggota",
-                allowClear: true
-            });
-            $('.Buku').select2({
-                theme: 'bootstrap4',
-                placeholder: "Judul Buku Yang Dipinjam",
-                allowClear: true
-            });
+            // //select-option Anggota
+            // $('.Anggota').select2({
+            //     theme: 'bootstrap4',
+            //     placeholder: "Pilih Anggota",
+            //     allowClear: true
+            // });
+            // $('.Buku').select2({
+            //     theme: 'bootstrap4',
+            //     placeholder: "Judul Buku Yang Dipinjam",
+            //     allowClear: true
+            // });
 
-            $('#dtMdlAnggota, #dtMdlBuku').DataTable({
+            $('#dtMdlAnggota').DataTable({
                 "paging": true,
                 "lengthChange": true,
                 "searching": true,
@@ -272,9 +261,27 @@
                 "responsive": true,
             });
 
+            $('#dtMdlBuku').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+
+            // $('.datekembali').off('focus').datepicker({
+            //     format: "dd-mm-yyyy",
+            //     daysOfWeekDisabled: [0]
+            // }).click(
+            //     function() {
+            //         $(this).datepicker('show');
+            //     }
+            // );
             $('.datekembali').off('focus').datepicker({
-                format: "dd-mm-yyyy",
-                daysOfWeekDisabled: [0]
+                format: "yyyy-mm-dd",
+                daysOfWeekDisabled: [0],
             }).click(
                 function() {
                     $(this).datepicker('show');

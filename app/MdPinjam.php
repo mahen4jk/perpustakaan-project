@@ -28,32 +28,61 @@ class MdPinjam extends Model
     public function Buku()
     {
         # code...
-        return $this->belongsTo(MdAnggota::class, 'buku_id', 'id_buku')->withDefault([
+        return $this->belongsTo(MdBuku::class, 'buku_id', 'id_buku')->withDefault([
             'ket' => 'Tidak ada'
         ]);
     }
 
-    public static function kode_pinjam()
+    public function sirPinjam()
     {
         # code...
-        $data = DB::table('tb_peminjaman')->max('kode_pinjam');
-        $kd_pinjam = str_replace("", "", $data);
-        $kd_pinjam = (int)$kd_pinjam + 1;
-        $incrementKode = $kd_pinjam;
+        return $this->hasMany(MdKembali::class);
+    }
 
-        if (strlen($kd_pinjam) == 1) {
-            $addNol = "00000";
-        } elseif (strlen($kd_pinjam) == 2) {
-            $addNol = "0000";
-        } elseif (strlen($kd_pinjam == 3)) {
-            $addNol = "000";
-        } elseif (strlen($kd_pinjam == 4)) {
-            $addNol = "00";
-        } elseif (strlen($kd_pinjam == 5)) {
-            $addNol = "0";
+    public static function kode_pinjam()
+    {
+        # code...part2
+        $kd_pinjam = DB::table('tb_peminjaman')->select(DB::raw('MAX(RIGHT(kode_pinjam,6)) as kode'));
+        $kd = "";
+        $pinjaman = "OUT-";
+        $tanggal = date('Y-m-d');
+        // $query = DB::table('tb_peminjaman')->get('kode_pinjam');
+
+        if ($kd_pinjam->count() <> 0) {
+            foreach ($kd_pinjam->get() as $k) {
+                $tmp = ((int)$k->kode) + 1;
+                $kd = sprintf("%06s", $tmp);
+            }
+            // $incrementKode = intval($kd_buku)+1;
+        } else {
+            $kd = "000001";
         }
-        $kodebaru =  date('dmY') . "-OUT-" . $addNol . $incrementKode;
-        return $kodebaru;
+
+        return $kd;
+        // $kodebaruMax = str_pad($incrementKode, 6, "0", STR_PAD_LEFT);
+        // $kodebaru = "".$kodebaruMax;
+
+        // return $kodebaru;
+
+        # code... part1
+        // $data = DB::table('tb_peminjaman')->max('kode_pinjam');
+        // $kd_pinjam = str_replace("", "", $data);
+        // $kd_pinjam = (int)$kd_pinjam + 1;
+        // $incrementKode = $kd_pinjam;
+
+        // if (strlen($kd_pinjam) == 1) {
+        //     $addNol = "00000";
+        // } elseif (strlen($kd_pinjam) == 2) {
+        //     $addNol = "0000";
+        // } elseif (strlen($kd_pinjam == 3)) {
+        //     $addNol = "000";
+        // } elseif (strlen($kd_pinjam == 4)) {
+        //     $addNol = "00";
+        // } elseif (strlen($kd_pinjam == 5)) {
+        //     $addNol = "0";
+        // }
+        // $kodePinjam = "" . $addNol .$incrementKode;
+        // return $kodebaru;
     }
 
     public function insPinjam($pinjam)
@@ -79,9 +108,9 @@ class MdPinjam extends Model
         ]);
     }
 
-    // Untuk bahan testing terlebih dahulu
-    public function updatePinjam($pinjam)
+    public function kembalikan($idPinjam)
     {
-        DB::table('tb_peminjaman');
+        # code...
+        DB::table('tb_peminjaman')->where('kode_pinjam',$idPinjam)->get();
     }
 }

@@ -47,7 +47,7 @@
                                             </div> --> <br />
                             </div>
                         </div>
-                        <table id="example2" class="table table-hover">
+                        <table id="example2" class="table table-hover table-sm table-responsive-sm">
                             <thead class="thead-light">
                                 <tr>
                                     <th style="width:1px; white-space:nowrap; text-align:center;">No</th>
@@ -77,7 +77,7 @@
                                                 data-deskripsi="{{ $katalog->deskripsi }}">
                                                 <i class="fa-regular fa-eye"></i>&nbsp;Detail
                                             </a>
-                                            <a href="editbuku/{{ $katalog->id_buku }}" class="btn btn-warning btn-sm"
+                                            <a href="editbuku/{{ encrypt($katalog->id_buku) }}" class="btn btn-warning btn-sm"
                                                 role="button">
                                                 <i class="fa-solid fa-pen-nib"></i>&nbsp;Ubah
                                             </a>

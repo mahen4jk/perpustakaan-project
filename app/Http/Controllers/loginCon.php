@@ -14,21 +14,22 @@ class loginCon extends Controller
         # tampilan...
         return view('login');
     }
-    
+
     public function postLogin(Request $request)
     {
         # sistem login...
         // dd($request->all());
-        if (Auth::attempt($request->only('email','password'))) {
+        if (Auth::attempt($request->only('email', 'password'))) {
             return redirect('index')->with('toast_success', 'Selamat Datang');
+        } else {
+            return redirect('login')->with('toast_warning', 'Email/Password yang dimasukkan salah');
         }
-        return redirect ('login');
     }
 
     public function Logout(Request $request)
     {
         # sistem logout...
         Auth::logout();
-        return redirect('login');
+        return redirect('login')->with('toast_success', 'Berhasil Logout');
     }
 }

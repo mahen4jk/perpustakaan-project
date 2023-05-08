@@ -37,7 +37,7 @@
                         <!-- Form -->
                         <form action="simpanBUKU" method="POST">
                             {{ csrf_field() }}
-                            <div class="form-group row" hidden>
+                            <div class="form-group row">
                                 <label for="staticKdBUKU" class="col-sm-2 col-form-label">Kode Buku</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="id_buku" id="id_buku" placeholder=""
@@ -95,7 +95,7 @@
                                     <select class="form-control kategori" name="kategori_id" required>
                                         <option style="display:none"></option>
                                         @foreach ($kategori as $KAT)
-                                            <option value="{{ $KAT->id_kategori }}">{{ $KAT->kategori }}
+                                            <option value="{{ $KAT->id_kategori }}">{{$KAT->kode_kategori}}&nbsp;-&nbsp;{{ $KAT->kategori }}
                                             </option>
                                         @endforeach
                                     </select>

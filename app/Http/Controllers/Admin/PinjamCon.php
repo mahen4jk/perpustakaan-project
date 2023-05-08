@@ -26,8 +26,8 @@ class PinjamCon extends Controller
     {
         $Anggota = MdAnggota::all();
         $Buku = MdBuku::all();
-        $kode = MdPinjam::kode_pinjam();
-        return view('admin.sirkulasi.formpeminjaman', compact('Anggota', 'Buku'), ['kode_pinjam' => $kode]);
+        $kode_pinjam = MdPinjam::kode_pinjam();
+        return view('admin.sirkulasi.formpeminjaman', compact('Anggota', 'Buku'), ['kode_pinjam' => $kode_pinjam]);
     }
 
     public function simpanPinjam(Request $peminjaman)

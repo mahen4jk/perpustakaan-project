@@ -30,11 +30,11 @@ class MstBukuCon extends Controller
     public function formbuku()
     {
         # code...
-        $kd_buku = MdBuku::kode();
+        $kode = MdBuku::kode();
         $klasifikasi = MdDDC::all();
         $penerbit = MdPenerbit::all();
         $kategori = MdKategori::all();
-        return view('admin.masterbuku.formbuku', compact('klasifikasi', 'penerbit', 'kategori'),['id_buku'=>$kd_buku]);
+        return view('admin.masterbuku.formbuku', compact('klasifikasi', 'penerbit', 'kategori'),['id_buku'=>$kode]);
     }
 
     public function simpanBUKU(Request $BUKU)
@@ -54,7 +54,7 @@ class MstBukuCon extends Controller
         $simpan = new MdBuku();
         $simpan->insBuku($BUKU,['id_buku'=>$validate_buku]);
         return redirect('buku/masterbuku')->with('toast_success','Data Berhasil disimpan');
-        
+
     }
 
     public function kirimBuku($idBUKU)
@@ -63,7 +63,7 @@ class MstBukuCon extends Controller
         $klasifikasi = MdDDC::all();
         $penerbit = MdPenerbit::all();
         $kategori = MdKategori::all();
-        $id_buku = DB::table('tb_buku')->where('id_buku',$idBUKU)->get();
+        $id_buku = DB::table('tb_buku')->where('id_buku',decrypt($idBUKU))->get();
         return view('admin.masterbuku.editbuku',['kode'=> $id_buku],compact('klasifikasi','penerbit','kategori'));
     }
 

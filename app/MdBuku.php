@@ -47,6 +47,11 @@ class MdBuku extends Model
         return $this->belongsTo(MdKategori::class,'kategori_id','id_kategori');
     }
 
+    public function pengembalian()
+    {
+        return $this->hasMany(MdKembali::class);
+    }
+
     public function peminjaman()
     {
     	return $this->hasMany(MdPinjam::class);
@@ -55,24 +60,42 @@ class MdBuku extends Model
     public static function kode()
     {
         # code...
-        $kd_buku = DB::table('tb_buku')->max('id_buku');
-        $kd_buku = str_replace("","",$kd_buku);
-        $kd_buku = (int)$kd_buku + 1;
-        $incrementKode = $kd_buku;
+        $kd_buku = DB::table('tb_buku')->max('id_buku',6);
+        $query = DB::table('tb_buku')->get('id_buku');
 
-        if (strlen($kd_buku) == 1) {
-            $addNol = "00000";
-        } elseif (strlen($kd_buku) == 2){
-            $addNol = "0000";
-        } elseif (strlen($kd_buku == 3)) {
-            $addNol = "000";
-        } elseif (strlen($kd_buku == 4)) {
-            $addNol = "00";
-        } elseif (strlen($kd_buku == 5)) {
-            $addNol = "0";
+        if (strlen($query) <> 0) {
+            $incrementKode = intval($kd_buku)+1;
+        } else {
+            $incrementKode = 1;
         }
-        $kodebaru = "".$addNol.$incrementKode;
+        $kodebaruMax = str_pad($incrementKode, 6, "0", STR_PAD_LEFT);
+        $kodebaru = "".$kodebaruMax;
+
         return $kodebaru;
+
+
+        // $stok = DB::table('tb_buku')->max('stok_buku');
+        // $kd_buku = str_replace("","",$kd_buku);
+        // if ((int)$kd_buku == 0) {
+        //     $kd_buku = (int)$kd_buku + 1;
+        // } else {
+        //     $kd_buku = (int)$kd_buku + (int)$stok;
+        // }
+        // $incrementKode = $kd_buku;
+
+        // if (strlen($kd_buku) == 1) {
+        //     $addNol = "00000";
+        // } elseif (strlen($kd_buku) == 2){
+        //     $addNol = "0000";
+        // } elseif (strlen($kd_buku == 3)) {
+        //     $addNol = "000";
+        // } elseif (strlen($kd_buku == 4)) {
+        //     $addNol = "00";
+        // } elseif (strlen($kd_buku == 5)) {
+        //     $addNol = "0";
+        // }
+        // $kodebaru = "".$addNol.$incrementKode;
+        // return $kodebaru;
     }
 
     public function insBuku($buku)

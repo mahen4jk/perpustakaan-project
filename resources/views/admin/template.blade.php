@@ -13,10 +13,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ url('lte/plugins/fontawesome-free/css/all.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ url('assets/css/button.css') }}"> --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{ url('assets/fontawesome-free/css/fontawesome.css') }}">
     <link rel="stylesheet" href="{{ url('assets/fontawesome-free/css/solid.css') }}">
@@ -94,7 +95,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <a href="#" class="dropdown-item">
                             <!-- Message Start -->
                             <div class="media">
-                                <img src="dist/img/user1-128x128.jpg" alt="User Avatar"
+                                <img src="#" alt="User Avatar"
                                     class="img-size-50 mr-3 img-circle">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
@@ -111,7 +112,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <a href="#" class="dropdown-item">
                             <!-- Message Start -->
                             <div class="media">
-                                <img src="dist/img/user8-128x128.jpg" alt="User Avatar"
+                                <img src="#" alt="User Avatar"
                                     class="img-size-50 img-circle mr-3">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
@@ -129,7 +130,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <a href="#" class="dropdown-item">
                             <!-- Message Start -->
                             <div class="media">
-                                <img src="dist/img/user3-128x128.jpg" alt="User Avatar"
+                                <img src="#" alt="User Avatar"
                                     class="img-size-50 img-circle mr-3">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
@@ -309,7 +310,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             class="nav-item {{ Request()->is('sirkulasi/peminjaman', 'sirkulasi/pengembalian') ? 'menu-open' : '' }}">
                             <a href="#"
                                 class="nav-link {{ Request()->is('sirkulasi/peminjaman', 'sirkulasi/pengembalian') ? 'active' : '' }}">
-                                <i class="bi bi-book nav-icon"></i>
+                                <i class="fa-solid fa-arrows-up-down nav-icon"></i>
                                 <p>
                                     Sirkulasi
                                     <i class="right fas fa-angle-left"></i>
@@ -318,22 +319,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="{{ url('sirkulasi/peminjaman') }}"
-                                        class="nav-link {{ Request()->is('sirkulasi/peminjaman') ? 'active' : null }}">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Peminjaman</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ url('sirkulasi/pengembalian') }}"
-                                        class="nav-link {{ Request()->is('sirkulasi/pengembalian') ? 'active' : null }}">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Pengembalian</p>
+                                        class="nav-link {{ Request()->is('sirkulasi/peminjaman','sirkulasi/pengembalian') ? 'active' : null }}">
+                                        <i class="far fa-circle"></i>
+                                        <p>Peminjaman/Pengembalian</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li
-                            class="nav-item {{ Request()->is('denda/masterdenda') ? 'menu-open' : '' }}">
+                        <li class="nav-item {{ Request()->is('denda/masterdenda') ? 'menu-open' : '' }}">
                             <a href="#"
                                 class="nav-link {{ Request()->is('denda/masterdenda') ? 'active' : '' }}">
                                 <i class="fa-solid fa-dollar-sign nav-icon"></i>
@@ -348,6 +341,52 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         class="nav-link {{ Request()->is('denda/masterdenda') ? 'active' : null }}">
                                         <i class="fa-solid fa-dollar-sign nav-icon"></i>
                                         <p>Master Denda</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item {{ Request()->is('#') ? 'menu-open' : '' }}">
+                            <a href="#"
+                                class="nav-link {{ Request()->is('#') ? 'active' : '' }}">
+                                <i class="fa-regular fa-file nav-icon"></i>
+                                <p>
+                                    Laporan
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="#"
+                                        class="nav-link {{ Request()->is('#') ? 'active' : null }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Laporan Buku</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="#"
+                                        class="nav-link {{ Request()->is('#') ? 'active' : null }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Laporan Pinjam</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="#"
+                                        class="nav-link {{ Request()->is('#') ? 'active' : null }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Laporan Kembali</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="#"
+                                        class="nav-link {{ Request()->is('#') ? 'active' : null }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Laporan Kunjungan</p>
                                     </a>
                                 </li>
                             </ul>

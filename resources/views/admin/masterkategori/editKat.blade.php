@@ -37,16 +37,22 @@
                     <form action="updateKAT" method="POST">
                         {{ csrf_field() }}
                         @foreach ($kode as $KAT)
-                        <div class="form-group row">
-                            <label for="staticEmail" class="col-sm-2 col-form-label">Kode Kategori</label>
+                        <div class="form-group row" hidden>
+                            <label for="staticEmail" class="col-sm-2 col-form-label">Id Kategori</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" name="id_kategori" id="id_kategori" placeholder="Masukan koden ISBN" value="{{$KAT->id_kategori}}" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
+                            <label for="staticEmail" class="col-sm-2 col-form-label">Kode Kategori</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="kode_kategori" id="kd_kategori" placeholder="Masukan kode kategori" value="{{$KAT->kode_kategori}}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="staticEmail" class="col-sm-2 col-form-label">Kategori</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="kategori" id="kategori" placeholder="Jenis Kategori" value="{{$KAT->kategori}}">
+                                <input type="text" class="form-control" name="kategori" id="kategori" placeholder="Jenis kategori" value="{{$KAT->kategori}}">
                             </div>
                         </div>
                         @endforeach

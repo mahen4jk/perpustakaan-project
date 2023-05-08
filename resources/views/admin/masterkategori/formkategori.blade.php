@@ -43,9 +43,15 @@
                             </div>
                         </div> -->
                         <div class="form-group row">
+                            <label for="staticKAT" class="col-sm-2 col-form-label">Kode Kategori</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="kode_kategori" id="kd_kategori" placeholder="Masukan Kode Kategori">
+                            </div>
+                        </div>
+                        <div class="form-group row">
                             <label for="staticKAT" class="col-sm-2 col-form-label">Kategori</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="kategori" id="kategori" placeholder="Masukan koden ISBN">
+                                <input type="text" class="form-control" name="kategori" id="kategori" placeholder="Jenis Kategori">
                             </div>
                         </div>
                         <button type="button" class="btn btn-danger float-right ml-2" onclick="kembali()"><i class="fa-solid fa-arrow-left"></i> Kembali</button>
