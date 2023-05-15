@@ -15,7 +15,8 @@ class MdKembali extends Model
     public $timestamps = false;
     protected $fillable = [
         'kode_kembali', 'pinjam_kode', 'tgl_dikembalikan',
-        'total_denda', 'created_at', 'updated_at'
+        'terlambat', 'status', 'denda_id', 'total_denda',
+        'created_at', 'updated_at'
     ];
 
     public function Anggota()
@@ -89,21 +90,30 @@ class MdKembali extends Model
         $selisih = $tg_kembali->diffInDays($tgl_pengembalian);
         if ($selisih > 0) {
             $jmldenda = $denda * $selisih;
+            DB::table('tb_pengembalian')->insert([
+                'kode_kembali' => $kembali->kode_kembali,
+                'pinjam_kode' => $kembali->pinjam_kode,
+                'tgl_dikembalikan' => $kembali->tgl_dikembalikan,
+                'terlambat' => $selisih,
+                'status' => 'Terlambat',
+                'denda_id' => $id_denda,
+                'total_denda' => $jmldenda,
+                'created_at' => now()
+            ]);
         } else {
             $selisih = 0;
             $jmldenda = 0;
+            DB::table('tb_pengembalian')->insert([
+                'kode_kembali' => $kembali->kode_kembali,
+                'pinjam_kode' => $kembali->pinjam_kode,
+                'tgl_dikembalikan' => $kembali->tgl_dikembalikan,
+                'terlambat' => $selisih,
+                'status' => 'Tepat',
+                'denda_id' => $id_denda,
+                'total_denda' => $jmldenda,
+                'created_at' => now()
+            ]);
         }
-        $jmldenda;
-
-        DB::table('tb_pengembalian')->insert([
-            'kode_kembali' => $kembali->kode_kembali,
-            'pinjam_kode' => $kembali->pinjam_kode,
-            'tgl_dikembalikan' => $kembali->tgl_dikembalikan,
-            'terlambat' => $selisih,
-            'denda_id' => $id_denda,
-            'total_denda' => $jmldenda,
-            'created_at' => now()
-        ]);
 
         //Update Status Peminjaman
         $pinjamID = MdPinjam::all();

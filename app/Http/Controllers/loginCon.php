@@ -20,7 +20,7 @@ class loginCon extends Controller
         # sistem login...
         // dd($request->all());
         if (Auth::attempt($request->only('email', 'password'))) {
-            return redirect('index')->with('toast_success', 'Selamat Datang');
+            return redirect('dashboard')->with('toast_success', 'Selamat Datang');
         } else {
             return redirect('login')->with('toast_warning', 'Email/Password yang dimasukkan salah');
         }

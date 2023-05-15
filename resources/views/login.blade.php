@@ -36,7 +36,6 @@
                 <a href="#" class="h1"><b>Perpustakaan</b><br>SMP Negeri 4 Waru</a>
             </div>
             <div class="card-body">
-                <p class="login-box-msg">Sign in to start your session</p>
                 <form action="{{route('postlogin')}}" method="post">
                     {{ csrf_field() }}
                     <div class="input-group mb-3">
@@ -55,30 +54,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <button type="submit" class="btn btn-primary">Sign In</button>
+                    <a href="{{url('/')}}" class="btn btn-link">Back To Home</a>
+                    {{-- <div class="row">
                         <div class="col-8">
-                            <div class="icheck-primary">
-                                <input type="checkbox" id="remember">
-                                <label for="remember">
-                                    Remember Me
-                                </label>
-                            </div>
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
                             <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                         </div>
                         <!-- /.col -->
-                    </div>
+                    </div> --}}
                 </form>
-                <!-- /.social-auth-links -->
-
-                <p class="mb-1">
-                    <a href="forgot-password.html">I forgot my password</a>
-                </p>
-                <p class="mb-0">
-                    <a href="register.html" class="text-center">Register a new membership</a>
-                </p>
             </div>
             <!-- /.card-body -->
         </div>

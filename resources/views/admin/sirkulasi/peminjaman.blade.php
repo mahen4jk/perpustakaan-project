@@ -96,43 +96,45 @@
                                     $no = 1;
                                     ?>
                                     @foreach ($Peminjaman as $pinjam)
-                                        @if ($pinjam->status != 'Kembali')
-                                            <tr>
-                                                <td><?php echo $no++; ?></td>
-                                                <td>{{ $pinjam->Anggota->nama_anggota }}</td>
-                                                <td>{{ $pinjam->tgl_pinjam }}</td>
-                                                <td>{{ $pinjam->tgl_kembali }}</td>
-                                                <td>
-                                                    @if ($pinjam->status == 'Kembali')
-                                                        <label class="badge badge-success">Kembali</label>
-                                                    @else
-                                                        <label class="badge badge-warning">Pinjam</label>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    <a id="detail-pinjam" class="btn btn-default btn-sm" data-toggle="modal"
-                                                        data-target="#modal-detail-pinjam"
-                                                        data-kode_pinjam="{{ $pinjam->kode_pinjam }}"
-                                                        data-id_buku="{{ $pinjam->buku_id }}"
-                                                        data-judul="{{ $pinjam->Buku->judul }}">
-                                                        <i class="fa-regular fa-eye"></i>&nbsp;Detail
-                                                    </a>
-                                                    {{-- @if ($pinjam->tgl_kembali <= Carbon\Carbon::today())
-                                                        <a href="pengembalian/{{encrypt($pinjam->kode_pinjam)}}" class="btn btn-warning btn-sm" role="button">
+                                        <tr>
+                                            <td><?php echo $no++; ?></td>
+                                            <td>{{ $pinjam->Anggota->nama_anggota }}</td>
+                                            <td>{{ $pinjam->tgl_pinjam }}</td>
+                                            <td>{{ $pinjam->tgl_kembali }}</td>
+                                            <td>
+                                                @if ($pinjam->status == 'Kembali')
+                                                    <label class="badge badge-success">Kembali</label>
+                                                @else
+                                                    <label class="badge badge-warning">Pinjam</label>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <a id="detail-pinjam" class="btn btn-default btn-sm" data-toggle="modal"
+                                                    data-target="#modal-detail-pinjam"
+                                                    data-kode_pinjam="{{ $pinjam->kode_pinjam }}"
+                                                    data-id_buku="{{ $pinjam->buku_id }}"
+                                                    data-judul="{{ $pinjam->Buku->judul }}">
+                                                    <i class="fa-regular fa-eye"></i>&nbsp;Detail
+                                                </a>
+                                                {{-- @if ($pinjam->tgl_kembali <= Carbon\Carbon::today())
+                                                    @if ($pinjam->status != 'Kembali')
+                                                        <a href="pengembalian/{{ encrypt($pinjam->kode_pinjam) }}"
+                                                            class="btn btn-warning btn-sm" role="button">
                                                             <i class="fa fa-share"></i>&nbsp;Kembalikan</button>
                                                         </a>
                                                     @else
-                                                        <a href="pengembalian/{{encrypt($pinjam->kode_pinjam)}}" class="btn btn-warning btn-sm" role="button"
-                                                            hidden>
-                                                            <i class="fa fa-share"></i>&nbsp;Test Hapus/Kembali</button>
+                                                        <a href="pengembalian/{{ encrypt($pinjam->kode_pinjam) }}"
+                                                            class="btn btn-warning btn-sm" role="button" hidden>
+                                                            <i class="fa fa-share"></i>&nbsp;Kembalikan/button>
                                                         </a>
-                                                    @endif --}}
-                                                    <a href="pengembalian/{{encrypt($pinjam->kode_pinjam)}}" class="btn btn-warning btn-sm" role="button">
-                                                        <i class="fa fa-share"></i>&nbsp;Kembalikan</button>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        @endif
+                                                    @endif
+                                                @endif --}}
+                                                <a href="pengembalian/{{ encrypt($pinjam->kode_pinjam) }}"
+                                                    class="btn btn-warning btn-sm" role="button">
+                                                    <i class="fa fa-share"></i>&nbsp;Kembalikan</button>
+                                                </a>
+                                            </td>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                                 <tfoot>

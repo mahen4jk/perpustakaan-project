@@ -17,6 +17,8 @@ class CreateTbPengembalianTable extends Migration
             $table->char('kode_kembali')->primary();
             $table->char('pinjam_kode', 50);
             $table->foreign('pinjam_kode')->references('kode_pinjam')->on('tb_peminjaman')->onDelete('cascade')->onUpdate('cascade');
+            $table->date('tgl_dikembalikan');
+            $table->integer('terlambat');
             $table->unsignedInteger('denda_id');
             $table->foreign('denda_id')->references('id_denda')->on('tb_denda')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('total_denda');

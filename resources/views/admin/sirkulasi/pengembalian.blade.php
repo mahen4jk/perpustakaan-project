@@ -87,8 +87,8 @@
                                         <th style="width:1px; white-space:nowrap;">Nama Anggota</th>
                                         <th style="width:1px; white-space:nowrap;">Tanggal Dikembalikan</th>
                                         <th style="width:1px; white-space:nowrap;">Terlambat</th>
+                                        <th style="width:1px; white-space:nowrap;">Status</th>
                                         <th style="width:1px; white-space:nowrap;">Jumlah Denda</th>
-                                        <th style="width:1px; white-space:nowrap;">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -101,23 +101,24 @@
                                             <td>
                                                 @foreach ($sirPinjam as $kembali21)
                                                     @if ($kembali21->kode_pinjam == $pengembalian->pinjam_kode)
-                                                        {{$kembali21->kode_pinjam}}
+                                                        @foreach ($Anggota as $kembali22)
+                                                            @if ($kembali22->id_anggota == $kembali21->anggota_id)
+                                                                {{ $kembali22->nama_anggota }}
+                                                            @endif
+                                                        @endforeach
                                                     @endif
                                                 @endforeach
                                             </td>
                                             <td>{{ $pengembalian->tgl_dikembalikan }}</td>
                                             <td>{{ $pengembalian->terlambat }}&nbsp;Hari</td>
-                                            <td>{{ $pengembalian->total_denda }}</td>
                                             <td>
-                                                <a id="detail-anggota" class="btn btn-default btn-sm" data-toggle="modal"
-                                                    data-target="#modal-detail-anggota">
-                                                    <i class="fa-regular fa-eye"></i>&nbsp;Detail Pinjam
-                                                </a>
-                                                <a id="detail-anggota" class="btn btn-default btn-sm" data-toggle="modal"
-                                                    data-target="#modal-detail-anggota">
-                                                    <i class="fa-regular fa-eye"></i>&nbsp;Detail Kembali
-                                                </a>
+                                                @if ($pengembalian->status == 'Terlambat')
+                                                    <label class="badge badge-warning">Terlambat</label>
+                                                @else
+                                                    <label class="badge badge-success">Pinjam</label>
+                                                @endif
                                             </td>
+                                            <td>{{ $pengembalian->total_denda }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -127,8 +128,8 @@
                                         <th style="width:1px; white-space:nowrap;">Nama Anggota</th>
                                         <th style="width:1px; white-space:nowrap;">Tanggal Dikembalikan</th>
                                         <th style="width:1px; white-space:nowrap;">Terlambat</th>
+                                        <th style="width:1px; white-space:nowrap;">Status</th>
                                         <th style="width:1px; white-space:nowrap;">Jumlah Denda</th>
-                                        <th style="width:1px; white-space:nowrap;">Actions</th>
                                     </tr>
                                 </tfoot>
                             </table>

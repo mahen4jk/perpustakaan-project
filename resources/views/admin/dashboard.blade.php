@@ -22,6 +22,31 @@
 @endsection
 
 @section('content')
+    <style>
+        #calendar {
+            height: 500px;
+            width: 740px;
+        }
+
+        .fc-header-toolbar h2 {
+            font-size: 18px;
+            padding: 10px 0;
+        }
+
+        .fc-day-header,
+        .fc-event-title {
+            font-size: 12px;
+        }
+
+        .fc-list-item-title {
+            font-size: 12px;
+        }
+
+        .red-day {
+            background-color: red;
+            color: white;
+        }
+    </style>
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
@@ -121,12 +146,10 @@
                 <div class="col-lg-6">
                     <div class="card card-primary card-outline">
                         <div class="card-header">
-                            <h5 class="m-0">Featured</h5>
+                            <h5 class="m-0">Kalender</h5>
                         </div>
                         <div class="card-body">
-                            <h6 class="card-title">Special title treatment</h6>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                            <div id="calendar"></div>
                         </div>
                     </div>
                 </div>
@@ -135,4 +158,24 @@
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
+@endsection
+
+@section('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                weekends: 'true',
+                initialView: 'dayGridMonth',
+                themeSystem: 'bootstrap',
+                locale: 'id',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+            });
+            calendar.render();
+        });
+    </script>
 @endsection
