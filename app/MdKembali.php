@@ -90,6 +90,14 @@ class MdKembali extends Model
         $selisih = $tg_kembali->diffInDays($tgl_pengembalian);
         if ($selisih > 0) {
             $jmldenda = $denda * $selisih;
+        } else {
+            $selisih = 0;
+            $jmldenda = 0;
+        }
+        $jmldenda;
+
+        //Insert Pengembalian
+        if ($selisih > 0){
             DB::table('tb_pengembalian')->insert([
                 'kode_kembali' => $kembali->kode_kembali,
                 'pinjam_kode' => $kembali->pinjam_kode,
@@ -101,8 +109,6 @@ class MdKembali extends Model
                 'created_at' => now()
             ]);
         } else {
-            $selisih = 0;
-            $jmldenda = 0;
             DB::table('tb_pengembalian')->insert([
                 'kode_kembali' => $kembali->kode_kembali,
                 'pinjam_kode' => $kembali->pinjam_kode,

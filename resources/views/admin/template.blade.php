@@ -14,8 +14,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-
+    {{-- Bootstrap --}}
+    {{-- <link rel="stylesheet" href="{{ url('assets/css/bootstrap.css') }}"> --}}
     <!-- KALENDER -->
+    {{-- <link rel="stylesheet" href="{{ url('assets/css/calendar.css') }}"> --}}
+    <link rel="stylesheet" href="{{ url('lte/plugins/fullcalendar/main.css') }}">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ url('lte/plugins/fontawesome-free/css/all.min.css') }}">
     {{-- <link rel="stylesheet" href="{{ url('assets/css/button.css') }}"> --}}
@@ -34,7 +37,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet"
         href="{{ url('lte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
-
     {{-- Date and Time Picker --}}
     <link rel="stylesheet" href="{{ url('assets/css/bootstrap-datepicker.css') }}">
     <!-- Theme style -->
@@ -153,6 +155,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+                        <li class="nav-header">Master Anggota</li>
                         <li
                             class="nav-item {{ Request()->is('anggota/masteranggota', 'kelas/masterkelas') ? 'menu-open' : '' }}">
                             <a href="#"
@@ -180,6 +183,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-header">Master Buku</li>
                         <li
                             class="nav-item {{ Request()->is('buku/masterbuku', 'kategori/masterkategori', 'penerbit/masterpenerbit', 'ddc/masterddc') ? 'menu-open' : '' }}">
                             <a href="#"
@@ -221,11 +225,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-header">Sirkulasi</li>
                         <li
                             class="nav-item {{ Request()->is('sirkulasi/peminjaman', 'sirkulasi/pengembalian') ? 'menu-open' : '' }}">
                             <a href="#"
                                 class="nav-link {{ Request()->is('sirkulasi/peminjaman', 'sirkulasi/pengembalian') ? 'active' : '' }}">
-                                <i class="fa-solid fa-arrows-up-down nav-icon"></i>
+                                {{-- <i class="fa-solid fa-arrows-up-down nav-icon"></i> --}}
+                                <i class="fa-solid fa-book nav-icon"></i>
                                 <p>
                                     Sirkulasi
                                     <i class="right fas fa-angle-left"></i>
@@ -241,6 +247,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-header">Master Denda</li>
                         <li class="nav-item {{ Request()->is('denda/masterdenda') ? 'menu-open' : '' }}">
                             <a href="#"
                                 class="nav-link {{ Request()->is('denda/masterdenda') ? 'active' : '' }}">
@@ -254,15 +261,16 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <li class="nav-item">
                                     <a href="{{ url('denda/masterdenda') }}"
                                         class="nav-link {{ Request()->is('denda/masterdenda') ? 'active' : null }}">
-                                        <i class="fa-solid fa-dollar-sign nav-icon"></i>
+                                        <i class="far fa-circle nav-icon"></i>
                                         <p>Master Denda</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-header">Laporan</li>
                         <li class="nav-item {{ Request()->is('#') ? 'menu-open' : '' }}">
                             <a href="#" class="nav-link {{ Request()->is('#') ? 'active' : '' }}">
-                                <i class="fa-regular fa-file nav-icon"></i>
+                                <i class="fa-solid fa-envelope nav-icon"></i>
                                 <p>
                                     Laporan
                                     <i class="right fas fa-angle-left"></i>
@@ -280,15 +288,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <li class="nav-item">
                                     <a href="#" class="nav-link {{ Request()->is('#') ? 'active' : null }}">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Laporan Pinjam</p>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link {{ Request()->is('#') ? 'active' : null }}">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Laporan Kembali</p>
+                                        <p>Laporan Sirkulasi</p>
                                     </a>
                                 </li>
                             </ul>
@@ -297,6 +297,24 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <a href="#" class="nav-link {{ Request()->is('#') ? 'active' : null }}">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Laporan Kunjungan</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-header">Petugas</li>
+                        <li class="nav-item {{ Request()->is('#') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link {{ Request()->is('#') ? 'active' : '' }}">
+                                <i class="fa-regular fa-user-plus nav-icon"></i>
+                                <p>
+                                    Petugas
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link {{ Request()->is('#') ? 'active' : null }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Petugas</p>
                                     </a>
                                 </li>
                             </ul>
@@ -333,11 +351,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <footer class="main-footer">
             <!-- To the right -->
             <div class="float-right d-none d-sm-inline">
-                Anything you want
+                <img src="{{ url('assets/image/logo.png') }}" alt="logo 4waru" style="height: 30px; width:30px">
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights
-            reserved.
+            <strong>Perpustakaan <a href="https://smpn4warusidoarjo.sch.id/">SMP Negeri 4 Waru</a></strong>
         </footer>
     </div>
     <!-- ./wrapper -->
@@ -355,9 +372,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- AdminLTE App -->
     <script src="{{ url('lte/dist/js/adminlte.min.js') }}"></script>
     <!-- Charts -->
-    <script src="{{ url('lte/plugins/chart.js/Chart.min.js') }}"></script>
+    {{-- <script src="{{ url('lte/plugins/chart.js/Chart.min.js') }}"></script> --}}
+    {{-- <script src="{{ url('assets/js/chart.js') }}"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- KALENDER -->
     <script src="{{ url('assets/js/fullcalendar.global.min.js') }}"></script>
+    <script src="{{ url('assets/js/fullcalendar.global.js') }}"></script>
     <!-- Datatables -->
     <script src="{{ url('lte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ url('lte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>

@@ -14,13 +14,20 @@ use RealRashid\SweetAlert\Facades\Alert;
 |
 */
 
-# Halaman Depan
+
 // Route::get('/', function () {
 //     return view('halindex.index');
 // });
 
+# Halaman Depan
 Route::get('/','halindex\index@tampilandepan');
-Route::get('profile','halindex\profil_perpus@FunctionName');
+
+# Halaman Profil Perpustakaan
+Route::get('profile','halindex\profil_perpus@ProfSejarah');
+Route::get('visimisi','halindex\profil_perpus@VisiMisi');
+
+#Halaman Katalog
+Route::get('katalog','halindex\katalog@halkatalog');
 
 # Sistem Login
 
@@ -32,6 +39,7 @@ Route::group(['middleware' => ['auth']], function () {
     #Tampilan Dashboard
 
     Route::get('dashboard', 'DashController@Dashboard');
+    // Route::get('harilibur','DashController@getholidayevents');
 
     #Tampilan MasterAnggota
     Route::prefix('anggota')->group(function () {

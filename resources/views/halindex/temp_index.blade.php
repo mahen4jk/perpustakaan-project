@@ -7,8 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title') | Perpustakaan SMP Negeri 4 Waru</title>
     <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    {{-- <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"> --}}
+    <link href="https://fonts.googleapis.com/css2?family=Viga&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
 
     <!-- KALENDER -->
     <!-- Font Awesome Icons -->
@@ -29,49 +30,79 @@
 
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-        <a class="navbar-brand" href="{{ url('/') }}">Perpustakaan</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item {{ Request()->is('/') ? 'active' : '' }}">
-                    <a class="nav-link {{ Request()->is('/') ? 'active' : '' }}" href="{{ url('/') }}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Katalog</a>
-                </li>
-                <!-- Dropdown -->
-                <li class="nav-item dropdown {{ Request()->is('profile') ? 'menu-open' : '' }}">
-                    <a class="nav-link dropdown-toggle {{ Request()->is('profile', 'visimisi', 'struktur') ? 'active' : '' }}"
-                        href="#" id="navbardrop" data-toggle="dropdown">
-                        Profil
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item {{ Request()->is('profile') ? 'active' : '' }}"
-                            href="{{ url('profile') }}">Sejarah</a>
-                        <a class="dropdown-item" href="#">Link 2</a>
-                        <a class="dropdown-item" href="#">Link 3</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Kunjungan</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav my-2 my-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url('login')}}">Login</a>
-                </li>
-            </ul>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url('/') }}">Perpustakaan</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="navbar-nav ml-auto">
+                    <!-- Dropdown -->
+                    <a class="nav-item nav-link {{ Request()->is('/') ? 'active-page' : '' }}"
+                        href="{{ url('/') }}">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-item nav-link {{ Request()->is('katalog') ? 'active-page' : '' }}"
+                        href="{{url('katalog')}}">Katalog</a>
+                    <a class="nav-item nav-link {{ Request()->is('profile','visimisi','') ? 'active-page' : '' }}"
+                        href="{{url('profile')}}">Profile</a>
+                    <a class="nav-item nav-link {{ Request()->is('') ? 'active-page' : '' }}"
+                        href="#">Kunjungan</a>
+                    <a class="nav-item nav-link" href="{{ url('login') }}">Login</a>
+                </div>
+            </div>
         </div>
     </nav>
+    <!-- End Navbar -->
+
+    <!-- Jumbotron -->
+    @yield('jumbotron')
+    <!-- Akhir Jumbotron -->
 
     <!-- Content -->
-    @yield('jumbotron')
-    <div class="container-fluid pt-3">
+    <div class="container">
         @yield('content')
     </div>
+    <!-- Akhir Content -->
+
+    <!-- Footer -->
+    <footer class="container">
+        <div class="row">
+            <div class="col-12 col-md">
+                <img src="{{ url('assets/image/logo.png') }}" alt="logo 4waru" style="height: 30px; width:30px">
+            </div>
+            <div class="col-6 col-md">
+                <h5>Profil</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="#">Sejarah</a></li>
+                    <li><a class="text-muted" href="#">Visi & Misi</a></li>
+                    <li><a class="text-muted" href="#">Struktur Organisasi</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5>Temukan Kami</h5>
+                <ul class="list-unstyled text-small">
+                    <li>
+                        <h5 class="text-muted">Alamat</h5>
+                        <p class="text-muted">JPPW+457, Jl. Gajah Mada, Ngingas, Kec. Waru,
+                            Kabupaten Sidoarjo, Jawa Timur 61256</p>
+                    </li>
+                    <li>
+                        <h5 class="text-muted">Jam Operasional</h5>
+                        <p class="text-muted">Senin - Kamis: 07.00 - 14.30 <br>
+                            Jumat & Sabtu: 11:00 - 14.30</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5>Maps</h5>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.90363248211!2d112.74283567581851!3d-7.364698272473822!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7e4c3d39abb83%3A0x6be9ffbbb93b15e2!2sSMP%20Negeri%204%20Waru!5e0!3m2!1sen!2sid!4v1685286620302!5m2!1sen!2sid"
+                    width="350" height="200" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Akhir -->
 
     {{-- jQuery --}}
     <script src="{{ url('assets/js/jquery-3.6.4.min.js') }}"></script>

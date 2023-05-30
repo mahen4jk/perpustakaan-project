@@ -22,31 +22,6 @@
 @endsection
 
 @section('content')
-    <style>
-        #calendar {
-            height: 500px;
-            width: 740px;
-        }
-
-        .fc-header-toolbar h2 {
-            font-size: 18px;
-            padding: 10px 0;
-        }
-
-        .fc-day-header,
-        .fc-event-title {
-            font-size: 12px;
-        }
-
-        .fc-list-item-title {
-            font-size: 12px;
-        }
-
-        .red-day {
-            background-color: red;
-            color: white;
-        }
-    </style>
     <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
@@ -56,7 +31,8 @@
                     <!-- small box -->
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3>{{ number_format($buku) }}</h3>
+                            {{-- <h3>{{ number_format($buku) }}</h3> --}}
+                            <h3>{{ $Buku->count() }}</h3>
                             <p>Jumlah Buku</p>
                         </div>
                         <div class="icon">
@@ -71,8 +47,8 @@
                     <!-- small box -->
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3>{{ number_format($anggota) }}</h3>
-
+                            {{-- <h3>{{ number_format($anggota) }}</h3> --}}
+                            <h3>{{ $Anggota->count() }}</h3>
                             <p>Jumlah Anggota</p>
                         </div>
                         <div class="icon">
@@ -102,80 +78,89 @@
             <!-- /.row -->
             <div class="row">
                 <!-- /.row -->
-                <div class="col-lg-6">
+                <div class="col-lg">
                     <div class="card">
                         <div class="card-header border-0">
-                            <div class="d-flex justify-content-between">
-                                <h3 class="card-title">Pengunjung Perpustakaan</h3>
-                                <a href="javascript:void(0);">View Report</a>
-                            </div>
+                            <h3 class="card-title">Donut Chart</h3>
                         </div>
                         <div class="card-body">
                             <div class="d-flex">
-                                <p class="d-flex flex-column">
-                                    <span class="text-bold text-lg">820</span>
-                                    <span>Visitors Over Time</span>
-                                </p>
-                                <p class="ml-auto d-flex flex-column text-right">
-                                    <span class="text-success">
-                                        <i class="fas fa-arrow-up"></i> 12.5%
-                                    </span>
-                                    <span class="text-muted">Since last week</span>
-                                </p>
+                                <canvas id="myChart"
+                                    style="min-height: 250px; height: 360px;
+                                    max-height: 360px; max-width: 100%;"></canvas>
                             </div>
                             <!-- /.d-flex -->
-
-                            <div class="position-relative mb-4">
-                                <canvas id="visitors-chart" height="200"></canvas>
-                            </div>
-
-                            <div class="d-flex flex-row justify-content-end">
-                                <span class="mr-2">
-                                    <i class="fas fa-square text-primary"></i> This Week
-                                </span>
-
-                                <span>
-                                    <i class="fas fa-square text-gray"></i> Last Week
-                                </span>
-                            </div>
                         </div>
                         <!-- /.card -->
                     </div>
                 </div>
                 <!-- /.col-md-6 -->
-                <div class="col-lg-6">
-                    <div class="card card-primary card-outline">
-                        <div class="card-header">
-                            <h5 class="m-0">Kalender</h5>
+                <div class="col-lg">
+                    <div class="card">
+                        <div class="card-header border-0">
+                            <h5 class="card-title">Kalender</h5>
                         </div>
                         <div class="card-body">
-                            <div id="calendar"></div>
+                            <div id="calendar">
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- /.col-md-6 -->
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
 @endsection
 
 @section('js')
     <script>
+        //Calendar
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                weekends: 'true',
-                initialView: 'dayGridMonth',
-                themeSystem: 'bootstrap',
+                timeZone: 'Asia/Jakarta',
                 locale: 'id',
-                headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
-                },
+                initialView: 'dayGridMonth',
+                contentHeight: '360px',
+                themeSystem: 'bootstrap',
             });
             calendar.render();
+        });
+        $(function() {
+            // var ctx = $('#myChart').get(0).getContext('2d');
+
+            //Chart
+            $(document).ready(function() {
+                var Peminjaman = @json($Peminjaman);
+
+                var labels = Object.keys(Peminjaman);
+                var data = Object.values(Peminjaman);
+
+                const ctx = document.getElementById('myChart').getContext('2d');
+                sampleChartClass.ChartData(ctx, labels, data);
+            });
+
+            sampleChartClass = {
+                ChartData: function(ctx, labels, data) {
+                    new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: 'Jumlah',
+                                data: data,
+                            }]
+                        },
+                        options: {
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                }
+                            }
+                        }
+                    });
+                }
+            }
         });
     </script>
 @endsection

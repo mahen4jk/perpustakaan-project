@@ -1,0 +1,549 @@
+/* Navbar */
+
+.navbar-brand {
+    font-family: Viga;
+    font-size: 32px;
+}
+
+.nav-link {
+    text-transform: uppercase;
+    margin-right: 20px;
+}
+
+/* IMG.jmb-header */
+.img-jmb {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    height: 130px;
+    width: 130px;
+}
+
+/* Jumbtron Hal Depan */
+.jmb-header {
+    background-image: url(../image/library_1.jpg);
+    background-size: cover;
+    height: auto;
+    width: auto;
+    position: relative;
+}
+
+.jmb-header .container {
+    z-index: 1;
+    position: relative;
+}
+
+.jmb-header::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 80%;
+    background-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 1),
+        rgba(0, 0, 0, 0)
+    );
+    position: absolute;
+    bottom: 0;
+}
+
+.jmb-header .display-4 {
+    font-family: Viga;
+    color: white;
+    text-align: center;
+    font-style: bold;
+    margin-top: 25px;
+    font-weight: 200;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+    font-size: 30px;
+}
+
+.jmb-header .lead {
+    color: white;
+    text-align: center;
+    margin-top: 25px;
+    font-weight: 200;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+    font-size: 20px;
+}
+
+/* Jumbtron Hal Profile */
+.jmb-profile {
+    background-image: url(../image/library_1.jpg);
+    background-size: cover;
+    height: auto;
+    width: auto;
+    position: relative;
+}
+
+.jmb-profile .container {
+    z-index: 1;
+    position: relative;
+}
+
+.jmb-profile::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 80%;
+    background-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 1),
+        rgba(0, 0, 0, 0)
+    );
+    position: absolute;
+    bottom: 0;
+}
+
+.jmb-profile .display-4 {
+    font-family: Viga;
+    color: white;
+    text-align: left;
+    font-style: bold;
+    margin-top: 5px;
+    font-weight: 200;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+    font-size: 30px;
+}
+
+.jmb-profile .lead {
+    color: white;
+    text-align: center;
+    margin-top: 25px;
+    font-weight: 200;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+    font-size: 20px;
+}
+
+/* Jumbtron Halaman Visi dan Misi */
+.jmb-vision {
+    background-image: url(../image/library_1.jpg);
+    background-size: cover;
+    height: auto;
+    width: auto;
+    position: relative;
+}
+
+.jmb-vision .container {
+    z-index: 1;
+    position: relative;
+}
+
+.jmb-vision::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 80%;
+    background-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 1),
+        rgba(0, 0, 0, 0)
+    );
+    position: absolute;
+    bottom: 0;
+}
+
+.jmb-vision .display-4 {
+    font-family: Viga;
+    color: white;
+    text-align: left;
+    font-style: bold;
+    margin-top: 5px;
+    font-weight: 200;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+    font-size: 30px;
+}
+
+.jmb-vision .lead {
+    color: white;
+    text-align: center;
+    margin-top: 25px;
+    font-weight: 200;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+    font-size: 20px;
+}
+
+/* Jumbtron Halaman Katalog */
+.jmb-katalog {
+    background-image: url(../image/library_1.jpg);
+    background-size: cover;
+    height: auto;
+    width: auto;
+    position: relative;
+}
+
+.jmb-katalog .container {
+    z-index: 1;
+    position: relative;
+}
+
+.jmb-katalog::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 80%;
+    background-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 1),
+        rgba(0, 0, 0, 0)
+    );
+    position: absolute;
+    bottom: 0;
+}
+
+.jmb-katalog .display-4 {
+    font-family: Viga;
+    color: white;
+    text-align: left;
+    font-style: bold;
+    margin-top: 5px;
+    font-weight: 200;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+    font-size: 30px;
+}
+
+.jmb-katalog .lead {
+    color: white;
+    text-align: center;
+    margin-top: 25px;
+    font-weight: 200;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);
+    font-size: 20px;
+}
+
+/* Search Katalog */
+.search-katalog {
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    margin-top: -50px;
+    background-color: white;
+}
+
+.input-group {
+    margin-top: 5px;
+    position: relative;
+}
+
+.input-group input {
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 1px solid;
+    border-radius: 0px;
+}
+
+.input-group-append {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.input-group-append .btn {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+/* Utility */
+/* Box */
+.box {
+    width: 100%;
+    height: 80%;
+    background-color: white;
+    border: 0px solid #ccc;
+    padding-bottom: 25px;
+}
+
+.box-profile {
+    width: auto;
+    height: 500px;
+    background-color: white;
+    border: 0px solid #ccc;
+}
+
+/* Card */
+
+.box-visimisi {
+    width: auto;
+    height: auto;
+    background-color: white;
+    border: 0px solid #ccc;
+    padding-bottom: 20px;
+}
+
+/* Card Visi */
+.card-visi {
+    width: auto;
+    height: auto;
+    background-color: #fff; /* Warna latar belakang putih */
+    border-radius: 10px; /* Radius border tidak lancip, sesuaikan dengan preferensi Anda */
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Efek bayangan pada border, sesuaikan dengan preferensi Anda */
+    margin-bottom: 15px;
+}
+
+.title-visi {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.text-visi {
+    font-family: "Source Sans Pro", sans-serif;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.text-visi span {
+    font-style: bold;
+    font-size: 20px;
+}
+
+/* Card Misi */
+.card-misi {
+    background-color: #fff; /* Warna latar belakang putih */
+    border-radius: 10px; /* Radius border tidak lancip, sesuaikan dengan preferensi Anda */
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Efek bayangan pada border, sesuaikan dengan preferensi Anda */
+    margin-bottom: auto;
+}
+
+.title-misi {
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.text-misi {
+    font-family: "Source Sans Pro", sans-serif;
+    list-style-type: decimal;
+    font-size: 12px;
+}
+
+/* List Group Item */
+.list-group-item {
+    background-color: white;
+    border: none;
+    border-bottom: 2px solid transparent;
+}
+
+.list-group-item:not(.active-list):hover::after {
+    content: "";
+    display: block;
+    border-bottom: 3px solid #000ff0;
+    padding-bottom: 5px;
+    margin-bottom: -8px;
+}
+
+.active-list {
+    border-bottom: 3px solid #000ff0;
+    padding-bottom: 5px;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    background-color: white;
+    border: 0px solid;
+    margin-top: -10px;
+}
+
+/* Desktop Version */
+@media (min-width: 992px) {
+    /* NavBar */
+    .nav-link {
+        text-transform: uppercase;
+        margin-right: 20px;
+    }
+
+    .nav-link:not(.active-page):hover::after {
+        content: "";
+        display: block;
+        border-bottom: 3px solid #000ff0;
+        padding-bottom: 5px;
+        margin-bottom: -8px;
+    }
+
+    .active-page {
+        border-bottom: 3px solid #000ff0;
+    }
+
+    /* Jumbotron halaman depan */
+
+    .img-jmb {
+        display: block;
+        margin: 0 auto;
+        text-align: center;
+        height: 150px;
+        width: fit-content;
+    }
+
+    .jmb-header {
+        height: 575px;
+    }
+
+    .jmb-header .display-4 {
+        font-size: 55px;
+    }
+
+    .jmb-header .lead {
+        font-size: 22px;
+    }
+
+    /* Jumbotron Halaman Profile */
+    .jmb-profile {
+        height: 200px;
+    }
+
+    .jmb-profile .display-4 {
+        font-size: 60px;
+    }
+
+    /* Jumbotron Halaman Visi dan Misi */
+    .jmb-vision {
+        height: 200px;
+    }
+
+    .jmb-vision .display-4 {
+        font-size: 60px;
+    }
+
+    /* Jumbotron Halaman Visi dan Misi */
+    .jmb-katalog {
+        height: 200px;
+    }
+
+    .jmb-katalog .display-4 {
+        font-size: 60px;
+    }
+
+    /* Katalog */
+
+    /* Search Katalog */
+    .search-katalog {
+        margin-top: -70px;
+        background-color: white;
+    }
+
+    .input-group {
+        margin-top: 14px;
+        position: relative;
+    }
+
+    .input-group input {
+        border-top: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        border-bottom: 1px solid;
+        border-radius: 0px;
+    }
+
+    .input-group-append {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .input-group-append .btn {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    /* Tampilan Buku */
+    .tampilan-buku {
+        margin-top: 100px;
+        background-color: salmon;
+    }
+
+    /* Utility */
+    /* Box */
+
+    .box {
+        width: 175px;
+        height: 150px;
+        background-color: white;
+        border: 0px solid #ccc;
+    }
+
+    .box-profile {
+        width: auto;
+        height: 500px;
+        background-color: white;
+        border: 0px solid #ccc;
+    }
+
+    .box-profile h1 {
+        font-size: 50px;
+        padding-left: 10px;
+        padding-top: 5px;
+    }
+
+    /* List Group Item */
+    .list-group-item {
+        background-color: white;
+        border: none;
+        border-bottom: 2px solid transparent;
+    }
+
+    .list-group-item:not(.active-list):hover::after {
+        content: "";
+        display: block;
+        border-bottom: 2px solid #000ff0;
+        padding-bottom: 5px;
+        margin-bottom: -7px;
+    }
+
+    .active-list {
+        display: block;
+        border-bottom: 2px solid #000ff0;
+        padding-bottom: 5px;
+    }
+
+    /* Card */
+    .box-visimisi {
+        width: auto;
+        height: auto;
+        background-color: white;
+        border: 0px solid #ccc;
+        margin-bottom: 15px;
+    }
+
+    /* Card Visi */
+    .card-visi {
+        width: auto;
+        height: auto;
+        background-color: #fff; /* Warna latar belakang putih */
+        border-radius: 10px; /* Radius border tidak lancip, sesuaikan dengan preferensi Anda */
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Efek bayangan pada border, sesuaikan dengan preferensi Anda */
+        margin-bottom: 15px;
+    }
+
+    .title-visi {
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .text-visi {
+        font-family: "Source Sans Pro", sans-serif;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .text-visi span {
+        font-style: bold;
+        font-size: 20px;
+    }
+
+    /* Card Misi */
+    .card-misi {
+        background-color: #fff; /* Warna latar belakang putih */
+        border-radius: 10px; /* Radius border tidak lancip, sesuaikan dengan preferensi Anda */
+        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Efek bayangan pada border, sesuaikan dengan preferensi Anda */
+    }
+
+    .title-misi {
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .text-misi {
+        font-family: "Source Sans Pro", sans-serif;
+        font-size: 12px;
+    }
+}

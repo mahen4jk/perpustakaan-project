@@ -8,10 +8,16 @@ use Illuminate\Http\Request;
 class profil_perpus extends Controller
 {
     //
-    public function FunctionName()
+    public function ProfSejarah()
     {
         # code...
         return view('halindex.profile.profil');
+    }
+
+    public function VisiMisi()
+    {
+        # code...
+        return view('halindex.profile.visimisi');
     }
 
 }

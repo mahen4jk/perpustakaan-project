@@ -115,7 +115,7 @@
                                                 @if ($pengembalian->status == 'Terlambat')
                                                     <label class="badge badge-warning">Terlambat</label>
                                                 @else
-                                                    <label class="badge badge-success">Pinjam</label>
+                                                    <label class="badge badge-success">Tepat Waktu</label>
                                                 @endif
                                             </td>
                                             <td>{{ $pengembalian->total_denda }}</td>
