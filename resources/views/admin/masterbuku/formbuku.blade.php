@@ -1,4 +1,4 @@
-@extends('admin.template')
+@extends('layout.dashboard.admin.app')
 
 @section('title')
     {{ 'Form Buku' }}
@@ -35,7 +35,7 @@
                     </div>
                     <div class="card-body">
                         <!-- Form -->
-                        <form action="simpanBUKU" method="POST">
+                        <form action="simpanBUKU" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <div class="form-group row">
                                 <label for="staticKdBUKU" class="col-sm-2 col-form-label">Kode Buku</label>
@@ -48,7 +48,7 @@
                                 <label for="staticISBN" class="col-sm-2 col-form-label">ISBN</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="ISBN" id="ISBN"
-                                        placeholder="Masukan koden ISBN" required>
+                                        placeholder="Masukan koden ISBN">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -95,7 +95,8 @@
                                     <select class="form-control kategori" name="kategori_id" required>
                                         <option style="display:none"></option>
                                         @foreach ($kategori as $KAT)
-                                            <option value="{{ $KAT->id_kategori }}">{{$KAT->kode_kategori}}&nbsp;-&nbsp;{{ $KAT->kategori }}
+                                            <option value="{{ $KAT->id_kategori }}">
+                                                {{ $KAT->kode_kategori }}&nbsp;-&nbsp;{{ $KAT->kategori }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -127,6 +128,16 @@
                                     <textarea type="text" class="form-control" name="deskripsi" id="sinopsis" placeholder="Sinopsis Buku"></textarea>
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label for="deskripsi" class="col-sm-2 col-form-label">Cover</label>
+                                <div class="col-sm-10">
+                                    <input type="file" id="image-input" name="cover"
+                                        class="form-control-file border" onchange="previewImage(event)">
+                                    </br>
+                                    <img id="preview-image" src="{{ asset('image/no-image.png') }}" class="card-img-top"
+                                        alt="Preview Image" style="max-width: 200px; max-height: 200px">
+                                </div>
+                            </div>
                             <button type="button" class="btn btn-danger float-right ml-2" onclick="kembali()"><i
                                     class="fa-solid fa-arrow-left"></i> Kembali</button>
                             <button type="reset" class="btn btn-primary float-right ml-2"><i
@@ -147,6 +158,26 @@
         function kembali() {
             location.href = "{{ url('buku/masterbuku') }}";
         }
+
+        function previewImage(event) {
+            var input = event.target;
+            var preview = document.getElementById('preview-image');
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.src = '#';
+                preview.style.display = 'none';
+            }
+        }
+
         $(document).ready(function() {
             //select-option klasifikasi
             $('.klasifikasi').select2({

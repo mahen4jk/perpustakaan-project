@@ -1,4 +1,4 @@
-@extends('admin.template')
+@extends('Layout.Admin.app')
 
 @section('title')
     {{ 'Dashboard' }}

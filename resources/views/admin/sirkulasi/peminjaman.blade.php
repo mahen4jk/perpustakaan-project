@@ -1,4 +1,4 @@
-@extends('admin.template')
+@extends('layout.dashboard.admin.app')
 
 @section('title')
     {{ 'Sirkulasi | Peminjaman' }}
@@ -118,12 +118,12 @@
                                                 </a>
                                                 @if ($pinjam->tgl_kembali <= Carbon\Carbon::today())
                                                     @if ($pinjam->status != 'Kembali')
-                                                        <a href="pengembalian/{{ encrypt($pinjam->kode_pinjam) }}"
+                                                        <a href="pengembalian/{{ $pinjam->kode_pinjam }}"
                                                             class="btn btn-warning btn-sm" role="button">
                                                             <i class="fa fa-share"></i>&nbsp;Kembalikan</button>
                                                         </a>
                                                     @else
-                                                        <a href="pengembalian/{{ encrypt($pinjam->kode_pinjam) }}"
+                                                        <a href="pengembalian/{{ $pinjam->kode_pinjam }}"
                                                             class="btn btn-warning btn-sm" role="button" hidden>
                                                             <i class="fa fa-share"></i>&nbsp;Kembalikan/button>
                                                         </a>

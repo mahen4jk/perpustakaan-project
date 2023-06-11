@@ -244,6 +244,60 @@
     border-bottom-left-radius: 0;
 }
 
+/* Tampilan Buku */
+.tampilan-buku {
+    padding-top: 35px;
+    padding-bottom: 50px;
+}
+
+/* Pagination */
+.pagi-ubah {
+    margin-top: -5px;
+    padding-bottom: 15px;
+}
+
+.card-katalog {
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Load More */
+.img-katalog {
+    border-radius: 10px;
+
+    max-height: 175px;
+    max-width: 175px;
+
+    margin-top: 5px;
+    margin-left: 10px;
+
+}
+.load-more-container {
+    margin-top: -40px;
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+.custom-button {
+    background-color: #f39c12;
+    border: 0px;
+    width: 350px;
+    color: black;
+}
+.custom-button:hover {
+    background-color: white;
+    border: 5px;
+    color: black;
+}
+
+/* Detail Buku */
+.detail-buku {
+    padding-top: 35px;
+    padding-bottom: 50px;
+}
+
+
+
 /* Utility */
 /* Box */
 .box {
@@ -446,9 +500,56 @@
     }
 
     /* Tampilan Buku */
+    .img-katalog {
+        border-radius: 10px;
+        max-height: 160px;
+        max-width: 160px;
+
+        margin-left: 20px;
+    }
+
+    .deskripsi-buku {
+        margin-left: -20px;
+    }
+
+    .img-detBuku {
+        border-radius: 10px;
+        max-height: 350px;
+        max-width: 350px;
+    }
+
+    .pagi-ubah {
+        margin-top: -25px;
+        padding-bottom: 25px;
+    }
+
+    .card-katalog {
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
     .tampilan-buku {
-        margin-top: 100px;
-        background-color: salmon;
+        padding-top: 80px;
+        padding-bottom: 50px;
+    }
+
+    /* Load More */
+    .load-more-container {
+        margin-top: -40px;
+        text-align: center;
+        padding-bottom: 30px;
+    }
+
+    .custom-button {
+        background-color: #f39c12;
+        border: 0px;
+        width: 600px;
+        color: black;
+    }
+    .custom-button:hover {
+        background-color: #f39c12;
+        border: 5px;
+        color: white;
     }
 
     /* Utility */

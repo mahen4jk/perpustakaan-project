@@ -1,4 +1,4 @@
-@extends('admin.template')
+@extends('layout.dashboard.admin.app')
 
 @section('title')
     {{ 'Sirkulasi | Form Peminjaman' }}
@@ -36,7 +36,7 @@
                         <!-- Form -->
                         <form action="simpanpinjam" method="POST">
                             {{ csrf_field() }}
-                            <div class="form-group row">
+                            <div class="form-group row" hidden>
                                 <label for="staticKdBUKU" class="col-sm-2 col-form-label">Kode Transaksi</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="kode_pinjam" id="kd_pinjam"

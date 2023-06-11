@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class MdBuku extends Model
 {
@@ -12,7 +13,7 @@ class MdBuku extends Model
     protected $table = 'tb_buku';
     protected $primarykey = 'id_buku';
     public $incrementing = false;
-    public $timestamps = false;
+    public $timestamps = true;
     protected $fillable = [
         'id_buku', 'judul', 'isbn', 'pengarang', 'penerbit_id',
         'class_id', 'kategori_id', 'tahun_terbit', 'stok_buku', 'deskripsi',
@@ -25,7 +26,7 @@ class MdBuku extends Model
         // return $this->belongsTo('App\MdDDC','class_id','id_class')->withDefault([
         //     'about' => 'Tidak Ada',
         // ]);
-        return $this->belongsTo(MdDDC::class,'class_id','id_class')->withDefault([
+        return $this->belongsTo(MdDDC::class, 'class_id', 'id_class')->withDefault([
             'ket' => 'Tidak ada'
         ]);
     }
@@ -36,7 +37,7 @@ class MdBuku extends Model
         // ->withDefault([
         //     'nama_penerbit' => 'Tidak Ada',
         // ]);
-        return $this->belongsTo(MdPenerbit::class,'penerbit_id','id_penerbit');
+        return $this->belongsTo(MdPenerbit::class, 'penerbit_id', 'id_penerbit');
     }
     public function kategori()
     {
@@ -44,7 +45,7 @@ class MdBuku extends Model
         // return $this->belongsTo('App\MdKategori','kategori_id','id_kategori')->withDefault([
         //     'kategori' => 'Tidak Ada',
         // ]);
-        return $this->belongsTo(MdKategori::class,'kategori_id','id_kategori');
+        return $this->belongsTo(MdKategori::class, 'kategori_id', 'id_kategori');
     }
 
     public function pengembalian()
@@ -54,22 +55,22 @@ class MdBuku extends Model
 
     public function peminjaman()
     {
-    	return $this->hasMany(MdPinjam::class);
+        return $this->hasMany(MdPinjam::class);
     }
 
     public static function kode()
     {
         # code...
-        $kd_buku = DB::table('tb_buku')->max('id_buku',6);
+        $kd_buku = DB::table('tb_buku')->max('id_buku', 6);
         $query = DB::table('tb_buku')->get('id_buku');
 
         if (strlen($query) <> 0) {
-            $incrementKode = intval($kd_buku)+1;
+            $incrementKode = intval($kd_buku) + 1;
         } else {
             $incrementKode = 1;
         }
         $kodebaruMax = str_pad($incrementKode, 6, "0", STR_PAD_LEFT);
-        $kodebaru = "".$kodebaruMax;
+        $kodebaru = "" . $kodebaruMax;
 
         return $kodebaru;
 
@@ -101,6 +102,20 @@ class MdBuku extends Model
     public function insBuku($buku)
     {
         # code...
+
+        if ($buku->hasFile('cover')) {
+            $file = $buku->file('cover');
+            $dt = Carbon::now();
+            $acak = $file->getClientOriginalExtension();
+            $fileName = rand(11111, 99999) . '-' . $dt->format('Y-m-d-H-i-s') . '.' . $acak;
+
+            // Pindahkan file ke folder yang dituju
+            $file->move(public_path('image/buku'), $fileName);
+            $cover = $fileName;
+        } else {
+            $cover = NULL;
+        }
+
         DB::table('tb_buku')->insert([
             'id_buku' => $buku->id_buku,
             'judul' => $buku->judul,
@@ -112,8 +127,8 @@ class MdBuku extends Model
             'tahun_terbit' => $buku->tahun_terbit,
             'stok_buku' => $buku->stok_buku,
             'deskripsi' => $buku->deskripsi,
-            'created_at' => now(),
-            'updated_at' => now()
+            'cover' => $cover,
+            'created_at' => now()
         ]);
     }
 
@@ -126,6 +141,30 @@ class MdBuku extends Model
     public function editBUKU($buku)
     {
         # code...
+        if ($buku->hasFile('cover')) {
+            // Mendapatkan file cover yang diunggah
+            $file = $buku->file('cover');
+
+            // Membuat nama file unik menggunakan timestamp dan ekstensi file asli
+            $dt = Carbon::now();
+            $acak = $file->getClientOriginalExtension();
+            $fileName = rand(11111, 99999) . '-' . $dt->format('Y-m-d-H-i-s') . '.' . $acak;
+
+            // Pindahkan file ke folder yang dituju
+            $file->move(public_path('image/buku'), $fileName);
+            $cover = $fileName;
+
+            // Hapus gambar lama jika ada
+            if ($buku->cover) {
+                $oldCoverPath = public_path('image/buku/' . $buku->cover);
+                if (file_exists($oldCoverPath)) {
+                    unlink($oldCoverPath);
+                }
+            }
+        } else {
+            $cover = NULL;
+        }
+
         DB::table('tb_buku')->where('id_buku', $buku->id_buku)->update([
             'judul' => $buku->judul,
             'isbn' => $buku->ISBN,
@@ -136,9 +175,11 @@ class MdBuku extends Model
             'tahun_terbit' => $buku->tahun_terbit,
             'stok_buku' => $buku->stok_buku,
             'deskripsi' => $buku->deskripsi,
+            'cover' => $cover,
             'updated_at' => now()
         ]);
     }
+
     public function hpsBUKU($buku)
     {
         # menghapus kelas...

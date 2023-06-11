@@ -24,7 +24,7 @@ class MstBukuCon extends Controller
         $klasifikasi = MdDDC::select('id_class', 'ket')->get();
         $penerbit = MdPenerbit::select('id_penerbit', 'nama_penerbit')->get();
         $kategori = MdKategori::select('id_kategori', 'kategori')->get();
-        return view('admin.masterbuku.masterbuku', compact('buku','klasifikasi', 'penerbit', 'kategori'));
+        return view('admin.masterbuku.masterbuku', compact('buku', 'klasifikasi', 'penerbit', 'kategori'));
     }
 
     public function formbuku()
@@ -34,27 +34,29 @@ class MstBukuCon extends Controller
         $klasifikasi = MdDDC::all();
         $penerbit = MdPenerbit::all();
         $kategori = MdKategori::all();
-        return view('admin.masterbuku.formbuku', compact('klasifikasi', 'penerbit', 'kategori'),['id_buku'=>$kode]);
+        return view('admin.masterbuku.formbuku', compact('klasifikasi', 'penerbit', 'kategori'), ['id_buku' => $kode]);
     }
 
     public function simpanBUKU(Request $BUKU)
     {
         # code...
         $validate_buku = $BUKU->validate([
-            'id_buku'=>'required',
-            'ISBN'=>'required',
-            'judul'=>'required',
-            'pengarang'=>'required',
-            'penerbit_id'=>'required',
-            'class_id'=>'required',
-            'kategori_id'=>'required',
-            'stok_buku'=>'required'
-            ,
+            'id_buku' => 'required',
+            'judul' => 'required',
+            'pengarang' => 'required',
+            'penerbit_id' => 'required',
+            'class_id' => 'required',
+            'kategori_id' => 'required',
+            'stok_buku' => 'required',
         ]);
         $simpan = new MdBuku();
-        $simpan->insBuku($BUKU,['id_buku'=>$validate_buku]);
-        return redirect('buku/masterbuku')->with('toast_success','Data Berhasil disimpan');
+        if ($BUKU->hasFile('cover')) {
+            # code...
+            $BUKU->file('cover')->move('image/buku', $BUKU->file('cover')->getClientOriginalName());
+        }
 
+        $simpan->insBuku($BUKU, ['id_buku' => $validate_buku]);
+        return redirect('buku/masterbuku')->with('toast_success', 'Data Berhasil disimpan');
     }
 
     public function kirimBuku($idBUKU)
@@ -63,28 +65,26 @@ class MstBukuCon extends Controller
         $klasifikasi = MdDDC::all();
         $penerbit = MdPenerbit::all();
         $kategori = MdKategori::all();
-        $id_buku = DB::table('tb_buku')->where('id_buku',decrypt($idBUKU))->get();
-        return view('admin.masterbuku.editbuku',['kode'=> $id_buku],compact('klasifikasi','penerbit','kategori'));
+        $id_buku = DB::table('tb_buku')->where('id_buku', decrypt($idBUKU))->get();
+        return view('admin.masterbuku.editbuku', ['kode' => $id_buku], compact('klasifikasi', 'penerbit', 'kategori'));
     }
 
     public function updateBUKU(Request $BUKU)
     {
         # code...
         $validate_buku = $BUKU->validate([
-            'id_buku'=>'required',
-            'ISBN'=>'required',
-            'judul'=>'required',
-            'pengarang'=>'required',
-            'penerbit_id'=>'required',
-            'class_id'=>'required',
-            'kategori_id'=>'required',
-            'stok_buku'=>'required'
-            ,
+            'id_buku' => 'required',
+            'judul' => 'required',
+            'pengarang' => 'required',
+            'penerbit_id' => 'required',
+            'class_id' => 'required',
+            'kategori_id' => 'required',
+            'stok_buku' => 'required',
         ]);
 
         $update = new MdBuku();
-        $update->editBUKU($BUKU,['id_buku'=>$validate_buku]);
-        return redirect('buku/masterbuku')->with('toast_success','Data Berhasil diubah');
+        $update->editBUKU($BUKU, ['id_buku' => $validate_buku]);
+        return redirect('buku/masterbuku')->with('toast_success', 'Data Berhasil diubah');
     }
 
     public function delBUKU($idBUKU)

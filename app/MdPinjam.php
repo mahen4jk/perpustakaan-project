@@ -59,30 +59,7 @@ class MdPinjam extends Model
         }
 
         return $kd;
-        // $kodebaruMax = str_pad($incrementKode, 6, "0", STR_PAD_LEFT);
-        // $kodebaru = "".$kodebaruMax;
 
-        // return $kodebaru;
-
-        # code... part1
-        // $data = DB::table('tb_peminjaman')->max('kode_pinjam');
-        // $kd_pinjam = str_replace("", "", $data);
-        // $kd_pinjam = (int)$kd_pinjam + 1;
-        // $incrementKode = $kd_pinjam;
-
-        // if (strlen($kd_pinjam) == 1) {
-        //     $addNol = "00000";
-        // } elseif (strlen($kd_pinjam) == 2) {
-        //     $addNol = "0000";
-        // } elseif (strlen($kd_pinjam == 3)) {
-        //     $addNol = "000";
-        // } elseif (strlen($kd_pinjam == 4)) {
-        //     $addNol = "00";
-        // } elseif (strlen($kd_pinjam == 5)) {
-        //     $addNol = "0";
-        // }
-        // $kodePinjam = "" . $addNol .$incrementKode;
-        // return $kodebaru;
     }
 
     public function insPinjam($pinjam)
@@ -104,13 +81,14 @@ class MdPinjam extends Model
         $qty_new = $qty_now - 1;
 
         DB::table('tb_buku')->where('id_buku', $pinjam->buku_id)->update([
-            'stok_buku' => $qty_new
+            'stok_buku' => $qty_new,
+            'updated_at' => now()
         ]);
     }
 
     public function kembalikan($idPinjam)
     {
         # code...
-        DB::table('tb_peminjaman')->where('kode_pinjam',$idPinjam)->get();
+        DB::table('tb_peminjaman')->where('kode_pinjam', $idPinjam)->get();
     }
 }

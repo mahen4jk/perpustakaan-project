@@ -122,28 +122,51 @@ class MdKembali extends Model
         }
 
         //Update Status Peminjaman
-        $pinjamID = MdPinjam::all();
-        foreach ($pinjamID as $pinjam12) {
-            # code...
-            $pinjam_id = $pinjam12->kode_pinjam;
-            // $pinjam_sts = $pinjam12->status;
-        }
-        DB::table('tb_peminjaman')->where('kode_pinjam', $pinjam_id)->update([
+        DB::table('tb_peminjaman')->where('kode_pinjam', $kembali->pinjam_kode)->update([
             'status' => 'Kembali',
             'updated_at' => now()
         ]);
 
         // Update Stock Buku
-        $buku = MdBuku::all();
-        foreach ($buku as $bukuID) {
-            # code...
-            $buku_id = $bukuID->id_buku;
-            $qty_now = $bukuID->stok_buku;
-        }
+        // $buku = MdBuku::all();
+        // foreach ($buku as $bukuID) {
+        //   # code...
+        //   $qty_now = $bukuID->stok_buku;
+        // }
 
-        $qty_new = $qty_now + 1;
-        DB::table('tb_buku')->where('id_buku', $buku_id)->update([
-            'stok_buku' => $qty_new
-        ]);
+        // $qty_new = $qty_now + 1;
+        // DB::table('tb_buku')->where('id_buku', $kembali->buku_id)->update([
+        //   'stok_buku' => $qty_new,
+        //   'updated_at' => now()
+        // ]);
+
+        $buku = DB::table('tb_peminjaman')->join(
+            'tb_buku',
+            'buku_id',
+            '=',
+            'id_buku'
+        )->where('kode_pinjam', $kembali->pinjam_kode)
+            ->where(
+                'id_buku',
+                $kembali->buku_id
+            )->get();
+
+        if ($buku->isNotEmpty()) {
+            // Looping melalui setiap buku yang memenuhi kondisi
+            foreach ($buku as $item) {
+                $qty_now = $item->stok_buku;
+                $qty_new = $qty_now + 1;
+
+                // Memperbarui stok buku
+                DB::table('tb_buku')
+                    ->where('id_buku', $item->id_buku)
+                    ->update([
+                        'stok_buku' => $qty_new,
+                        'updated_at' => now()
+                    ]);
+            }
+        } else {
+            dd($buku);
+        }
     }
 }

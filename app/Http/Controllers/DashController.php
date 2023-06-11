@@ -62,8 +62,7 @@ class DashController extends Controller
             ->select(
                 'tb_buku.judul as judul',
                 DB::raw('count(tb_peminjaman.buku_id)as jumlah_buku')
-            )
-            ->groupBy('tb_buku.judul')->take(10)->get();
+            )->groupBy('tb_buku.judul')->take(10)->get();
 
         $Peminjaman = $dataPinjam->mapWithKeys(function ($pinjam, $key) {
             return [$pinjam->judul => $pinjam->jumlah_buku];

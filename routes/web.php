@@ -28,6 +28,7 @@ Route::get('visimisi','halindex\profil_perpus@VisiMisi');
 
 #Halaman Katalog
 Route::get('katalog','halindex\katalog@halkatalog');
+Route::get('detail-buku/{id_buku}','halindex\katalog@show');
 
 # Sistem Login
 
@@ -39,7 +40,6 @@ Route::group(['middleware' => ['auth']], function () {
     #Tampilan Dashboard
 
     Route::get('dashboard', 'DashController@Dashboard');
-    // Route::get('harilibur','DashController@getholidayevents');
 
     #Tampilan MasterAnggota
     Route::prefix('anggota')->group(function () {

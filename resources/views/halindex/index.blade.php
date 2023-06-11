@@ -1,7 +1,7 @@
 @extends('halindex.temp_index')
 
 @section('title')
-    {{ '' }}
+    {{ 'Selamat Datang' }}
 @endsection
 
 @section('style')

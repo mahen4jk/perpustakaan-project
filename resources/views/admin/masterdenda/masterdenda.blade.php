@@ -1,4 +1,4 @@
-@extends('admin.template')
+@extends('layout.dashboard.admin.app')
 
 @section('title')
     {{ 'Master DDC' }}

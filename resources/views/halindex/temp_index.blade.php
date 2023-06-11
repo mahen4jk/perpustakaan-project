@@ -26,7 +26,7 @@
     <link rel="icon" href="{{ url('assets/image/logo.png') }}">
 </head>
 {{-- style --}}
-@yield('style')
+@yield('css')
 
 <body>
     <!-- Navbar -->
@@ -41,7 +41,7 @@
                     <!-- Dropdown -->
                     <a class="nav-item nav-link {{ Request()->is('/') ? 'active-page' : '' }}"
                         href="{{ url('/') }}">Home <span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link {{ Request()->is('katalog') ? 'active-page' : '' }}"
+                    <a class="nav-item nav-link {{ Request()->is('katalog','detail-buku') ? 'active-page' : '' }}"
                         href="{{url('katalog')}}">Katalog</a>
                     <a class="nav-item nav-link {{ Request()->is('profile','visimisi','') ? 'active-page' : '' }}"
                         href="{{url('profile')}}">Profile</a>
@@ -73,8 +73,8 @@
             <div class="col-6 col-md">
                 <h5>Profil</h5>
                 <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="#">Sejarah</a></li>
-                    <li><a class="text-muted" href="#">Visi & Misi</a></li>
+                    <li><a class="text-muted" href="{{url('profile')}}">Sejarah</a></li>
+                    <li><a class="text-muted" href="{{url('visimisi')}}">Visi & Misi</a></li>
                     <li><a class="text-muted" href="#">Struktur Organisasi</a></li>
                 </ul>
             </div>

@@ -1,4 +1,4 @@
-@extends('admin.template')
+@extends('layout.dashboard.admin.app')
 
 @section('title')
     {{ 'Form Buku' }}
@@ -35,7 +35,7 @@
                     </div>
                     <div class="card-body">
                         <!-- Form -->
-                        <form action="updateBUKU" method="POST">
+                        <form action="updateBUKU" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             @foreach ($kode as $BUKU)
                                 <div class="form-group row">
@@ -49,7 +49,7 @@
                                     <label for="staticISBN" class="col-sm-2 col-form-label">ISBN</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" name="ISBN" id="ISBN"
-                                            value="{{ $BUKU->isbn }}" placeholder="Masukan koden ISBN" required>
+                                            value="{{ $BUKU->isbn }}" placeholder="Masukan koden ISBN">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -101,7 +101,7 @@
                                             @foreach ($kategori as $KAT)
                                                 <option value="{{ $KAT->id_kategori }}"
                                                     {{ $BUKU->kategori_id == $KAT->id_kategori ? 'selected' : '' }}>
-                                                    {{$KAT->kode_kategori}}&nbsp;-&nbsp;{{ $KAT->kategori }}
+                                                    {{ $KAT->kode_kategori }}&nbsp;-&nbsp;{{ $KAT->kategori }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -130,6 +130,28 @@
                                         <textarea type="text" class="form-control" name="deskripsi" id="sinopsis" placeholder="Sinopsis Buku">{{ $BUKU->deskripsi }}</textarea>
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label for="deskripsi" class="col-sm-2 col-form-label">Cover</label>
+                                    <div class="col-sm-10">
+                                        {{-- <input type="file" id="image-input" name="cover"
+                                        class="form-control" onchange="previewImage(event)"> --}}
+                                        <input type="file" id="image-input" name="cover" class="form-control"
+                                            onchange="previewImage(event)">
+                                        </br>
+                                        @if ($BUKU->cover)
+                                            <img id="preview-image" src="{{ asset('image/buku/' . $BUKU->cover) }}"
+                                                alt="Cover Buku" class="card-img-top" alt="Preview Image"
+                                                style="max-width: 200px; max-height: 200px">
+                                        @else
+                                            <img id="preview-image" src="{{ asset('image/no-image.png') }}"
+                                                alt="No Image" class="card-img-top" alt="Preview Image"
+                                                style="max-width: 200px; max-height: 200px">
+                                        @endif
+                                        {{-- <img id="preview-image" src="{{ asset('image/no-image.png') }}"
+                                            class="card-img-top" alt="Preview Image"
+                                            style="max-width: 200px; max-height: 200px"> --}}
+                                    </div>
+                                </div>
                             @endforeach
                             <button type="button" class="btn btn-danger float-right ml-2" onclick="kembali()"><i
                                     class="fa-solid fa-arrow-left"></i> Kembali</button>
@@ -151,6 +173,26 @@
         function kembali() {
             location.href = "{{ url('buku/masterbuku') }}";
         }
+
+        function previewImage(event) {
+            var input = event.target;
+            var preview = document.getElementById('preview-image');
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.src = '#';
+                preview.style.display = 'none';
+            }
+        }
+
         $(document).ready(function() {
             //select-option klasifikasi
             $('.klasifikasi').select2({

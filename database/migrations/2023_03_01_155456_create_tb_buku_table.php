@@ -17,7 +17,7 @@ class CreateTbBukuTable extends Migration
             $table->char('id_buku',20);
             $table->primary('id_buku');
             $table->char('judul',200);
-            $table->char('isbn',25);
+            $table->char('isbn',25)->nullable();
             $table->char('pengarang',225);
             $table->unsignedInteger('penerbit_id');
             $table->foreign('penerbit_id')->references('id_penerbit')->on('tb_penerbit')->onDelete('cascade')->onUpdate('cascade');
@@ -27,7 +27,8 @@ class CreateTbBukuTable extends Migration
             $table->foreign('kategori_id')->references('id_kategori')->on('tb_kategori')->onDelete('cascade')->onUpdate('cascade');
             $table->year('tahun_terbit');
             $table->integer('stok_buku');
-            $table->longText('deskripsi');
+            $table->longText('deskripsi')->nullable();
+            $table->string('cover')->nullable();
             $table->timestamps();
         });
     }
