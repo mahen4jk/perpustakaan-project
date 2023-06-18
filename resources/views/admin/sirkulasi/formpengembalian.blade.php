@@ -1,4 +1,4 @@
-@extends('layout.dashboard.admin.app')
+@extends('layout.dashboard.app')
 
 @section('title')
     {{ 'Sirkulasi | Form Pengembalian' }}

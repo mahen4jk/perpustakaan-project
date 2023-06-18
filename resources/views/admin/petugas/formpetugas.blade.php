@@ -9,13 +9,13 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Master Anggota</h1>
+                    <h1 class="m-0">Master Petugas</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ url('index') }}">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{{ url('anggota/masteranggota') }}">Master Anggota</a></li>
-                        <li class="breadcrumb-item active">Form Anggota</li>
+                        <li class="breadcrumb-item"><a href="{{ url('petugas/masterpetugas') }}">Master Petugas</a></li>
+                        <li class="breadcrumb-item active">Form Petugas</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -30,7 +30,7 @@
             <div class="col-lg-auto">
                 <div class="card card-success card-outline">
                     <div class="card-header">
-                        <h5 class="m-0 bi"> <i class="fa-solid fa-plus"></i>&nbsp;Tambah Anggota</h5>
+                        <h5 class="m-0 bi"> <i class="fa-solid fa-plus"></i>&nbsp;Tambah Petugas</h5>
                     </div>
                     <div class="card-body">
                         <!-- Form -->

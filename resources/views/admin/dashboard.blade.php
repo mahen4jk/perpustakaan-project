@@ -1,4 +1,4 @@
-@extends('Layout.Admin.app')
+@extends('Layout.Dashboard.app')
 
 @section('title')
     {{ 'Dashboard' }}

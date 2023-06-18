@@ -116,7 +116,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- Main Sidebar Container -->
         @section('siderbar')
-            @include('Layout.Dashboard.Admin.sidebar')
+            @include('Layout.Dashboard.sidebar',['user'=>Auth::user()])
         @show
 
         <!-- Content Wrapper. Contains page content -->

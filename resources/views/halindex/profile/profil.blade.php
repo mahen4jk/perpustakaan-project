@@ -1,4 +1,4 @@
-@extends('halindex.temp_index')
+@extends('layout.home.app')
 
 @section('title')
     {{ 'Profil' }}

@@ -22,9 +22,6 @@ class katalog extends Controller
         $kategori = MdKategori::all();
         $buku = $bukuPaginator->items();
 
-        foreach ($buku as $item) {
-            $item->created_at = Carbon::parse($item->created_at)->format('d-m-Y');
-        }
 
         return view('halindex.katalog.katalog', compact('buku', 'kategori', 'bukuPaginator'));
     }
@@ -35,7 +32,11 @@ class katalog extends Controller
         $klasifikasi = MdDDC::all();
         $penerbit = MdPenerbit::all();
         $kategori = MdKategori::all();
+
         $id_buku = DB::table('tb_buku')->where('id_buku', decrypt($idBuku))->get();
+        // $klasifikasi = MdDDC::select('id_class', 'ket')->get();
+        // $penerbit = MdPenerbit::select('id_penerbit', 'nama_penerbit')->get();
+        // $kategori = MdKategori::select('id_kategori', 'kategori')->get();
         return view('halindex.katalog.detailbuku', ['kode' => $id_buku], compact('klasifikasi', 'penerbit', 'kategori'));
     }
 }

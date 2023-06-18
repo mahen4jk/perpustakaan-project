@@ -1,4 +1,4 @@
-@extends('halindex.temp_index')
+@extends('layout.home.app')
 
 @section('title')
     {{ 'Katalog' }}
@@ -84,7 +84,7 @@
                                         @endif --}}
                                         <p class="card-text">
                                             <small class="text-muted">
-                                                Buku masuk: {{ $katalog->created_at }}
+                                                Buku masuk: {{ $katalog->created_at->format('d-m-Y') }}
                                             </small><br>
                                             <small class="text-muted">
                                                 <i class="fa-solid fa-user"></i>

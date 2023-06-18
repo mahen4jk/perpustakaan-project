@@ -1,4 +1,4 @@
-@extends('halindex.temp_index')
+@extends('layout.home.app')
 
 @section('title')
     {{ 'Katalog' }}
@@ -76,41 +76,58 @@
                             <tbody>
                                 <tr>
                                     <th style="">Judul</th>
-                                    <td>{{$katalog->judul}}</td>
+                                    <td>{{ $katalog->judul }}</td>
                                 </tr>
                                 <tr>
                                     <th style="">ISBN</th>
-                                    <td>{{$katalog->isbn}}</td>
+                                    <td>{{ $katalog->isbn }}</td>
                                 </tr>
                                 <tr>
                                     <th style="">Pengarang</th>
-                                    <td>{{$katalog->pengarang}}</td>
+                                    <td>{{ $katalog->pengarang }}</td>
                                 </tr>
                                 <tr>
                                     <th style="">Penerbit</th>
-                                    <td>{{$katalog->penerbit_id}}</td>
+                                    <td>
+                                        @foreach ($penerbit as $penerbit1)
+                                            @if ($penerbit1->id_penerbit == $katalog->penerbit_id)
+                                                {{ $penerbit1->nama_penerbit }}
+                                            @endif
+                                        @endforeach
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th style="">Class</th>
-                                    <td>{{$katalog->class_id}} &nbsp;
-                                        {{$katalog->class_id}}
+                                    <td>{{ $katalog->class_id }}
+                                        @foreach ($klasifikasi as $class)
+                                            @if ($class->id_class == $katalog->class_id)
+                                                {{ $class->ket }}
+                                            @endif
+                                        @endforeach
                                     </td>
                                 </tr>
                                 <tr>
                                     <th style="">Kategori</th>
-                                    <td>{{$katalog->kategori_id}}</td>
+                                    <td>
+                                        @foreach ($kategori as $kategori1)
+                                            @if ($kategori1->id_kategori == $katalog->kategori_id)
+                                                {{ $kategori1->kode_kategori }}
+                                                {{ $kategori1->kategori }}
+                                            @endif
+                                        @endforeach
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th style="">Tahun Terbit</th>
-                                    <td>{{$katalog->tahun_terbit}}</td>
+                                    <td>{{ $katalog->tahun_terbit }}</td>
                                 </tr>
                                 <tr>
                                     <th style="">Stok</th>
-                                    <td>{{$katalog->stok_buku}}</td>
+                                    <td>{{ $katalog->stok_buku }}</td>
                                 </tr>
                                 <tr>
                                     <th style="">Deskripsi</th>
-                                    <td>{{$katalog->deskripsi}}</td>
+                                    <td>{{ $katalog->deskripsi }}</td>
                                 </tr>
                             </tbody>
                         </table>

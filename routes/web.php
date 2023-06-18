@@ -20,15 +20,15 @@ use RealRashid\SweetAlert\Facades\Alert;
 // });
 
 # Halaman Depan
-Route::get('/','halindex\index@tampilandepan');
+Route::get('/', 'halindex\index@tampilandepan');
 
 # Halaman Profil Perpustakaan
-Route::get('profile','halindex\profil_perpus@ProfSejarah');
-Route::get('visimisi','halindex\profil_perpus@VisiMisi');
+Route::get('profile', 'halindex\profil_perpus@ProfSejarah');
+Route::get('visimisi', 'halindex\profil_perpus@VisiMisi');
 
 #Halaman Katalog
-Route::get('katalog','halindex\katalog@halkatalog');
-Route::get('detail-buku/{id_buku}','halindex\katalog@show');
+Route::get('katalog', 'halindex\katalog@halkatalog');
+Route::get('detail-buku/{id_buku}', 'halindex\katalog@show');
 
 # Sistem Login
 
@@ -36,7 +36,7 @@ Route::get('login', 'LoginCon@tmplogin')->name('login');
 Route::post('postlogin', 'LoginCon@postlogin')->name('postlogin');
 Route::get('logout', 'LoginCon@logout')->name('logout');
 
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['auth', 'ceklevel:admin']], function () {
     #Tampilan Dashboard
 
     Route::get('dashboard', 'DashController@Dashboard');
@@ -44,8 +44,8 @@ Route::group(['middleware' => ['auth']], function () {
     #Tampilan MasterAnggota
     Route::prefix('anggota')->group(function () {
         Route::get('masteranggota', 'Admin\MstAnggota@MasterAnggota');
-        Route::get('exportanggota','Admin\MstAnggota@exportAnggota');
-        Route::post('importanggota','Admin\MstAnggota@importAnggota');
+        Route::get('exportanggota', 'Admin\MstAnggota@exportAnggota');
+        Route::post('importanggota', 'Admin\MstAnggota@importAnggota');
         #Tampilan Form Kelas
         Route::get('tambahanggota', 'Admin\MstAnggota@tambahanggota');
         Route::post('simpanAnggota', 'Admin\MstAnggota@simpanAnggota');
@@ -69,7 +69,12 @@ Route::group(['middleware' => ['auth']], function () {
         # Hapus Kelas
         Route::get('hapusKELAS/{id_kelas}', 'Admin\MstKelasCon@deleteKEL');
     });
+    Route::prefix('petugas')->group(function () {
+        Route::get('masterpetugas', 'admin\UserController@MasterPetugas');
+    });
+});
 
+Route::group(['middleware' => ['auth', 'ceklevel:admin,pustakawan']], function () {
     #Tampilan MasterBuku
     Route::prefix('buku')->group(function () {
         #Tampilan Data
@@ -117,42 +122,42 @@ Route::group(['middleware' => ['auth']], function () {
         #Tampilan Data DDC
         Route::get('masterddc', 'Admin\MstDDC@masterddc');
         #Tampilan form dan tambah penerbit
-        Route::get('tambahddc','Admin\MstDDC@tambahddc');
-        Route::post('simpanDDC','Admin\MstDDC@simpanDDC');
+        Route::get('tambahddc', 'Admin\MstDDC@tambahddc');
+        Route::post('simpanDDC', 'Admin\MstDDC@simpanDDC');
         #Form ubah dan ubdah DDC
-        Route::get('editDDC/{id_class}','Admin\MstDDC@kirimDDC');
-        Route::post('editDDC/ubahDDC','Admin\MstDDC@ubahDDC');
+        Route::get('editDDC/{id_class}', 'Admin\MstDDC@kirimDDC');
+        Route::post('editDDC/ubahDDC', 'Admin\MstDDC@ubahDDC');
         #Hapus DDC
-        Route::get('hapusDDC/{id_class}','Admin\MstDDC@hpsDDC');
+        Route::get('hapusDDC/{id_class}', 'Admin\MstDDC@hpsDDC');
     });
 
     #Sirkulasi
     Route::prefix('sirkulasi')->group(function () {
         #Peminjaman
-        Route::get('peminjaman','Admin\PinjamCon@viewpinjam');
+        Route::get('peminjaman', 'Admin\PinjamCon@viewpinjam');
         #Form Peminjaman
-        Route::get('formpinjam','Admin\PinjamCon@formpinjam');
-        Route::post('simpanpinjam','Admin\PinjamCon@simpanPinjam');
+        Route::get('formpinjam', 'Admin\PinjamCon@formpinjam');
+        Route::post('simpanpinjam', 'Admin\PinjamCon@simpanPinjam');
         // Route::get('updatePinjam/{kode_pinjam}','Admin\PinjamCon@ubahPinjam');
 
         #Pengembalian
-        Route::get('pengembalian','Admin\KembaliCon@viewkembali');
+        Route::get('pengembalian', 'Admin\KembaliCon@viewkembali');
         #Form Pengembalian
-        Route::get('pengembalian/{kode_pinjam}','Admin\KembaliCon@formKembali');
-        Route::post('pengembalian/kembaliBuku','Admin\KembaliCon@pengembalian');
+        Route::get('pengembalian/{kode_pinjam}', 'Admin\KembaliCon@formKembali');
+        Route::post('pengembalian/kembaliBuku', 'Admin\KembaliCon@pengembalian');
     });
 
     Route::prefix('denda')->group(function () {
         #Denda
-        Route::get('masterdenda','Admin\MstDenda@viewDenda');
+        Route::get('masterdenda', 'Admin\MstDenda@viewDenda');
         #Form Denda
-        Route::get('formdenda','Admin\MstDenda@tambahDenda');
-        Route::post('simpanDenda','Admin\MstDenda@simpanDDA');
+        Route::get('formdenda', 'Admin\MstDenda@tambahDenda');
+        Route::post('simpanDenda', 'Admin\MstDenda@simpanDDA');
         #Edit Denda
-        Route::get('editDenda/{id_denda}','Admin\MstDenda@kirimDenda');
-        Route::post('editDenda/ubahDenda','Admin\MstDenda@ubahDenda');
+        Route::get('editDenda/{id_denda}', 'Admin\MstDenda@kirimDenda');
+        Route::post('editDenda/ubahDenda', 'Admin\MstDenda@ubahDenda');
         #Delete Denda
-        Route::get('hapusDDA/{id_denda}','Admin\MstDenda@hapusDenda');
+        Route::get('hapusDDA/{id_denda}', 'Admin\MstDenda@hapusDenda');
         // Route::get('pengembalian','Admin\KembaliCon@viewkembali');
     });
 });

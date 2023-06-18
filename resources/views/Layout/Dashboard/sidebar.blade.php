@@ -11,7 +11,13 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{ url('lte/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+                @if (auth()->user()->avatar == '')
+                    <img src="{{ url('lte/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2"
+                        alt="User Image">
+                @else
+                    <img src="{{ asset('image/user' . auth()->user()->avatar) }}" class="img-circle elevation-2"
+                        alt="User Image">
+                @endif
             </div>
             <div class="info">
                 <a href="#" class="d-block">{{ auth()->user()->name }}</a>
@@ -37,34 +43,36 @@
                 data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
        with font-awesome or any other icon font library -->
-                <li class="nav-header">Master Anggota</li>
-                <li
-                    class="nav-item {{ Request()->is('anggota/masteranggota', 'kelas/masterkelas') ? 'menu-open' : '' }}">
-                    <a href="#"
-                        class="nav-link {{ Request()->is('anggota/masteranggota', 'kelas/masterkelas') ? 'active' : '' }}">
-                        <i class="nav-icon fa-solid fa-users-rectangle"></i>
-                        <p>
-                            Anggota
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ url('anggota/masteranggota') }}"
-                                class="nav-link {{ Request()->is('anggota/masteranggota') ? 'active' : '' }}">
-                                <i class="nav-icon fa-regular fa-user"></i>
-                                <p>Master Anggota</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('kelas/masterkelas') }}"
-                                class="nav-link {{ Request()->is('kelas/masterkelas') ? 'active' : '' }}">
-                                <i class="fa-solid fa-school nav-icon"></i>
-                                <p>Master Kelas</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @if (auth()->user()->roles == 'admin')
+                    <li class="nav-header">Master Anggota</li>
+                    <li
+                        class="nav-item {{ Request()->is('anggota/masteranggota', 'kelas/masterkelas') ? 'menu-open' : '' }}">
+                        <a href="#"
+                            class="nav-link {{ Request()->is('anggota/masteranggota', 'kelas/masterkelas') ? 'active' : '' }}">
+                            <i class="nav-icon fa-solid fa-users-rectangle"></i>
+                            <p>
+                                Anggota
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ url('anggota/masteranggota') }}"
+                                    class="nav-link {{ Request()->is('anggota/masteranggota') ? 'active' : '' }}">
+                                    <i class="nav-icon fa-regular fa-user"></i>
+                                    <p>Master Anggota</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url('kelas/masterkelas') }}"
+                                    class="nav-link {{ Request()->is('kelas/masterkelas') ? 'active' : '' }}">
+                                    <i class="fa-solid fa-school nav-icon"></i>
+                                    <p>Master Kelas</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
                 <li class="nav-header">Master Buku</li>
                 <li
                     class="nav-item {{ Request()->is('buku/masterbuku', 'kategori/masterkategori', 'penerbit/masterpenerbit', 'ddc/masterddc') ? 'menu-open' : '' }}">
@@ -182,24 +190,27 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-header">Petugas</li>
-                <li class="nav-item {{ Request()->is('#') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ Request()->is('#') ? 'active' : '' }}">
-                        <i class="fa-regular fa-user-plus nav-icon"></i>
-                        <p>
-                            Petugas
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link {{ Request()->is('#') ? 'active' : null }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Petugas</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @if (auth()->user()->roles == 'admin')
+                    <li class="nav-header">Petugas</li>
+                    <li class="nav-item {{ Request()->is('petugas/masterpetugas') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Request()->is('petugas/masterpetugas') ? 'active' : '' }}">
+                            <i class="fa-regular fa-user-plus nav-icon"></i>
+                            <p>
+                                Petugas
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ url('petugas/masterpetugas') }}"
+                                    class="nav-link {{ Request()->is('petugas/masterpetugas') ? 'active' : null }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Petugas</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
