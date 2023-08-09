@@ -49,6 +49,7 @@
                                     <th style="width:1px; white-space:nowrap;">Judul Buku</th>
                                     <th style="width:1px; white-space:nowrap;">Cover</th>
                                     <th style="width:1px; white-space:nowrap;">Jumlah Buku</th>
+                                    <th style="width:1px; white-space:nowrap;">Sisa Exemplar</th>
                                     <th style="width:1px; white-space:nowrap;">Actions</th>
                                 </tr>
                             </thead>
@@ -63,22 +64,25 @@
                                         <td>
                                             @if ($katalog->cover)
                                                 <img src="{{ asset('image/buku/' . $katalog->cover) }}"
-                                                    style="max-width: 100px; max-height: 100px" alt="Cover Buku">
+                                                    class="img-thumbnail" style="max-width: 100px; max-height: 100px"
+                                                    alt="Cover Buku">
                                             @else
                                                 <img src="{{ asset('image/no-image.png') }}" alt="No Image"
-                                                    style="max-width: 100px; max-height: 100px">
+                                                    class="img-thumbnail" style="max-width: 100px; max-height: 100px">
                                             @endif
                                         </td>
                                         <td>{{ $katalog->stok_buku }}</td>
+                                        <td>{{ $katalog->sisa_exemplar }}</td>
                                         <td>
                                             <a id="detail-buku" class="btn btn-default btn-sm" data-toggle="modal"
-                                                data-target="#modal-detail-buku" data-id_buku="{{ $katalog->id_buku }}"
+                                                data-target="#modal-detail-buku"
                                                 data-judul="{{ $katalog->judul }}" data-isbn="{{ $katalog->isbn }}"
                                                 data-pengarang="{{ $katalog->pengarang }}"
                                                 data-id_penerbit="{{ $katalog->penerbit->nama_penerbit }}"
                                                 data-klasifikasi="{{ $katalog->class_id }}"data-id_kategori="{{ $katalog->kategori->kategori }}"
                                                 data-tahun_terbit="{{ $katalog->tahun_terbit }}"
                                                 data-stok_buku="{{ $katalog->stok_buku }}"
+                                                data-sisa_exemplar="{{ $katalog->sisa_exemplar }}"
                                                 data-deskripsi="{{ $katalog->deskripsi }}">
                                                 <i class="fa-regular fa-eye"></i>&nbsp;Detail
                                             </a>
@@ -100,6 +104,7 @@
                                 <th style="width:1px; white-space:nowrap;">Judul Buku</th>
                                 <th style="width:1px; white-space:nowrap;">Cover</th>
                                 <th style="width:1px; white-space:nowrap;">Jumlah Buku</th>
+                                <th style="width:1px; white-space:nowrap;">Sisa Exemplar</th>
                                 <th style="width:1px; white-space:nowrap;">Actions</th>
                             </tfoot>
                         </table>
@@ -117,10 +122,6 @@
                             <div class="modal-body tabble-responsive">
                                 <table class="table table-bordered no-margin">
                                     <tbody>
-                                        <tr>
-                                            <th style="">Id Buku</th>
-                                            <td><span id="id_buku"></span></td>
-                                        </tr>
                                         <tr>
                                             <th style="">Judul</th>
                                             <td><span id="judul"></span></td>
@@ -154,6 +155,10 @@
                                             <td><span id="stok_buku"></span></td>
                                         </tr>
                                         <tr>
+                                            <th style="">Status</th>
+                                            <td><span id="sisa_exemplar"></span></td>
+                                        </tr>
+                                        <tr>
                                             <th style="">Deskripsi</th>
                                             <td><span id="deskripsi"></span></td>
                                         </tr>
@@ -174,7 +179,7 @@
         $(document).ready(function() {
             //Modal Detail Buku
             $(document).on('click', '#detail-buku', function() {
-                var id_buku = $(this).data('id_buku');
+                // var id_buku = $(this).data('id_buku');
                 var judul = $(this).data('judul');
                 var isbn = $(this).data('isbn');
                 var pengarang = $(this).data('pengarang');
@@ -183,8 +188,9 @@
                 var id_kategori = $(this).data('id_kategori');
                 var tahun_terbit = $(this).data('tahun_terbit');
                 var stok_buku = $(this).data('stok_buku');
+                var sisa_exemplar = $(this).data('sisa_exemplar');
                 var deskripsi = $(this).data('deskripsi');
-                $('#id_buku').text(id_buku);
+                // $('#id_buku').text(id_buku);
                 $('#judul').text(judul);
                 $('#isbn').text(isbn);
                 $('#pengarang').text(pengarang);
@@ -193,6 +199,7 @@
                 $('#kategori').text(id_kategori);
                 $('#tahun_terbit').text(tahun_terbit);
                 $('#stok_buku').text(stok_buku);
+                $('#sisa_exemplar').text(sisa_exemplar);
                 $('#deskripsi').text(deskripsi);
             })
             //Delete Buku

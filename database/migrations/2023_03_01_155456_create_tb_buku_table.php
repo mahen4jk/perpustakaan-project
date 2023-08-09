@@ -27,6 +27,7 @@ class CreateTbBukuTable extends Migration
             $table->foreign('kategori_id')->references('id_kategori')->on('tb_kategori')->onDelete('cascade')->onUpdate('cascade');
             $table->year('tahun_terbit');
             $table->integer('stok_buku');
+            $table->integer('sisa_exemplar');
             $table->longText('deskripsi')->nullable();
             $table->string('cover')->nullable();
             $table->timestamps();

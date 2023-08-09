@@ -24,6 +24,11 @@
     <link rel="stylesheet" href="{{ url('assets/css/haldepan.css') }}">
     <!-- Icon -->
     <link rel="icon" href="{{ url('assets/image/logo.png') }}">
+    {{-- AutoComplete --}}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    {{-- Select 2 --}}
+    <link rel="stylesheet" href="{{ asset('lte/plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
 </head>
 {{-- style --}}
 @yield('css')
@@ -41,12 +46,12 @@
                     <!-- Dropdown -->
                     <a class="nav-item nav-link {{ Request()->is('/') ? 'active-page' : '' }}"
                         href="{{ url('/') }}">Home <span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link {{ Request()->is('katalog','detail-buku') ? 'active-page' : '' }}"
-                        href="{{url('katalog')}}">Katalog</a>
-                    <a class="nav-item nav-link {{ Request()->is('profile','visimisi','') ? 'active-page' : '' }}"
-                        href="{{url('profile')}}">Profile</a>
-                    <a class="nav-item nav-link {{ Request()->is('') ? 'active-page' : '' }}"
-                        href="#">Kunjungan</a>
+                    <a class="nav-item nav-link {{ Request()->is('katalog', 'detail-buku') ? 'active-page' : '' }}"
+                        href="{{ url('katalog') }}">Katalog</a>
+                    <a class="nav-item nav-link {{ Request()->is('profile', 'visimisi', '') ? 'active-page' : '' }}"
+                        href="{{ url('profile') }}">Profile</a>
+                    <a class="nav-item nav-link {{ Request()->is('kunjungan') ? 'active-page' : '' }}"
+                        href="{{ url('kunjungan') }}">Kunjungan</a>
                     <a class="nav-item nav-link" href="{{ url('login') }}">Login</a>
                 </div>
             </div>
@@ -73,8 +78,8 @@
             <div class="col-6 col-md">
                 <h5>Profil</h5>
                 <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="{{url('profile')}}">Sejarah</a></li>
-                    <li><a class="text-muted" href="{{url('visimisi')}}">Visi & Misi</a></li>
+                    <li><a class="text-muted" href="{{ url('profile') }}">Sejarah</a></li>
+                    <li><a class="text-muted" href="{{ url('visimisi') }}">Visi & Misi</a></li>
                     <li><a class="text-muted" href="#">Struktur Organisasi</a></li>
                 </ul>
             </div>
@@ -110,8 +115,12 @@
     <script src="{{ url('assets/js/bootstrap.min.js') }}"></script>
     {{-- <script src="{{ url('assets/js/bootstrap.bundle.min.js') }}"></script> --}}
     <script src="{{ url('assets/js/popper.min.js') }}"></script>
+    {{-- Autocomplete --}}
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     {{-- Js LTE --}}
     <script src="{{ url('lte/dist/js/adminlte.min.js') }}"></script>
+    {{-- Select2 --}}
+    <script src="{{ asset('lte/plugins/select2/js/select2.full.min.js') }}"></script>
     @yield('js')
 </body>
 

@@ -127,19 +127,6 @@ class MdKembali extends Model
             'updated_at' => now()
         ]);
 
-        // Update Stock Buku
-        // $buku = MdBuku::all();
-        // foreach ($buku as $bukuID) {
-        //   # code...
-        //   $qty_now = $bukuID->stok_buku;
-        // }
-
-        // $qty_new = $qty_now + 1;
-        // DB::table('tb_buku')->where('id_buku', $kembali->buku_id)->update([
-        //   'stok_buku' => $qty_new,
-        //   'updated_at' => now()
-        // ]);
-
         $buku = DB::table('tb_peminjaman')->join(
             'tb_buku',
             'buku_id',
@@ -154,14 +141,14 @@ class MdKembali extends Model
         if ($buku->isNotEmpty()) {
             // Looping melalui setiap buku yang memenuhi kondisi
             foreach ($buku as $item) {
-                $qty_now = $item->stok_buku;
+                $qty_now = $item->sisa_exemplar;
                 $qty_new = $qty_now + 1;
 
                 // Memperbarui stok buku
                 DB::table('tb_buku')
                     ->where('id_buku', $item->id_buku)
                     ->update([
-                        'stok_buku' => $qty_new,
+                        'sisa_exemplar' => $qty_new,
                         'updated_at' => now()
                     ]);
             }

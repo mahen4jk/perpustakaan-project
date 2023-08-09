@@ -1,7 +1,7 @@
 @extends('layout.dashboard.app')
 
 @section('title')
-    {{ 'Laporan | Pengembalian' }}
+    {{ 'Laporan | Buku' }}
 @endsection
 
 @section('header')
@@ -23,138 +23,243 @@
 @endsection
 
 @section('content')
-    {{-- isi content --}}
-    <style>
-        /* primary button */
-        .btn-primary {
-            background-color: #FFF;
-            color: #285e8e;
-            border-color: #3276b1;
-        }
-
-        .btn-primary:hover,
-        .btn-primary:focus,
-        .btn-primary:active {
-            background-color: #3276b1;
-            color: #FFF;
-            border-color: #285e8e;
-        }
-
-        /* info button */
-        .btn-info {
-            background-color: #FFF;
-            color: #269abc;
-            border-color: #39b3d7;
-        }
-
-        .btn-info:hover,
-        .btn-info:focus,
-        .btn-info:active {
-            background-color: #39b3d7;
-            color: #FFF;
-            border-color: #269abc;
-        }
-    </style>
+    <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
             <div class="col-lg-auto">
                 <div class="card card-primary card-outline">
                     <div class="card-header">
-                        <h5 class="m-0 bi"><i class="fa-solid fa-folder-minus"></i> Daftar Pengembalian Buku</h5>
-                        <br />
-                        <td>
-                            <a href="{{ url('sirkulasi/peminjaman') }}"
-                                class="btn btn-primary {{ Request()->is('sirkulasi/peminjaman') ? 'active' : null }}"
-                                role="button"><i class="fa-regular fa-circle-up"></i>&nbsp;Data Peminjaman</a>
-                            <a href="{{ url('sirkulasi/pengembalian') }}"
-                                class="btn btn-info {{ Request()->is('sirkulasi/pengembalian') ? 'active' : null }}"
-                                role="button"><i class="fa-regular fa-circle-down"></i>&nbsp;Data Pengembalian</a>
-                        </td>
+                        <h5 class="m-0 bi"> <i class="fa-solid fa-book"></i> Master Buku</h5>
                     </div>
                     <div class="card-body">
-                        <a href="{{ url('sirkulasi/formpinjam') }}" class="btn btn-success"><i class="fa-solid fa-plus"></i>
-                            Peminjaman</a>
                         <div class="row">
-                            <div class="col-lg-7">
-                                <br />
+                            <div class="col-lg">
+                                <div class="card">
+                                    <div class="card-header border-0">
+                                        <h3 class="card-title">Buku Yang Sering Dipinjam</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex">
+                                            <canvas id="myChart" style="max-height: 350px; max-height: 350px"></canvas>
+                                        </div>
+                                        <!-- /.d-flex -->
+                                    </div>
+                                    <!-- /.card -->
+                                </div>
                             </div>
                         </div>
-                        <div class="table-responsive">
-                            <table id="example2" class="table table-hover table-sm table-responsive-sm">
-                                <thead class="thead-light">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <form action="{{ route('buku.filter') }}" method="GET">
+                                    <div class="form-row">
+                                        <div class="col-lg-3">
+                                            <label for="tanggal_awal">Tanggal Awal:</label>
+                                            <input type="date" class="form-control" name="tanggal_awal" id="tanggal_awal">
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <label for="tanggal_akhir">Tanggal Akhir:</label>
+                                            <input type="date" class="form-control" name="tanggal_akhir" id="tanggal_akhir">
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <label for="action"><br></label>
+                                            <button type="submit" class="btn btn-info form-control">Filter</button>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </form>
+                            </div>
+                        </div>
+                        <table id="example2" class="table table-hover table-sm table-responsive-sm">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th style="width:1px; white-space:nowrap; text-align:center;">No</th>
+                                    <th style="width:1px; white-space:nowrap;">Judul Buku</th>
+                                    <th style="width:1px; white-space:nowrap;">Cover</th>
+                                    <th style="width:1px; white-space:nowrap;">Tahun Terbit</th>
+                                    <th style="width:1px; white-space:nowrap;">Jumlah Buku</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $no = 1;
+                                ?>
+                                @foreach ($buku as $katalog)
                                     <tr>
-                                        <th style="width:1px; white-space:nowrap;">No</th>
-                                        <th style="width:1px; white-space:nowrap;">Nama Anggota</th>
-                                        <th style="width:1px; white-space:nowrap;">Tanggal Dikembalikan</th>
-                                        <th style="width:1px; white-space:nowrap;">Terlambat</th>
-                                        <th style="width:1px; white-space:nowrap;">Status</th>
-                                        <th style="width:1px; white-space:nowrap;">Jumlah Denda</th>
+                                        <td style="text-align:center"><?php echo $no++; ?></td>
+                                        <td>{{ $katalog->judul }}</td>
+                                        <td>
+                                            @if ($katalog->cover)
+                                                <img src="{{ asset('image/buku/' . $katalog->cover) }}"
+                                                    class="img-thumbnail" style="max-width: 100px; max-height: 100px"
+                                                    alt="Cover Buku">
+                                            @else
+                                                <img src="{{ asset('image/no-image.png') }}" alt="No Image"
+                                                    class="img-thumbnail" style="max-width: 100px; max-height: 100px">
+                                            @endif
+                                        </td>
+                                        <td>{{ $katalog->stok_buku }}</td>
+                                        <td>
+                                            <a id="detail-buku" class="btn btn-default btn-sm" data-toggle="modal"
+                                                data-target="#modal-detail-buku" data-id_buku="{{ $katalog->id_buku }}"
+                                                data-judul="{{ $katalog->judul }}" data-isbn="{{ $katalog->isbn }}"
+                                                data-pengarang="{{ $katalog->pengarang }}"
+                                                data-id_penerbit="{{ $katalog->penerbit->nama_penerbit }}"
+                                                data-klasifikasi="{{ $katalog->class_id }}"data-id_kategori="{{ $katalog->kategori->kategori }}"
+                                                data-tahun_terbit="{{ $katalog->tahun_terbit }}"
+                                                data-stok_buku="{{ $katalog->stok_buku }}"
+                                                data-deskripsi="{{ $katalog->deskripsi }}">
+                                                <i class="fa-regular fa-eye"></i>&nbsp;Detail
+                                            </a>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    ?>
-                                    @foreach ($kembali as $pengembalian)
-                                        <tr>
-                                            <td><?php echo $no++; ?></td>
-                                            <td>
-                                                @foreach ($sirPinjam as $kembali21)
-                                                    @if ($kembali21->kode_pinjam == $pengembalian->pinjam_kode)
-                                                        @foreach ($Anggota as $kembali22)
-                                                            @if ($kembali22->id_anggota == $kembali21->anggota_id)
-                                                                {{ $kembali22->nama_anggota }}
-                                                            @endif
-                                                        @endforeach
-                                                    @endif
-                                                @endforeach
-                                            </td>
-                                            <td>{{ $pengembalian->tgl_dikembalikan }}</td>
-                                            <td>{{ $pengembalian->terlambat }}&nbsp;Hari</td>
-                                            <td>
-                                                @if ($pengembalian->status == 'Terlambat')
-                                                    <label class="badge badge-warning">Terlambat</label>
-                                                @else
-                                                    <label class="badge badge-success">Tepat Waktu</label>
-                                                @endif
-                                            </td>
-                                            <td>{{ $pengembalian->total_denda }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th style="width:1px; white-space:nowrap;">No</th>
-                                        <th style="width:1px; white-space:nowrap;">Nama Anggota</th>
-                                        <th style="width:1px; white-space:nowrap;">Tanggal Dikembalikan</th>
-                                        <th style="width:1px; white-space:nowrap;">Terlambat</th>
-                                        <th style="width:1px; white-space:nowrap;">Status</th>
-                                        <th style="width:1px; white-space:nowrap;">Jumlah Denda</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                                @endforeach
+                            </tbody>
+                            <tfoot>
+                                <th style="width:1px; white-space:nowrap; text-align:center;">No</th>
+                                <th style="width:1px; white-space:nowrap;">Judul Buku</th>
+                                <th style="width:1px; white-space:nowrap;">Cover</th>
+                                <th style="width:1px; white-space:nowrap;">Tahun Terbit</th>
+                                <th style="width:1px; white-space:nowrap;">Jumlah Buku</th>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="modal fade" id="modal-detail-buku">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Buku Detail</h4>
+                                    <button type="buttton" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body tabble-responsive">
+                                    <table class="table table-bordered no-margin">
+                                        <tbody>
+                                            <tr>
+                                                <th style="">Id Buku</th>
+                                                <td><span id="id_buku"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="">Judul</th>
+                                                <td><span id="judul"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="">ISBN</th>
+                                                <td><span id="isbn"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="">Pengarang</th>
+                                                <td><span id="pengarang"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="">Penerbit</th>
+                                                <td><span id="penerbit"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="">Class</th>
+                                                <td><span id="klasifikasi"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="">Kategori</th>
+                                                <td><span id="kategori"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="">Tahun Terbit</th>
+                                                <td><span id="tahun_terbit"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="">Stok</th>
+                                                <td><span id="stok_buku"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="">Deskripsi</th>
+                                                <td><span id="deskripsi"></span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- /.col-md-6 -->
             </div>
-            <!-- /.col-md-6 -->
         </div>
-    </div>
-@endsection
+    @endsection
 
-@section('js')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            // Tabel
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
+    @section('js')
+        <script type="text/javascript">
+            $(document).ready(function() {
+                //Modal Detail Buku
+                $(document).on('click', '#detail-buku', function() {
+                    var id_buku = $(this).data('id_buku');
+                    var judul = $(this).data('judul');
+                    var isbn = $(this).data('isbn');
+                    var pengarang = $(this).data('pengarang');
+                    var id_penerbit = $(this).data('id_penerbit');
+                    var klasifikasi = $(this).data('klasifikasi');
+                    var id_kategori = $(this).data('id_kategori');
+                    var tahun_terbit = $(this).data('tahun_terbit');
+                    var stok_buku = $(this).data('stok_buku');
+                    var deskripsi = $(this).data('deskripsi');
+                    $('#id_buku').text(id_buku);
+                    $('#judul').text(judul);
+                    $('#isbn').text(isbn);
+                    $('#pengarang').text(pengarang);
+                    $('#penerbit').text(id_penerbit);
+                    $('#klasifikasi').text(klasifikasi);
+                    $('#kategori').text(id_kategori);
+                    $('#tahun_terbit').text(tahun_terbit);
+                    $('#stok_buku').text(stok_buku);
+                    $('#deskripsi').text(deskripsi);
+                })
+                // Tabel
+                $('#example2').DataTable({
+                    "paging": true,
+                    "lengthChange": true,
+                    "searching": false,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                    "responsive": true,
+                });
             });
-        });
-    </script>
-@endsection
+            // Chart Buku yang diPinjam
+            $(function() {
+                // var ctx = $('#myChart').get(0).getContext('2d');
+
+                //Chart
+                $(document).ready(function() {
+                    var Peminjaman = @json($Peminjaman);
+
+                    var labels = Object.keys(Peminjaman);
+                    var data = Object.values(Peminjaman);
+
+                    const ctx = document.getElementById('myChart').getContext('2d');
+                    sampleChartClass.ChartData(ctx, labels, data);
+                });
+
+                sampleChartClass = {
+                    ChartData: function(ctx, labels, data) {
+                        new Chart(ctx, {
+                            type: 'pie',
+                            data: {
+                                labels: labels,
+                                datasets: [{
+                                    label: 'Jumlah',
+                                    data: data,
+                                }]
+                            },
+                            options: {
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom',
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        </script>
+    @endsection

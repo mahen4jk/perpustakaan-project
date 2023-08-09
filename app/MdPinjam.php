@@ -77,11 +77,11 @@ class MdPinjam extends Model
         ]);
 
         $buku = DB::table('tb_buku')->where('id_buku', $pinjam->buku_id)->first();
-        $qty_now = $buku->stok_buku;
+        $qty_now = $buku->sisa_exemplar;
         $qty_new = $qty_now - 1;
 
         DB::table('tb_buku')->where('id_buku', $pinjam->buku_id)->update([
-            'stok_buku' => $qty_new,
+            'sisa_exemplar' => $qty_new,
             'updated_at' => now()
         ]);
     }

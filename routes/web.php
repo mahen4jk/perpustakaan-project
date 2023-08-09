@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Http\Controllers\halindex\katalog;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,18 +29,21 @@ Route::get('visimisi', 'halindex\profil_perpus@VisiMisi');
 
 #Halaman Katalog
 Route::get('katalog', 'halindex\katalog@halkatalog');
+Route::get('katalog/search','halindex\katalog@search')->name('katalog.search');
+Route::get('katalog/buku-list', 'halindex\katalog@searchBuku')->name('katalog.autocomplete');
 Route::get('detail-buku/{id_buku}', 'halindex\katalog@show');
 
-# Sistem Login
+Route::prefix('kunjungan')->group(function () {
+    Route::get('/', 'halindex\kunjungan@show');
+});
 
+
+# Sistem Login
 Route::get('login', 'LoginCon@tmplogin')->name('login');
 Route::post('postlogin', 'LoginCon@postlogin')->name('postlogin');
 Route::get('logout', 'LoginCon@logout')->name('logout');
 
 Route::group(['middleware' => ['auth', 'ceklevel:admin']], function () {
-    #Tampilan Dashboard
-
-    Route::get('dashboard', 'DashController@Dashboard');
 
     #Tampilan MasterAnggota
     Route::prefix('anggota')->group(function () {
@@ -70,11 +74,22 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin']], function () {
         Route::get('hapusKELAS/{id_kelas}', 'Admin\MstKelasCon@deleteKEL');
     });
     Route::prefix('petugas')->group(function () {
-        Route::get('masterpetugas', 'admin\UserController@MasterPetugas');
+        #Tampilan Data
+        Route::get('masterpetugas', 'Admin\UserController@MasterPetugas');
+        #Tampilan Form Petugas
+        Route::get('formpetugas', 'Admin\UserController@FormPetugas');
+        Route::post('simpanPetugas', 'Admin\UserController@simpanPetugas');
+        #Edit Petugas
+        Route::get('editPTS/{id}', 'admin\UserController@editPetugas');
+        Route::post('editPTS/ubahPetugas', 'admin\UserController@ubahPetugas');
     });
 });
 
 Route::group(['middleware' => ['auth', 'ceklevel:admin,pustakawan']], function () {
+
+    #Tampilan Dashboard
+    Route::get('dashboard', 'DashController@Dashboard');
+
     #Tampilan MasterBuku
     Route::prefix('buku')->group(function () {
         #Tampilan Data
@@ -159,5 +174,18 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin,pustakawan']], function (
         #Delete Denda
         Route::get('hapusDDA/{id_denda}', 'Admin\MstDenda@hapusDenda');
         // Route::get('pengembalian','Admin\KembaliCon@viewkembali');
+    });
+});
+
+Route::group(['middleware' => ['auth', 'ceklevel:admin,kep_perpus']], function () {
+    #Tampilan Dashboard
+    Route::get('dashboard', 'DashController@Dashboard');
+    #Laporan
+    Route::prefix('laporan')->group(function () {
+        #Laporan Buku
+        Route::get('buku', 'Admin\Laporan@LaporanBuku');
+        Route::get('buku/filter', 'Admin\Laporan@FilterLPBuku')->name('buku.filter');
+        #Laporan Sirkulasi
+        Route::get('peminjaman', 'Admin\Laporan@LaporanPinjam');
     });
 });

@@ -60,15 +60,15 @@
             <div class="col-lg-auto">
                 <div class="card card-primary card-outline">
                     <div class="card-header">
-                        <h5 class="m-0 bi"><i class="fa-solid fa-folder-minus"></i> Daftar Pengembalian Buku</h5>
+                        <h5 class="m-0 bi"><i class="fa-solid fa-folder-minus"></i> Laporan Pengembalian Buku</h5>
                         <br />
                         <td>
-                            <a href="{{ url('sirkulasi/peminjaman') }}"
-                                class="btn btn-primary {{ Request()->is('sirkulasi/peminjaman') ? 'active' : null }}"
-                                role="button"><i class="fa-regular fa-circle-up"></i>&nbsp;Data Peminjaman</a>
-                            <a href="{{ url('sirkulasi/pengembalian') }}"
-                                class="btn btn-info {{ Request()->is('sirkulasi/pengembalian') ? 'active' : null }}"
-                                role="button"><i class="fa-regular fa-circle-down"></i>&nbsp;Data Pengembalian</a>
+                            <a href="{{ url('laporan/peminjaman') }}"
+                                class="btn btn-primary {{ Request()->is('laporan/peminjaman') ? 'active' : null }}"
+                                role="button"><i class="fa-regular fa-circle-up"></i>&nbsp;Laporan Peminjaman</a>
+                            <a href="{{ url('laporan/pengembalian') }}"
+                                class="btn btn-info {{ Request()->is('laporan/pengembalian') ? 'active' : null }}"
+                                role="button"><i class="fa-regular fa-circle-down"></i>&nbsp;Laporan Pengembalian</a>
                         </td>
                     </div>
                     <div class="card-body">

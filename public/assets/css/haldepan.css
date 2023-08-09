@@ -270,7 +270,6 @@
 
     margin-top: 5px;
     margin-left: 10px;
-
 }
 .load-more-container {
     margin-top: -40px;
@@ -284,6 +283,7 @@
     width: 350px;
     color: black;
 }
+
 .custom-button:hover {
     background-color: white;
     border: 5px;
@@ -296,9 +296,21 @@
     padding-bottom: 50px;
 }
 
-
-
 /* Utility */
+
+/* Erro Buku tidak tersedia */
+.error-template {
+    padding: 40px 15px;
+    text-align: center;
+}
+.error-actions {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.error-actions .btn {
+    margin-right: 10px;
+}
+
 /* Box */
 .box {
     width: 100%;
@@ -397,6 +409,17 @@
     margin-top: -10px;
 }
 
+/* Tabel */
+.tb-kun {
+    width: 200px;
+    max-width: 200px;
+}
+
+.kunjungan {
+    width: 200px;
+    max-width: 200px;
+}
+
 /* Desktop Version */
 @media (min-width: 992px) {
     /* NavBar */
@@ -418,7 +441,6 @@
     }
 
     /* Jumbotron halaman depan */
-
     .img-jmb {
         display: block;
         margin: 0 auto;
@@ -505,7 +527,7 @@
         max-height: 160px;
         max-width: 160px;
 
-        margin-left: 20px;
+        margin-left: 5px;
     }
 
     .deskripsi-buku {
@@ -553,8 +575,21 @@
     }
 
     /* Utility */
-    /* Box */
 
+    /* Erro Buku tidak tersedia */
+    .error-template {
+        padding: 40px 15px;
+        text-align: center;
+    }
+    .error-actions {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+    .error-actions .btn {
+        margin-right: 10px;
+    }
+
+    /* Box */
     .box {
         width: 175px;
         height: 150px;
@@ -646,5 +681,16 @@
     .text-misi {
         font-family: "Source Sans Pro", sans-serif;
         font-size: 12px;
+    }
+
+    /* Tabel */
+    .tb-kun {
+        width: 775px;
+        max-width: 775px;
+    }
+
+    .kunjungan {
+        width: 775px;
+        max-width: 775px;
     }
 }

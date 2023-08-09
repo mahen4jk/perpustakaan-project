@@ -37,7 +37,7 @@
                         <!-- Form -->
                         <form action="simpanBUKU" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
-                            <div class="form-group row">
+                            <div class="form-group row" hidden>
                                 <label for="staticKdBUKU" class="col-sm-2 col-form-label">Kode Buku</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="id_buku" id="id_buku" placeholder=""
@@ -48,7 +48,7 @@
                                 <label for="staticISBN" class="col-sm-2 col-form-label">ISBN</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="ISBN" id="ISBN"
-                                        placeholder="Masukan koden ISBN">
+                                        placeholder="Masukan koden ISBN" required>
                                 </div>
                             </div>
                             <div class="form-group row">

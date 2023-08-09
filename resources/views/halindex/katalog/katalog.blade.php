@@ -30,14 +30,18 @@
         <div class="col-lg-10 search-katalog">
             <div class="row">
                 <div class="col-lg">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search...">
-                        <div class="input-group-append">
-                            <button class="btn" type="button">
-                                <i class="fas fa-search"></i>
-                            </button>
+                    <form action="{{ route('katalog.search') }}" method="GET">
+                        <div class="form-group input-group">
+                            <input type="text" class="form-control" name="search" id="search_buku"
+                                placeholder="Search...">
+                            <div class="input-group-append">
+                                <button class="btn btn-default" id="searchBtn" type="submit">
+                                    <i class="fas fa-search"></i>
+                                    &nbsp;Search
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -51,37 +55,25 @@
                 @foreach ($buku as $katalog)
                     <div class="col-lg-6">
                         <div class="card card-katalog mb-3" style="max-width: 540px;">
-                            <div class="row no-gutters">
+                            <div class="row no-gutters" id="searchResult">
                                 <div class="col-md-4">
                                     @if ($katalog->cover)
                                         <img src="{{ asset('image/buku/' . $katalog->cover) }}" alt="Cover Buku"
-                                            class="img-katalog">
+                                            class="img-katalog img-thumbnail">
                                     @else
-                                        <img src="{{ asset('image/no-image.png') }}" alt="No Image" class="img-katalog">
+                                        <img src="{{ asset('image/no-image.png') }}" alt="No Image"
+                                            class="img-katalog img-thumbnail ">
                                     @endif
-                                    {{-- <img src="{{ url('assets/image/png-clipart-book-book.png') }}" class="img-katalog"
-                                        alt="gambar buku"> --}}
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
                                         <h5 class="card-title">
-                                            <a href="detail-buku/{{ encrypt($katalog->id_buku) }}" class="">
+                                            <a href="{{ url('detail-buku', encrypt($katalog->id_buku)) }}"
+                                                class="detail-buku">
                                                 {{ $katalog->judul }}
                                             </a>
 
                                         </h5>
-                                        {{-- @php
-                                            $panjangMax = 97; // Panjang maksimum deskripsi yang ingin ditampilkan
-                                            $deskripsi = $katalog->deskripsi;
-                                        @endphp
-                                        @if (strlen($deskripsi) > $panjangMax)
-                                            <p style="font-size: 14px">
-                                                {{ substr($deskripsi, 0, $panjangMax) }}
-                                                <a href="#">Read More</a>
-                                            </p>
-                                        @else
-                                            <p>{{ $deskripsi }}</p>
-                                        @endif --}}
                                         <p class="card-text">
                                             <small class="text-muted">
                                                 Buku masuk: {{ $katalog->created_at->format('d-m-Y') }}
@@ -124,4 +116,59 @@
 @endsection
 
 @section('js')
+    <script>
+        // $(document).ready(function() {
+        //     $('#search_buku').autocomplete({
+        //         source: function(request, response) {
+        //             $.ajax({
+        //                 url: '{{ route('katalog.search') }}',
+        //                 type: 'GET',
+        //                 data: {
+        //                     term: request.search
+        //                 },
+        //                 dataType: "json",
+        //                 success: function(data) {
+        //                     response($.map(data, function(item) {
+        //                         return {
+        //                             label: item.judul,
+        //                             value: item.judul
+        //                         }
+        //                     }));
+        //                 }
+
+        //             });
+        //         },
+        //         minLength: 1
+        //     });
+        // });
+
+        $(document).ready(function() {
+            $('#search_buku').autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: '{{ route('katalog.autocomplete') }}',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {
+                            term: request.term
+                        },
+                        success: function(data) {
+                            if (data.length === 0) {
+                                response(['Judul yang Anda cari tidak tersedia']);
+                            } else {
+                                response(data);
+                            }
+                        }
+                    });
+                },
+                minLength: 1, // Jumlah karakter minimal sebelum pencarian mulai dilakukan
+                // Tambahkan opsi select untuk menonaktifkan fitur input dari pesan yang muncul
+                select: function(event, ui) {
+                    if (ui.item.value === 'Judul yang Anda cari tidak tersedia') {
+                        return false; // Tidak memperbolehkan memilih pesan tersebut
+                    }
+                }
+            });
+        });
+    </script>
 @endsection

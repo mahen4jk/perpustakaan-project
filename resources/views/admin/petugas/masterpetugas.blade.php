@@ -1,7 +1,7 @@
 @extends('layout.dashboard.app')
 
 @section('title')
-    {{ 'Master Anggota' }}
+    {{ 'Master Petugas' }}
 @endsection
 
 @section('header')
@@ -32,7 +32,7 @@
                         <h5 class="m-0 bi"><i class="fa-solid fa-folder-minus"></i> Master Petugas</h5>
                     </div>
                     <div class="card-body">
-                        <a href="{{ url('') }}" class="btn btn-success"><i class="fa-solid fa-plus"></i>
+                        <a href="{{ url('petugas/formpetugas') }}" class="btn btn-success"><i class="fa-solid fa-plus"></i>
                             Tambah Petugas</a>
                         <div class="row">
                             <br>
@@ -77,12 +77,8 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="#" class="btn btn-warning btn-sm" role="button">
+                                                <a href="editPTS/{{encrypt($petugas->id)}}" class="btn btn-warning btn-sm" role="button">
                                                     <i class="fa-solid fa-pen-nib"></i>&nbsp;Ubah
-                                                </a>
-                                                <a href="#" class="btn btn-danger btn-sm btnDelAnggota" data-id=""
-                                                    data-name="" role="button">
-                                                    <i class="fa-solid fa-trash"></i>&nbsp;Hapus</button>
                                                 </a>
                                             </td>
                                         </tr>
@@ -99,48 +95,6 @@
                                 </tfoot>
                             </table>
                         </div>
-                        <div class="modal fade" id="modal-detail-anggota">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Buku Detail</h4>
-                                        <button type="buttton" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body tabble-responsive">
-                                        <table class="table table-bordered no-margin">
-                                            <tbody>
-                                                <tr>
-                                                    <th style="">NIS</th>
-                                                    <td><span id="nis"></span></td>
-                                                </tr>
-                                                <tr>
-                                                    <th style="">Nama Lengkap</th>
-                                                    <td><span id="nm_lengkap"></span></td>
-                                                </tr>
-                                                <tr>
-                                                    <th style="">Jenis Kelamin</th>
-                                                    <td><span id="j_kelamin"></span></td>
-                                                </tr>
-                                                <tr>
-                                                    <th style="">Kelas</th>
-                                                    <td><span id="kelas"></span></td>
-                                                </tr>
-                                                <tr>
-                                                    <th style="">Alamat</th>
-                                                    <td><span id="alamat"></span></td>
-                                                </tr>
-                                                <tr>
-                                                    <th style="">No. Handphone</th>
-                                                    <td><span id="no_hp"></span></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -152,63 +106,6 @@
 @section('js')
     <script type="text/javascript">
         $(document).ready(function() {
-            //Modal Detail Anggota
-            $(document).on('click', '#detail-anggota', function() {
-                var nis = $(this).data('nis');
-                var nm_lengkap = $(this).data('nm_lengkap');
-                var j_kelamin = $(this).data('j_kelamin');
-                var kelas = $(this).data('kelas');
-                var alamat = $(this).data('alamat');
-                var no_hp = $(this).data('no_hp');
-                // var status = $(this).data('status');
-                $('#nis').text(nis);
-                $('#nm_lengkap').text(nm_lengkap);
-                $('#j_kelamin').text(j_kelamin);
-                $('#kelas').text(kelas);
-                $('#alamat').text(alamat);
-                $('#no_hp').text(no_hp);
-                // $('#status').text(status);
-            })
-
-            //Delete Anggota
-            $('.btnDelAnggota').click(function() {
-                var anggotaid = $(this).attr('data-id');
-                var namaanggota = $(this).attr('data-name');
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-danger'
-                    },
-                    buttonsStyling: false
-                })
-                swalWithBootstrapButtons.fire({
-                    title: 'Yakin?',
-                    text: "Kamu akan menghapus data anggota bernama " + namaanggota + "",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, delete it!',
-                    cancelButtonText: 'No, cancel!',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location = "hapusAnggota/" + anggotaid + "";
-                        swalWithBootstrapButtons.fire(
-                            'Deleted!',
-                            'Data telah Berhasil dihapus',
-                            'success'
-                        )
-                    } else if (
-                        /* Read more about handling dismissals below */
-                        result.dismiss === Swal.DismissReason.cancel
-                    ) {
-                        swalWithBootstrapButtons.fire(
-                            'Cancelled',
-                            'Data tidak jadi dihapus',
-                            'error'
-                        )
-                    }
-                })
-            });
             // Tabel
             $('#example2').DataTable({
                 "paging": true,

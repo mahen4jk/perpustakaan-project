@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\MdPenerbit;
 use App\MdKategori;
 use App\MdDDC;
+use App\MdPinjam;
 
 
 class katalog extends Controller
@@ -33,10 +34,45 @@ class katalog extends Controller
         $penerbit = MdPenerbit::all();
         $kategori = MdKategori::all();
 
-        $id_buku = DB::table('tb_buku')->where('id_buku', decrypt($idBuku))->get();
-        // $klasifikasi = MdDDC::select('id_class', 'ket')->get();
-        // $penerbit = MdPenerbit::select('id_penerbit', 'nama_penerbit')->get();
-        // $kategori = MdKategori::select('id_kategori', 'kategori')->get();
-        return view('halindex.katalog.detailbuku', ['kode' => $id_buku], compact('klasifikasi', 'penerbit', 'kategori'));
+        $buku = DB::table('tb_buku')->where('id_buku', decrypt($idBuku))->get();
+
+        return view(
+            'halindex.katalog.detailbuku',
+            compact('buku', 'klasifikasi', 'penerbit', 'kategori')
+        );
+    }
+
+    public function searchBuku(Request $request)
+    {
+        $term = $request->input('term');
+
+        $results = MdBuku::select('judul')
+            ->where('judul', 'LIKE', '%' . $term . '%')
+            ->orWhere('pengarang', 'LIKE', '%' . $term . '%')
+            ->orWhere('kategori_id', 'LIKE', '%' . $term . '%')
+            ->limit(5)
+            ->pluck('judul');
+
+        return response()->json($results);
+    }
+
+    public function search(Request $request)
+    {
+        $searchQuery = $request->input('search');
+
+        //Lakukan Query
+        $bukuPaginator = \App\MdBuku::where('judul', 'LIKE', "%" . $searchQuery . "%")
+            ->orWhere('pengarang', 'LIKE', "%" . $searchQuery . "%")
+            ->orWhere('kategori_id', 'LIKE', "%" . $searchQuery . "%")
+            ->paginate();
+
+        $buku = $bukuPaginator->items();
+
+        if ($bukuPaginator->isEmpty()) {
+            return view('halindex.katalog.belum_tersedia');
+        } else {
+            // Kembalikan hasil pencarian dalam bentuk JSON
+            return view('halindex.katalog.katalog', compact('buku', 'bukuPaginator'));
+        }
     }
 }

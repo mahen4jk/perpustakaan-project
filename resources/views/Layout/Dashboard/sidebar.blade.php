@@ -11,16 +11,15 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                @if (auth()->user()->avatar == '')
-                    <img src="{{ url('lte/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2"
+                @if (Auth::user()->avatar)
+                    <img class="img-circle elevation-2" src="{{ asset('image/user/' . Auth::user()->avatar) }}"
                         alt="User Image">
                 @else
-                    <img src="{{ asset('image/user' . auth()->user()->avatar) }}" class="img-circle elevation-2"
-                        alt="User Image">
+                    <img class="img-circle elevation-2" src="{{ asset('image/no-image.png') }}" alt="User Image">
                 @endif
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{ auth()->user()->name }}</a>
+                <a href="#" class="d-block">{{ Auth::user()->name }}</a>
             </div>
         </div>
 
@@ -157,8 +156,11 @@
                     </ul>
                 </li>
                 <li class="nav-header">Laporan</li>
-                <li class="nav-item {{ Request()->is('#') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ Request()->is('#') ? 'active' : '' }}">
+                <li
+                    class="nav-item {{ Request()->is('laporan/buku', 'laporan/kunjungan',
+                    'laporan/peminjaman', 'laporan/pengembalian') ? 'menu-open' : '' }}">
+                    <a href="#"
+                        class="nav-link {{ Request()->is('laporan/buku', 'laporan/kunjungan', 'laporan/sirkulasi') ? 'active' : '' }}">
                         <i class="fa-solid fa-envelope nav-icon"></i>
                         <p>
                             Laporan
@@ -167,7 +169,8 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link {{ Request()->is('#') ? 'active' : null }}">
+                            <a href="{{ url('laporan/buku') }}"
+                                class="nav-link {{ Request()->is('laporan/buku') ? 'active' : null }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Laporan Buku</p>
                             </a>
@@ -175,7 +178,8 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link {{ Request()->is('#') ? 'active' : null }}">
+                            <a href="{{ url('laporan/peminjaman') }}"
+                                class="nav-link {{ Request()->is('laporan/peminjaman','laporan/pengembalian') ? 'active' : null }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Laporan Sirkulasi</p>
                             </a>
@@ -193,7 +197,8 @@
                 @if (auth()->user()->roles == 'admin')
                     <li class="nav-header">Petugas</li>
                     <li class="nav-item {{ Request()->is('petugas/masterpetugas') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Request()->is('petugas/masterpetugas') ? 'active' : '' }}">
+                        <a href="#"
+                            class="nav-link {{ Request()->is('petugas/masterpetugas') ? 'active' : '' }}">
                             <i class="fa-regular fa-user-plus nav-icon"></i>
                             <p>
                                 Petugas

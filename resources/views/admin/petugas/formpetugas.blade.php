@@ -1,7 +1,7 @@
 @extends('layout.dashboard.app')
 
 @section('title')
-    {{ 'Form Anggota' }}
+    {{ 'Form Petugas' }}
 @endsection
 
 @section('header')
@@ -34,19 +34,12 @@
                     </div>
                     <div class="card-body">
                         <!-- Form -->
-                        <form action="simpanAnggota" method="POST">
+                        <form action="simpanPetugas" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <div class="form-group row">
-                                <label for="staticKdBUKU" class="col-sm-2 col-form-label">NIS</label>
+                                <label for="staticISBN" class="col-sm-2 col-form-label">Nama</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="nis" id="NIS"
-                                        placeholder="Masukan Nomor Induk Siswa" required>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="staticISBN" class="col-sm-2 col-form-label">Nama Lengkap</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="nama_anggota" id="nm_lengkap"
+                                    <input type="text" class="form-control" name="name" id="name"
                                         placeholder="Masukan Nama Lengkap" required>
                                 </div>
                             </div>
@@ -54,56 +47,87 @@
                                 <label for="staticJudul" class="col-sm-2 col-form-label">Jenis Kelamin</label>
                                 <div class="col-sm-10">
                                     <div class="custom-control custom-radio">
-                                        <input class="custom-control-input" type="radio" name="j_kelamin"
-                                            id="customRadio1" value="L" required>
+                                        <input class="custom-control-input" type="radio" name="gender" id="customRadio1"
+                                            value="Laki-Laki" required>
                                         <label class="custom-control-label" for="customRadio1">Laki-Laki</label>
                                     </div>
                                     <div class="custom-control custom-radio">
-                                        <input class="custom-control-input" type="radio" name="j_kelamin"
-                                            id="customRadio2" value="P" required>
+                                        <input class="custom-control-input" type="radio" name="gender" id="customRadio2"
+                                            value="Perempuan" required>
                                         <label class="custom-control-label" for="customRadio2">Perempuan</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="staticPengarang" class="col-sm-2 col-form-label">Kelas</label>
+                                <label for="staticPengarang" class="col-sm-2 col-form-label">Roles</label>
                                 <div class="col-sm-10">
-                                    <select class="form-control kelas" name="kelas_id" required>
-                                        <option style="display:none"></option>
-                                        @foreach ($kelas as $kelas)
-                                            <option value="{{ $kelas->id_kelas }}">{{ $kelas->kelas }}</option>
-                                        @endforeach
+                                    <select class="form-control" name="roles" id="roles">
+                                        <option selected>--Pilih Roles--</option>
+                                        <option value="admin">Admin</option>
+                                        <option value="kep_perpus">Kepala Perpustakaan</option>
+                                        <option value="pustakawan">Pustakawan</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
                                 <div class="col-sm-10">
-                                    <textarea type="text" class="form-control" name="alamat" id="alamat" placeholder="Alamat Anggota"></textarea>
+                                    <textarea type="text" class="form-control" name="address" id="address" placeholder="Alamat Anggota"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="staticISBN" class="col-sm-2 col-form-label">Username</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" name="username" id="username"
+                                        placeholder="Masukan Username" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="staticISBN" class="col-sm-2 col-form-label">Email</label>
+                                <div class="col-sm-10">
+                                    <input type="email" class="form-control" name="email" id="email"
+                                        placeholder="Masukan Email" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="alamat" class="col-sm-2 col-form-label">Password</label>
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control" name="password" id="password"
+                                        placeholder="Masukkan Password" required>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="thn_terbit" class="col-sm-2 col-form-label">No. Handphone</label>
                                 <div class="col-sm-10 input-group">
-                                    <input type="text" class="form-control" name="hp" id="no_hp"
-                                        placeholder="Masukan No. Handphone" required>
+                                    <input type="text" class="form-control" name="phone" id="phone"
+                                        placeholder="Masukan No. Handphone">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="Status" class="col-sm-2 col-form-label">Status</label>
                                 <div class="col-sm-10">
                                     <div class="custom-control custom-radio">
-                                        <input class="custom-control-input" type="radio" name="status" id="customRadio3"
-                                            value="Aktif" required>
+                                        <input class="custom-control-input" type="radio" name="status"
+                                            id="customRadio3" value="ACTiVE" required>
                                         <label class="custom-control-label" for="customRadio3">Aktif</label>
                                     </div>
                                     <div class="custom-control custom-radio">
-                                        <input class="custom-control-input" type="radio" name="status" id="customRadio4"
-                                            value="Tdk_Aktif" required>
+                                        <input class="custom-control-input" type="radio" name="status"
+                                            id="customRadio4" value="INACTIVE" required>
                                         <label class="custom-control-label" for="customRadio4">
                                             Tidak Aktif
                                         </label>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="deskripsi" class="col-sm-2 col-form-label">Foto Profil</label>
+                                <div class="col-sm-10">
+                                    <input type="file" id="image-input" name="avatar"
+                                        class="form-control-file border" onchange="previewImage(event)">
+                                    </br>
+                                    <img id="preview-image" src="{{ asset('image/no-image.png') }}" class="card-img-top"
+                                        alt="Preview Image" style="max-width: 200px; max-height: 200px">
                                 </div>
                             </div>
                             <button type="button" class="btn btn-danger float-right ml-2" onclick="kembali()"><i
@@ -124,15 +148,26 @@
 @section('js')
     <script type="text/javascript">
         function kembali() {
-            location.href = "{{ url('anggota/masteranggota') }}";
+            location.href = "{{ url('petugas/masterpetugas') }}";
         }
-        $(document).ready(function() {
-            //select-option kelas
-            $('.kelas').select2({
-                theme: 'bootstrap4',
-                placeholder: "Pilih Kelas",
-                allowClear: true
-            });
-        })
+
+        function previewImage(event) {
+            var input = event.target;
+            var preview = document.getElementById('preview-image');
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.src = '#';
+                preview.style.display = 'none';
+            }
+        }
     </script>
 @endsection

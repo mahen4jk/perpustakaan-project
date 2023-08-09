@@ -9,6 +9,7 @@ use App\MdBuku;
 use App\MdPenerbit;
 use App\MdKategori;
 use App\MdDDC;
+use App\MdPinjam;
 
 class MstBukuCon extends Controller
 {
@@ -24,7 +25,15 @@ class MstBukuCon extends Controller
         $klasifikasi = MdDDC::select('id_class', 'ket')->get();
         $penerbit = MdPenerbit::select('id_penerbit', 'nama_penerbit')->get();
         $kategori = MdKategori::select('id_kategori', 'kategori')->get();
-        return view('admin.masterbuku.masterbuku', compact('buku', 'klasifikasi', 'penerbit', 'kategori'));
+        $peminjaman = MdPinjam::with('Anggota')->get();
+
+        return view('admin.masterbuku.masterbuku', compact(
+            'buku',
+            'klasifikasi',
+            'penerbit',
+            'kategori',
+            'peminjaman'
+        ));
     }
 
     public function formbuku()
@@ -49,12 +58,8 @@ class MstBukuCon extends Controller
             'kategori_id' => 'required',
             'stok_buku' => 'required',
         ]);
-        $simpan = new MdBuku();
-        if ($BUKU->hasFile('cover')) {
-            # code...
-            $BUKU->file('cover')->move('image/buku', $BUKU->file('cover')->getClientOriginalName());
-        }
 
+        $simpan = new MdBuku();
         $simpan->insBuku($BUKU, ['id_buku' => $validate_buku]);
         return redirect('buku/masterbuku')->with('toast_success', 'Data Berhasil disimpan');
     }

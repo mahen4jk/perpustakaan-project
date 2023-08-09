@@ -64,7 +64,6 @@ class MstAnggota extends Controller
     {
         # code...
         $validate_anggota = $Anggota->validate([
-            'id_anggota' => 'required',
             'nis' => 'required',
             'nama_anggota' => 'required',
             'j_kelamin' => 'required',
@@ -104,7 +103,6 @@ class MstAnggota extends Controller
         ]);
         $simpan = new MdAnggota();
         $simpan->editAnggota($Anggota, ['id_anggota' => $validate_anggota]);
-        // dd ($Anggota->all());
         return redirect('anggota/masteranggota')->with('toast_success', 'Data Berhasil diubah');
     }
 

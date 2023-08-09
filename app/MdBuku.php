@@ -22,29 +22,16 @@ class MdBuku extends Model
 
     public function klasifikasi()
     {
-        # code...
-        // return $this->belongsTo('App\MdDDC','class_id','id_class')->withDefault([
-        //     'about' => 'Tidak Ada',
-        // ]);
         return $this->belongsTo(MdDDC::class, 'class_id', 'id_class')->withDefault([
             'ket' => 'Tidak ada'
         ]);
     }
     public function penerbit()
     {
-        # code...
-        // return $this->belongsTo('App\MdPenerbit','penerbit_id','id_penerbit')
-        // ->withDefault([
-        //     'nama_penerbit' => 'Tidak Ada',
-        // ]);
         return $this->belongsTo(MdPenerbit::class, 'penerbit_id', 'id_penerbit');
     }
     public function kategori()
     {
-        # code...
-        // return $this->belongsTo('App\MdKategori','kategori_id','id_kategori')->withDefault([
-        //     'kategori' => 'Tidak Ada',
-        // ]);
         return $this->belongsTo(MdKategori::class, 'kategori_id', 'id_kategori');
     }
 
@@ -73,30 +60,6 @@ class MdBuku extends Model
         $kodebaru = "" . $kodebaruMax;
 
         return $kodebaru;
-
-
-        // $stok = DB::table('tb_buku')->max('stok_buku');
-        // $kd_buku = str_replace("","",$kd_buku);
-        // if ((int)$kd_buku == 0) {
-        //     $kd_buku = (int)$kd_buku + 1;
-        // } else {
-        //     $kd_buku = (int)$kd_buku + (int)$stok;
-        // }
-        // $incrementKode = $kd_buku;
-
-        // if (strlen($kd_buku) == 1) {
-        //     $addNol = "00000";
-        // } elseif (strlen($kd_buku) == 2){
-        //     $addNol = "0000";
-        // } elseif (strlen($kd_buku == 3)) {
-        //     $addNol = "000";
-        // } elseif (strlen($kd_buku == 4)) {
-        //     $addNol = "00";
-        // } elseif (strlen($kd_buku == 5)) {
-        //     $addNol = "0";
-        // }
-        // $kodebaru = "".$addNol.$incrementKode;
-        // return $kodebaru;
     }
 
     public function insBuku($buku)
@@ -126,6 +89,7 @@ class MdBuku extends Model
             'kategori_id' => $buku->kategori_id,
             'tahun_terbit' => $buku->tahun_terbit,
             'stok_buku' => $buku->stok_buku,
+            'sisa_exemplar' => $buku->stok_buku,
             'deskripsi' => $buku->deskripsi,
             'cover' => $cover,
             'created_at' => now()
@@ -174,6 +138,7 @@ class MdBuku extends Model
             'kategori_id' => $buku->kategori_id,
             'tahun_terbit' => $buku->tahun_terbit,
             'stok_buku' => $buku->stok_buku,
+            'sisa_exemplar' => $buku->stok_buku,
             'deskripsi' => $buku->deskripsi,
             'cover' => $cover,
             'updated_at' => now()

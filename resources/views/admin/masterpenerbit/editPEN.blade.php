@@ -37,7 +37,7 @@
                     <form action="updatePEN" method="POST">
                         {{ csrf_field() }}
                         @foreach($kode as $PEN)
-                        <div class="form-group row">
+                        <div class="form-group row" hidden>
                             <label for="staticIDPen" class="col-sm-2 col-form-label">Kode Penerbit</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" name="id_penerbit" id="kd_penerbit" placeholder="Masukan kode penerbit" value="{{$PEN->id_penerbit}}" readonly>

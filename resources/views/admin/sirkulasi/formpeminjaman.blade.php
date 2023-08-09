@@ -57,12 +57,18 @@
                                 </div>
                             </div>
                             <div class="form-group row">
+                                @php
+                                    $date = \Carbon\Carbon::today()->addDay(3); // Tanggal yang dituju (misalnya 3 hari ke depan)
+                                    if ($date->isSunday()) {
+                                        $date->addDay(); // Tambah 1 hari jika tanggal adalah hari Minggu
+                                    }
+
+                                    $value = date('Y-m-d', strtotime($date->toDateString())); // Konversi ke format tanggal yang diinginkan
+                                @endphp
                                 <label for="staticJudul" class="col-sm-2 col-form-label">Tanggal Kembali</label>
                                 <div class="col-sm-10 input-group date datekembali">
                                     <input type="text" class="form-control" name="tgl_kembali" id="datekembali"
-                                        placeholder="Tanggal Kembali"
-                                        value="{{ date('Y-m-d',strtotime(Carbon\Carbon::today()->addDay(3)->toDateString())) }}"
-                                        required>
+                                        placeholder="Tanggal Kembali" value="{{ $value }}" required>
                                     <div class="input-group-prepend">
                                         <span class="input-group-text btn"><i class="far fa-calendar-alt"></i></span>
                                     </div>
@@ -71,14 +77,6 @@
                             <div class="form-group row">
                                 <label for="staticAnggota" class="col-sm-2 col-form-label">Nama Anggota</label>
                                 <div class="col-sm-10">
-                                    {{-- <select class="form-control Anggota" name="nis_anggota" required>
-                                        <option style="display:none"></option>
-                                        @foreach ($Anggota as $anggota)
-                                            <option value="{{ $anggota->nis }}"> {{ $anggota->nis }}
-                                                &nbsp;{{ $anggota->nama_lengkap }}
-                                            </option>
-                                        @endforeach
-                                    </select> --}}
                                     <div class="input-group">
                                         <input id="nama_anggota" type="text" class="form-control" readonly=""
                                             required>
@@ -95,14 +93,6 @@
                             <div class="form-group row">
                                 <label for="staticJdlBuku" class="col-sm-2 col-form-label">Judul Buku</label>
                                 <div class="col-sm-10">
-                                    {{-- <select class="form-control Buku" name="buku_id" required>
-                                        <option style="display:none"></option>
-                                        @foreach ($Buku as $buku)
-                                            <option value="{{ $buku->id_buku }}"> {{ $buku->id_buku }}
-                                                &nbsp;{{ $buku->judul }}
-                                            </option>
-                                        @endforeach
-                                    </select> --}}
                                     <div class="input-group">
                                         <input id="buku_judul" type="text" class="form-control" readonly="" required>
                                         <input id="buku_id" type="text" class="form-control" name="buku_id"

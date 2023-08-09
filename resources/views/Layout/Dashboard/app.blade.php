@@ -58,40 +58,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="{{ url('dashboard') }}" class="nav-link">Home</a>
                 </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
-                </li>
             </ul>
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <!-- Navbar Search -->
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                        <i class="fas fa-search"></i>
-                    </a>
-                    <div class="navbar-search-block">
-                        <form class="form-inline">
-                            <div class="input-group input-group-sm">
-                                <input class="form-control form-control-navbar" type="search" placeholder="Search"
-                                    aria-label="Search">
-                                <div class="input-group-append">
-                                    <button class="btn btn-navbar" type="submit">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                    <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </li>
-
                 <!-- Messages Dropdown Menu -->
-
                 <!-- Notifications Dropdown Menu -->
-
                 <!-- Logout -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#" role="button">
@@ -100,7 +73,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <div class="card-body box-profile">
                             <div class="text-center">
-                                <i class="fa-solid fa-circle-user fa-2xl" src="" alt="ProfilePicture"></i>
+                                <div class="image">
+                                    @if (Auth::user()->avatar)
+                                        <img class="img-circle" style="max-height: 50px; max-width: 50px"
+                                            src="{{ asset('image/user/' . Auth::user()->avatar) }}" alt="User Image">
+                                    @else
+                                        <img class="img-circle elevation-2" src="{{ asset('image/no-image.png') }}"
+                                            alt="User Image">
+                                    @endif
+                                </div>
                             </div>
                             <h3 class="profile-username text-center">{{ auth()->user()->name }}</h3>
                             <p class="text-muted text-center">{{ auth()->user()->level }}</p>
@@ -116,7 +97,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- Main Sidebar Container -->
         @section('siderbar')
-            @include('Layout.Dashboard.sidebar',['user'=>Auth::user()])
+            @include('Layout.Dashboard.sidebar', ['user' => Auth::user()])
         @show
 
         <!-- Content Wrapper. Contains page content -->

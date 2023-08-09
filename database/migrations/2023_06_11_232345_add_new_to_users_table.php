@@ -15,9 +15,9 @@ class AddNewToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->char('username')->afte('name')->unique();
-            $table->string('avatar')->nullable();
-            $table->string('phone')->nullable();
+            $table->char('username')->after('name')->unique();
+            $table->string('avatar')->after('username')->nullable();
+            $table->string('phone')->after('gender')->nullable();
             $table->char('roles', 40)->after('phone');
             $table->enum("status", ["ACTIVE", "INACTIVE"]);
         });

@@ -63,12 +63,13 @@
                 </div>
             </div>
             <div class="row">
-                @foreach ($kode as $katalog)
+                @foreach ($buku as $buku)
                     <div class="col-lg-3">
-                        @if ($katalog->cover)
-                            <img src="{{ asset('image/buku/' . $katalog->cover) }}" alt="Cover Buku" class="img-detBuku">
+                        @if ($buku->cover && !empty($buku->cover))
+                            <img src="{{ asset('image/buku/' . $buku->cover) }}" alt="Cover Buku"
+                                class="img-thumbnail img-detBuku">
                         @else
-                            <img src="{{ asset('image/no-image.png') }}" alt="No Image" class="img-detBuku">
+                            <img src="{{ asset('image/no-image.png') }}" alt="No Image" class="img-thumbnail img-detBuku">
                         @endif
                     </div>
                     <div class="col-lg-6 deskripsi-buku">
@@ -76,21 +77,21 @@
                             <tbody>
                                 <tr>
                                     <th style="">Judul</th>
-                                    <td>{{ $katalog->judul }}</td>
+                                    <td>{{ $buku->judul }}</td>
                                 </tr>
                                 <tr>
                                     <th style="">ISBN</th>
-                                    <td>{{ $katalog->isbn }}</td>
+                                    <td>{{ $buku->isbn }}</td>
                                 </tr>
                                 <tr>
                                     <th style="">Pengarang</th>
-                                    <td>{{ $katalog->pengarang }}</td>
+                                    <td>{{ $buku->pengarang }}</td>
                                 </tr>
                                 <tr>
                                     <th style="">Penerbit</th>
                                     <td>
                                         @foreach ($penerbit as $penerbit1)
-                                            @if ($penerbit1->id_penerbit == $katalog->penerbit_id)
+                                            @if ($penerbit1->id_penerbit == $buku->penerbit_id)
                                                 {{ $penerbit1->nama_penerbit }}
                                             @endif
                                         @endforeach
@@ -98,9 +99,9 @@
                                 </tr>
                                 <tr>
                                     <th style="">Class</th>
-                                    <td>{{ $katalog->class_id }}
+                                    <td>{{ $buku->class_id }}
                                         @foreach ($klasifikasi as $class)
-                                            @if ($class->id_class == $katalog->class_id)
+                                            @if ($class->id_class == $buku->class_id)
                                                 {{ $class->ket }}
                                             @endif
                                         @endforeach
@@ -110,7 +111,7 @@
                                     <th style="">Kategori</th>
                                     <td>
                                         @foreach ($kategori as $kategori1)
-                                            @if ($kategori1->id_kategori == $katalog->kategori_id)
+                                            @if ($kategori1->id_kategori == $buku->kategori_id)
                                                 {{ $kategori1->kode_kategori }}
                                                 {{ $kategori1->kategori }}
                                             @endif
@@ -119,15 +120,19 @@
                                 </tr>
                                 <tr>
                                     <th style="">Tahun Terbit</th>
-                                    <td>{{ $katalog->tahun_terbit }}</td>
+                                    <td>{{ $buku->tahun_terbit }}</td>
                                 </tr>
                                 <tr>
                                     <th style="">Stok</th>
-                                    <td>{{ $katalog->stok_buku }}</td>
+                                    <td>{{ $buku->stok_buku }}</td>
+                                </tr>
+                                <tr>
+                                    <th style="">Status</th>
+                                    <td>{{ $buku->sisa_exemplar }} Sisa Eksemplar</td>
                                 </tr>
                                 <tr>
                                     <th style="">Deskripsi</th>
-                                    <td>{{ $katalog->deskripsi }}</td>
+                                    <td>{{ $buku->deskripsi }}</td>
                                 </tr>
                             </tbody>
                         </table>
