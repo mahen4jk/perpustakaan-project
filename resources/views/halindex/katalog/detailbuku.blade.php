@@ -124,11 +124,11 @@
                                 </tr>
                                 <tr>
                                     <th style="">Stok</th>
-                                    <td>{{ $buku->stok_buku }}</td>
+                                    <td>{{ $buku->stok_buku }}&nbsp;Eks</td>
                                 </tr>
                                 <tr>
                                     <th style="">Status</th>
-                                    <td>{{ $buku->sisa_exemplar }} Sisa Eksemplar</td>
+                                    <td>Tersisa&nbsp;{{ $buku->sisa_exemplar }}&nbsp;Eks</td>
                                 </tr>
                                 <tr>
                                     <th style="">Deskripsi</th>

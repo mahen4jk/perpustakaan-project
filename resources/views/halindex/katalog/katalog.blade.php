@@ -117,31 +117,6 @@
 
 @section('js')
     <script>
-        // $(document).ready(function() {
-        //     $('#search_buku').autocomplete({
-        //         source: function(request, response) {
-        //             $.ajax({
-        //                 url: '{{ route('katalog.search') }}',
-        //                 type: 'GET',
-        //                 data: {
-        //                     term: request.search
-        //                 },
-        //                 dataType: "json",
-        //                 success: function(data) {
-        //                     response($.map(data, function(item) {
-        //                         return {
-        //                             label: item.judul,
-        //                             value: item.judul
-        //                         }
-        //                     }));
-        //                 }
-
-        //             });
-        //         },
-        //         minLength: 1
-        //     });
-        // });
-
         $(document).ready(function() {
             $('#search_buku').autocomplete({
                 source: function(request, response) {

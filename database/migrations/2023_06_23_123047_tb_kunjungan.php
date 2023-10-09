@@ -18,8 +18,6 @@ class TbKunjungan extends Migration
             $table->increments('id_kunjungan');
             $table->unsignedInteger('anggota_id');
             $table->foreign('anggota_id')->references('id_anggota')->on('tb_anggota')->onDelete('cascade')->onUpdate('cascade');
-            $table->unsignedInteger('kelas_id');
-            $table->foreign('kelas_id')->references('id_kelas')->on('tb_kelas')->onDelete('cascade')->onUpdate('cascade');
             $table->date('tgl_kunjunga');
         });
     }
