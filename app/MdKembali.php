@@ -98,30 +98,6 @@ class MdKembali extends Model
         }
         $jmldenda;
 
-        //Insert Pengembalian
-        // if ($selisih > 0){
-        //     DB::table('tb_pengembalian')->insert([
-        //         'kode_kembali' => $kembali->kode_kembali,
-        //         'pinjam_kode' => $kembali->pinjam_kode,
-        //         'tgl_dikembalikan' => $kembali->tgl_dikembalikan,
-        //         'terlambat' => $selisih,
-        //         'status' => 'Terlambat',
-        //         'denda_id' => $id_denda,
-        //         'total_denda' => $jmldenda,
-        //         'created_at' => now()
-        //     ]);
-        // } else {
-        //     DB::table('tb_pengembalian')->insert([
-        //         'kode_kembali' => $kembali->kode_kembali,
-        //         'pinjam_kode' => $kembali->pinjam_kode,
-        //         'tgl_dikembalikan' => $kembali->tgl_dikembalikan,
-        //         'terlambat' => $selisih,
-        //         'status' => 'Tepat',
-        //         'denda_id' => $id_denda,
-        //         'total_denda' => $jmldenda,
-        //         'created_at' => now()
-        //     ]);
-        // }
         DB::table('tb_pengembalian')->insert([
             'kode_kembali' => $kembali->kode_kembali,
             'pinjam_kode' => $kembali->pinjam_kode,
