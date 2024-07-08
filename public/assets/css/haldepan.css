@@ -1,3 +1,9 @@
+/* Hidden Text */
+
+.inHidden {
+    display: none;
+}
+
 /* Navbar */
 
 .navbar-brand {
@@ -212,19 +218,19 @@
 }
 
 /* Search Katalog */
-.search-katalog {
+#search-katalog {
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
     border-radius: 12px;
     margin-top: -50px;
     background-color: white;
 }
 
-.input-group {
+#desain-input {
     margin-top: 5px;
     position: relative;
 }
 
-.input-group input {
+#desain-input input {
     border-top: 0px;
     border-left: 0px;
     border-right: 0px;
@@ -232,14 +238,14 @@
     border-radius: 0px;
 }
 
-.input-group-append {
+#btn-input-search {
     position: absolute;
     right: 0;
     top: 50%;
     transform: translateY(-50%);
 }
 
-.input-group-append .btn {
+#btn-input-search .btn {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
@@ -422,6 +428,12 @@
 
 /* Desktop Version */
 @media (min-width: 992px) {
+    /* Footer */
+    #footer {
+        border-top: 1px solid #ccc;
+        width: 100%;
+        box-sizing: border-box;
+    }
     /* NavBar */
     .nav-link {
         text-transform: uppercase;
@@ -491,17 +503,17 @@
     /* Katalog */
 
     /* Search Katalog */
-    .search-katalog {
+    #search-katalog {
         margin-top: -70px;
         background-color: white;
     }
 
-    .input-group {
+    #desain-input {
         margin-top: 14px;
         position: relative;
     }
 
-    .input-group input {
+    .desain-input input {
         border-top: 0px;
         border-left: 0px;
         border-right: 0px;
@@ -509,14 +521,14 @@
         border-radius: 0px;
     }
 
-    .input-group-append {
+    #btn-input-search {
         position: absolute;
         right: 0;
         top: 50%;
         transform: translateY(-50%);
     }
 
-    .input-group-append .btn {
+    .btn-input-search .btn {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }

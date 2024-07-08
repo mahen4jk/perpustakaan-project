@@ -87,39 +87,51 @@ class MdKembali extends Model
         $tgl_pengembalian = $kembali->input('tgl_dikembalikan');
         $tgl_pengembalian = Carbon::parse($tgl_pengembalian);
 
-        $selisih = $tg_kembali->diffInDays($tgl_pengembalian);
+        $selisih = $tg_kembali->diffInDays($tgl_pengembalian, false);
         if ($selisih > 0) {
             $jmldenda = $denda * $selisih;
+            $status = 'Terlambat';
         } else {
             $selisih = 0;
             $jmldenda = 0;
+            $status = 'Tepat';
         }
         $jmldenda;
 
         //Insert Pengembalian
-        if ($selisih > 0){
-            DB::table('tb_pengembalian')->insert([
-                'kode_kembali' => $kembali->kode_kembali,
-                'pinjam_kode' => $kembali->pinjam_kode,
-                'tgl_dikembalikan' => $kembali->tgl_dikembalikan,
-                'terlambat' => $selisih,
-                'status' => 'Terlambat',
-                'denda_id' => $id_denda,
-                'total_denda' => $jmldenda,
-                'created_at' => now()
-            ]);
-        } else {
-            DB::table('tb_pengembalian')->insert([
-                'kode_kembali' => $kembali->kode_kembali,
-                'pinjam_kode' => $kembali->pinjam_kode,
-                'tgl_dikembalikan' => $kembali->tgl_dikembalikan,
-                'terlambat' => $selisih,
-                'status' => 'Tepat',
-                'denda_id' => $id_denda,
-                'total_denda' => $jmldenda,
-                'created_at' => now()
-            ]);
-        }
+        // if ($selisih > 0){
+        //     DB::table('tb_pengembalian')->insert([
+        //         'kode_kembali' => $kembali->kode_kembali,
+        //         'pinjam_kode' => $kembali->pinjam_kode,
+        //         'tgl_dikembalikan' => $kembali->tgl_dikembalikan,
+        //         'terlambat' => $selisih,
+        //         'status' => 'Terlambat',
+        //         'denda_id' => $id_denda,
+        //         'total_denda' => $jmldenda,
+        //         'created_at' => now()
+        //     ]);
+        // } else {
+        //     DB::table('tb_pengembalian')->insert([
+        //         'kode_kembali' => $kembali->kode_kembali,
+        //         'pinjam_kode' => $kembali->pinjam_kode,
+        //         'tgl_dikembalikan' => $kembali->tgl_dikembalikan,
+        //         'terlambat' => $selisih,
+        //         'status' => 'Tepat',
+        //         'denda_id' => $id_denda,
+        //         'total_denda' => $jmldenda,
+        //         'created_at' => now()
+        //     ]);
+        // }
+        DB::table('tb_pengembalian')->insert([
+            'kode_kembali' => $kembali->kode_kembali,
+            'pinjam_kode' => $kembali->pinjam_kode,
+            'tgl_dikembalikan' => $kembali->tgl_dikembalikan,
+            'terlambat' => $selisih,
+            'status' => $status,
+            'denda_id' => $id_denda,
+            'total_denda' => $jmldenda,
+            'created_at' => now()
+        ]);
 
         //Update Status Peminjaman
         DB::table('tb_peminjaman')->where('kode_pinjam', $kembali->pinjam_kode)->update([

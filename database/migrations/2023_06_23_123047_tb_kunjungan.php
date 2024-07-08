@@ -17,8 +17,16 @@ class TbKunjungan extends Migration
         Schema::create('tb_kunjungan', function (Blueprint $table) {
             $table->increments('id_kunjungan');
             $table->unsignedInteger('anggota_id');
-            $table->foreign('anggota_id')->references('id_anggota')->on('tb_anggota')->onDelete('cascade')->onUpdate('cascade');
-            $table->date('tgl_kunjunga');
+            $table->string('nis')->nullable();
+            $table->string('nama_anggota')->nullable();
+            $table->string('kelas')->nullable();
+            $table->date('tgl_kunjungan');
+
+            $table->foreign('anggota_id')
+                ->references('id_anggota')
+                ->on('tb_anggota')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
@@ -30,5 +38,6 @@ class TbKunjungan extends Migration
     public function down()
     {
         //
+        Schema::dropIfExists('tb_kunjungan');
     }
 }

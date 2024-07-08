@@ -29,54 +29,18 @@
             <div class="col-lg-auto">
                 <div class="card card-primary card-outline">
                     <div class="card-header">
-                        <h5 class="m-0 bi"> <i class="fa-solid fa-book"></i> Master Buku</h5>
+                        <h5 class="m-0 bi"> <i class="fa-solid fa-book"></i> Laporan Buku</h5>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg">
-                                <div class="card">
-                                    <div class="card-header border-0">
-                                        <h3 class="card-title">Buku Yang Sering Dipinjam</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="d-flex">
-                                            <canvas id="myChart" style="max-height: 350px; max-height: 350px"></canvas>
-                                        </div>
-                                        <!-- /.d-flex -->
-                                    </div>
-                                    <!-- /.card -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <form action="{{ route('buku.filter') }}" method="GET">
-                                    <div class="form-row">
-                                        <div class="col-lg-3">
-                                            <label for="tanggal_awal">Tanggal Awal:</label>
-                                            <input type="date" class="form-control" name="tanggal_awal" id="tanggal_awal">
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <label for="tanggal_akhir">Tanggal Akhir:</label>
-                                            <input type="date" class="form-control" name="tanggal_akhir" id="tanggal_akhir">
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <label for="action"><br></label>
-                                            <button type="submit" class="btn btn-info form-control">Filter</button>
-                                        </div>
-                                    </div>
-                                    <br>
-                                </form>
-                            </div>
-                        </div>
                         <table id="example2" class="table table-hover table-sm table-responsive-sm">
                             <thead class="thead-light">
                                 <tr>
                                     <th style="width:1px; white-space:nowrap; text-align:center;">No</th>
                                     <th style="width:1px; white-space:nowrap;">Judul Buku</th>
                                     <th style="width:1px; white-space:nowrap;">Cover</th>
-                                    <th style="width:1px; white-space:nowrap;">Tahun Terbit</th>
-                                    <th style="width:1px; white-space:nowrap;">Jumlah Buku</th>
+                                    <th style="width:1px; white-space:nowrap;">Stock Buku</th>
+                                    <th style="width:1px; white-space:nowrap;">Buku Tersedia</th>
+                                    <th style="width:1px; white-space:nowrap;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -98,6 +62,7 @@
                                             @endif
                                         </td>
                                         <td>{{ $katalog->stok_buku }}</td>
+                                        <td>{{ $katalog->sisa_exemplar }}</td>
                                         <td>
                                             <a id="detail-buku" class="btn btn-default btn-sm" data-toggle="modal"
                                                 data-target="#modal-detail-buku" data-id_buku="{{ $katalog->id_buku }}"
@@ -106,7 +71,6 @@
                                                 data-id_penerbit="{{ $katalog->penerbit->nama_penerbit }}"
                                                 data-klasifikasi="{{ $katalog->class_id }}"data-id_kategori="{{ $katalog->kategori->kategori }}"
                                                 data-tahun_terbit="{{ $katalog->tahun_terbit }}"
-                                                data-stok_buku="{{ $katalog->stok_buku }}"
                                                 data-deskripsi="{{ $katalog->deskripsi }}">
                                                 <i class="fa-regular fa-eye"></i>&nbsp;Detail
                                             </a>
@@ -118,8 +82,9 @@
                                 <th style="width:1px; white-space:nowrap; text-align:center;">No</th>
                                 <th style="width:1px; white-space:nowrap;">Judul Buku</th>
                                 <th style="width:1px; white-space:nowrap;">Cover</th>
-                                <th style="width:1px; white-space:nowrap;">Tahun Terbit</th>
-                                <th style="width:1px; white-space:nowrap;">Jumlah Buku</th>
+                                <th style="width:1px; white-space:nowrap;">Stock Buku</th>
+                                <th style="width:1px; white-space:nowrap;">Buku Tersedia</th>
+                                <th style="width:1px; white-space:nowrap;">Action</th>
                             </tfoot>
                         </table>
                     </div>
@@ -168,10 +133,6 @@
                                                 <td><span id="tahun_terbit"></span></td>
                                             </tr>
                                             <tr>
-                                                <th style="">Stok</th>
-                                                <td><span id="stok_buku"></span></td>
-                                            </tr>
-                                            <tr>
                                                 <th style="">Deskripsi</th>
                                                 <td><span id="deskripsi"></span></td>
                                             </tr>
@@ -185,81 +146,45 @@
                 <!-- /.col-md-6 -->
             </div>
         </div>
-    @endsection
+    </div>
+@endsection
 
-    @section('js')
-        <script type="text/javascript">
-            $(document).ready(function() {
-                //Modal Detail Buku
-                $(document).on('click', '#detail-buku', function() {
-                    var id_buku = $(this).data('id_buku');
-                    var judul = $(this).data('judul');
-                    var isbn = $(this).data('isbn');
-                    var pengarang = $(this).data('pengarang');
-                    var id_penerbit = $(this).data('id_penerbit');
-                    var klasifikasi = $(this).data('klasifikasi');
-                    var id_kategori = $(this).data('id_kategori');
-                    var tahun_terbit = $(this).data('tahun_terbit');
-                    var stok_buku = $(this).data('stok_buku');
-                    var deskripsi = $(this).data('deskripsi');
-                    $('#id_buku').text(id_buku);
-                    $('#judul').text(judul);
-                    $('#isbn').text(isbn);
-                    $('#pengarang').text(pengarang);
-                    $('#penerbit').text(id_penerbit);
-                    $('#klasifikasi').text(klasifikasi);
-                    $('#kategori').text(id_kategori);
-                    $('#tahun_terbit').text(tahun_terbit);
-                    $('#stok_buku').text(stok_buku);
-                    $('#deskripsi').text(deskripsi);
-                })
-                // Tabel
-                $('#example2').DataTable({
-                    "paging": true,
-                    "lengthChange": true,
-                    "searching": false,
-                    "ordering": true,
-                    "info": true,
-                    "autoWidth": false,
-                    "responsive": true,
-                });
+@section('js')
+    <script>
+        $(document).ready(function() {
+            //Modal Detail Buku
+            $(document).on('click', '#detail-buku', function() {
+                var id_buku = $(this).data('id_buku');
+                var judul = $(this).data('judul');
+                var isbn = $(this).data('isbn');
+                var pengarang = $(this).data('pengarang');
+                var id_penerbit = $(this).data('id_penerbit');
+                var klasifikasi = $(this).data('klasifikasi');
+                var id_kategori = $(this).data('id_kategori');
+                var tahun_terbit = $(this).data('tahun_terbit');
+                var stok_buku = $(this).data('stok_buku');
+                var deskripsi = $(this).data('deskripsi');
+                $('#id_buku').text(id_buku);
+                $('#judul').text(judul);
+                $('#isbn').text(isbn);
+                $('#pengarang').text(pengarang);
+                $('#penerbit').text(id_penerbit);
+                $('#klasifikasi').text(klasifikasi);
+                $('#kategori').text(id_kategori);
+                $('#tahun_terbit').text(tahun_terbit);
+                $('#stok_buku').text(stok_buku);
+                $('#deskripsi').text(deskripsi);
+            })
+            // Tabel
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
             });
-            // Chart Buku yang diPinjam
-            $(function() {
-                // var ctx = $('#myChart').get(0).getContext('2d');
-
-                //Chart
-                $(document).ready(function() {
-                    var Peminjaman = @json($Peminjaman);
-
-                    var labels = Object.keys(Peminjaman);
-                    var data = Object.values(Peminjaman);
-
-                    const ctx = document.getElementById('myChart').getContext('2d');
-                    sampleChartClass.ChartData(ctx, labels, data);
-                });
-
-                sampleChartClass = {
-                    ChartData: function(ctx, labels, data) {
-                        new Chart(ctx, {
-                            type: 'pie',
-                            data: {
-                                labels: labels,
-                                datasets: [{
-                                    label: 'Jumlah',
-                                    data: data,
-                                }]
-                            },
-                            options: {
-                                plugins: {
-                                    legend: {
-                                        position: 'bottom',
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }
-            });
-        </script>
-    @endsection
+        });
+    </script>
+@endsection

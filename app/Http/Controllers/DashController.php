@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\MdBuku;
 use App\MdAnggota;
+use App\MdKunjungan;
 use App\MdPinjam;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ class DashController extends Controller
         # menampilkan halaman dashboard
         $Anggota = MdAnggota::all();
         $Buku = MdBuku::all();
+        $kunjungan = MdKunjungan::all();
         // $Peminjaman = MdPinjam::all();
 
         // $total_buku = [];
@@ -68,6 +70,6 @@ class DashController extends Controller
             return [$pinjam->judul => $pinjam->jumlah_buku];
         });
 
-        return view('admin.dashboard', compact('Buku', 'Anggota', 'Peminjaman'));
+        return view('admin.dashboard', compact('Buku', 'Anggota', 'Peminjaman','kunjungan'));
     }
 }

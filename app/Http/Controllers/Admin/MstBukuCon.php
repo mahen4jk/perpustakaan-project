@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
+use Dompdf\Options;
+use Dompdf\Dompdf;
+use PDF;
 use App\MdBuku;
 use App\MdPenerbit;
 use App\MdKategori;
@@ -98,5 +102,34 @@ class MstBukuCon extends Controller
         $delete = new MdBuku();
         $delete->hpsBUKU($idBUKU);
         return redirect('buku/masterbuku');
+    }
+
+    public function previewKartuBuku($id_buku)
+    {
+        $buku = MdBuku::where('id_buku', decrypt($id_buku))->firstOrFail();
+
+        // Kembalikan view preview dengan data buku
+        return view('admin.masterbuku.printKtBuku', compact('buku'));
+    }
+
+    public function kartuBuku($id_buku)
+    {
+        $buku = MdBuku::where('id_buku', decrypt($id_buku))->firstOrFail();
+
+        // Buat objek Dompdf
+        $dompdf = new Dompdf();
+
+        // Load tampilan Blade ke dalam string HTML
+        $html = View::make('admin.masterbuku.printKtBuku', compact('buku'))->render();
+
+        // Set orientasi kertas ke portrait
+        $dompdf->setPaper('A3', 'landscape');
+
+        // Render HTML menjadi PDF
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+
+        // Tampilkan atau unduh file PDF
+        return $dompdf->stream('cetak_buku.pdf');
     }
 }

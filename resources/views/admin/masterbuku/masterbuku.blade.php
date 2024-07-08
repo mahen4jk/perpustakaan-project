@@ -42,7 +42,7 @@
                             <div class="col-lg-5">
                             </div>
                         </div>
-                        <table id="example2" class="table table-hover table-sm table-responsive-sm">
+                        <table id="example2" class="table table-hover">
                             <thead class="thead-light">
                                 <tr>
                                     <th style="width:1px; white-space:nowrap; text-align:center;">No</th>
@@ -59,7 +59,7 @@
                                 ?>
                                 @foreach ($buku as $katalog)
                                     <tr>
-                                        <td style="text-align:center"><?php echo $no++; ?></td>
+                                        <td><?php echo $no++; ?></td>
                                         <td>{{ $katalog->judul }}</td>
                                         <td>
                                             @if ($katalog->cover)
@@ -75,9 +75,8 @@
                                         <td>{{ $katalog->sisa_exemplar }}</td>
                                         <td>
                                             <a id="detail-buku" class="btn btn-default btn-sm" data-toggle="modal"
-                                                data-target="#modal-detail-buku"
-                                                data-judul="{{ $katalog->judul }}" data-isbn="{{ $katalog->isbn }}"
-                                                data-pengarang="{{ $katalog->pengarang }}"
+                                                data-target="#modal-detail-buku" data-judul="{{ $katalog->judul }}"
+                                                data-isbn="{{ $katalog->isbn }}" data-pengarang="{{ $katalog->pengarang }}"
                                                 data-id_penerbit="{{ $katalog->penerbit->nama_penerbit }}"
                                                 data-klasifikasi="{{ $katalog->class_id }}"data-id_kategori="{{ $katalog->kategori->kategori }}"
                                                 data-tahun_terbit="{{ $katalog->tahun_terbit }}"
@@ -95,6 +94,17 @@
                                                 role="button">
                                                 <i class="fa-solid fa-trash"></i>&nbsp;Hapus
                                             </a>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle"
+                                                    data-toggle="dropdown" aria-expanded="false"><i
+                                                        class="fa-solid fa-print"></i>&nbsp;Print</button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item"
+                                                        href="previewKtBuku/{{ encrypt($katalog->id_buku) }}">Preview Kartu Buku</a>
+                                                    <a class="dropdown-item"
+                                                        href="printKtBuku/{{ encrypt($katalog->id_buku) }}">Kartu Buku</a>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach

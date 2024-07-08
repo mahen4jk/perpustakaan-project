@@ -27,14 +27,14 @@
 @section('content')
     <!-- Search Katalog -->
     <div class="row justify-content-center">
-        <div class="col-lg-10 search-katalog">
+        <div class="col-lg-10" id="search-katalog">
             <div class="row">
                 <div class="col-lg">
                     <form action="{{ route('katalog.search') }}" method="GET">
-                        <div class="form-group input-group">
+                        <div class="form-group input-group" id="desain-input">
                             <input type="text" class="form-control" name="search" id="search_buku"
                                 placeholder="Search...">
-                            <div class="input-group-append">
+                            <div class="input-group-append" id="btn-input-search">
                                 <button class="btn btn-default" id="searchBtn" type="submit">
                                     <i class="fas fa-search"></i>
                                     &nbsp;Search
@@ -56,7 +56,7 @@
                     <div class="col-lg-6">
                         <div class="card card-katalog mb-3" style="max-width: 540px;">
                             <div class="row no-gutters" id="searchResult">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     @if ($katalog->cover)
                                         <img src="{{ asset('image/buku/' . $katalog->cover) }}" alt="Cover Buku"
                                             class="img-katalog img-thumbnail">
@@ -65,7 +65,7 @@
                                             class="img-katalog img-thumbnail ">
                                     @endif
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-9">
                                     <div class="card-body">
                                         <h5 class="card-title">
                                             <a href="{{ url('detail-buku', encrypt($katalog->id_buku)) }}"

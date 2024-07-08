@@ -66,7 +66,7 @@
                             <a href="{{ url('laporan/peminjaman') }}"
                                 class="btn btn-primary {{ Request()->is('laporan/peminjaman') ? 'active' : null }}"
                                 role="button"><i class="fa-regular fa-circle-up"></i>&nbsp;Laporan Peminjaman</a>
-                            <a href="{{ url('sirkulasi/pengembalian') }}"
+                            <a href="{{ url('laporan/pengembalian') }}"
                                 class="btn btn-info {{ Request()->is('laporan/pengembalian') ? 'active' : null }}"
                                 role="button"><i class="fa-regular fa-circle-down"></i>&nbsp;Laporan Pengembalian</a>
                         </td>

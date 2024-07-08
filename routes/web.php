@@ -29,12 +29,14 @@ Route::get('visimisi', 'halindex\profil_perpus@VisiMisi');
 
 #Halaman Katalog
 Route::get('katalog', 'halindex\katalog@halkatalog');
-Route::get('katalog/search','halindex\katalog@search')->name('katalog.search');
+Route::get('katalog/search', 'halindex\katalog@search')->name('katalog.search');
 Route::get('katalog/buku-list', 'halindex\katalog@searchBuku')->name('katalog.autocomplete');
 Route::get('detail-buku/{id_buku}', 'halindex\katalog@show');
 
+#Halaman Kunjungan
 Route::prefix('kunjungan')->group(function () {
     Route::get('/', 'halindex\kunjungan@show');
+    Route::post('/berkunjung', 'halindex\kunjungan@berkunjung')->name('kunjungan');
 });
 
 
@@ -102,6 +104,9 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin,pustakawan']], function (
         Route::post('editbuku/updateBUKU', 'Admin\MstBukuCon@updateBUKU');
         #Hapus buku
         Route::get('hapusBUKU/{id_buku}', 'Admin\MstBukuCon@delBUKU');
+        # PDF
+        Route::get('previewKtBuku/{id_buku}', 'Admin\MstBukuCon@previewKartuBuku');
+        Route::get('printKtBuku/{id_buku}', 'Admin\MstBukuCon@kartuBuku');
     });
 
     #Tampilan MasterKategori
@@ -187,5 +192,8 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin,kep_perpus']], function (
         Route::get('buku/filter', 'Admin\Laporan@FilterLPBuku')->name('buku.filter');
         #Laporan Sirkulasi
         Route::get('peminjaman', 'Admin\Laporan@LaporanPinjam');
+        Route::get('pengembalian', 'Admin\Laporan@LaporanKembali');
+        #Laporan Kunjungan
+        Route::get('kunjungan','Admin\Laporan@LaporanKunjungan');
     });
 });

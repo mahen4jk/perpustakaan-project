@@ -70,40 +70,42 @@
     <!-- Akhir Content -->
 
     <!-- Footer -->
-    <footer class="container">
-        <div class="row">
-            <div class="col-12 col-md">
-                <img src="{{ url('assets/image/logo.png') }}" alt="logo 4waru" style="height: 30px; width:30px">
-            </div>
-            <div class="col-6 col-md">
-                <h5>Profil</h5>
-                <ul class="list-unstyled text-small">
-                    <li><a class="text-muted" href="{{ url('profile') }}">Sejarah</a></li>
-                    <li><a class="text-muted" href="{{ url('visimisi') }}">Visi & Misi</a></li>
-                    <li><a class="text-muted" href="#">Struktur Organisasi</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-md">
-                <h5>Temukan Kami</h5>
-                <ul class="list-unstyled text-small">
-                    <li>
-                        <h5 class="text-muted">Alamat</h5>
-                        <p class="text-muted">JPPW+457, Jl. Gajah Mada, Ngingas, Kec. Waru,
-                            Kabupaten Sidoarjo, Jawa Timur 61256</p>
-                    </li>
-                    <li>
-                        <h5 class="text-muted">Jam Operasional</h5>
-                        <p class="text-muted">Senin - Kamis: 07.00 - 14.30 <br>
-                            Jumat & Sabtu: 11:00 - 14.30</p>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-6 col-md">
-                <h5>Maps</h5>
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.90363248211!2d112.74283567581851!3d-7.364698272473822!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7e4c3d39abb83%3A0x6be9ffbbb93b15e2!2sSMP%20Negeri%204%20Waru!5e0!3m2!1sen!2sid!4v1685286620302!5m2!1sen!2sid"
-                    width="350" height="200" style="border:0;" allowfullscreen="" loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <footer id="footer">
+        <div class="container">
+            <div class="row mt-3">
+                <div class="col-4 col-md">
+                    <img src="{{ url('assets/image/logo.png') }}" alt="logo 4waru" style="height: 30px; width:30px">
+                </div>
+                <div class="col-4 col-md">
+                    <h5>Profil</h5>
+                    <ul class="list-unstyled text-small">
+                        <li><a class="text-muted" href="{{ url('profile') }}">Sejarah</a></li>
+                        <li><a class="text-muted" href="{{ url('visimisi') }}">Visi & Misi</a></li>
+                        <li><a class="text-muted" href="#">Struktur Organisasi</a></li>
+                    </ul>
+                </div>
+                <div class="col-4 col-md">
+                    <h5>Temukan Kami</h5>
+                    <ul class="list-unstyled text-small">
+                        <li>
+                            <h5 class="text-muted">Alamat</h5>
+                            <p class="text-muted">JPPW+457, Jl. Gajah Mada, Ngingas, Kec. Waru,
+                                Kabupaten Sidoarjo, Jawa Timur 61256</p>
+                        </li>
+                        <li>
+                            <h5 class="text-muted">Jam Operasional</h5>
+                            <p class="text-muted">Senin - Kamis: 07.00 - 14.30 <br>
+                                Jumat & Sabtu: 11:00 - 14.30</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-4 col-md">
+                    <h5>Maps</h5>
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.90363248211!2d112.74283567581851!3d-7.364698272473822!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7e4c3d39abb83%3A0x6be9ffbbb93b15e2!2sSMP%20Negeri%204%20Waru!5e0!3m2!1sen!2sid!4v1685286620302!5m2!1sen!2sid"
+                        width="350" height="200" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
             </div>
         </div>
     </footer>

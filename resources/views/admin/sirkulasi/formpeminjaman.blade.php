@@ -191,7 +191,7 @@
                                             <td>{{ $buku->judul }}</td>
                                             <td>{{ $buku->isbn }}</td>
                                             <td>{{ $buku->pengarang }}</td>
-                                            <td>{{ $buku->stok_buku }}</td>
+                                            <td>{{ $buku->sisa_exemplar }}</td>
                                             <td><button class="pilih_buku btn btn-default"
                                                     data-buku_id="<?php echo $buku->id_buku; ?>"
                                                     data-buku_judul="<?php echo $buku->judul; ?>">Pilih&nbsp;<span

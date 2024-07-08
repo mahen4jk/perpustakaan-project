@@ -1,0 +1,37 @@
+ // Chart Buku yang diPinjam
+        // $(function() {
+        //     // var ctx = $('#myChart').get(0).getContext('2d');
+
+        //     //Chart
+        //     $(document).ready(function() {
+        //         var Peminjaman = @json($Peminjaman);
+
+        //         var labels = Object.keys(Peminjaman);
+        //         var data = Object.values(Peminjaman);
+
+        //         const ctx = document.getElementById('myChart').getContext('2d');
+        //         sampleChartClass.ChartData(ctx, labels, data);
+        //     });
+
+        //     sampleChartClass = {
+        //         ChartData: function(ctx, labels, data) {
+        //             new Chart(ctx, {
+        //                 type: 'pie',
+        //                 data: {
+        //                     labels: labels,
+        //                     datasets: [{
+        //                         label: 'Jumlah',
+        //                         data: data,
+        //                     }]
+        //                 },
+        //                 options: {
+        //                     plugins: {
+        //                         legend: {
+        //                             position: 'bottom',
+        //                         }
+        //                     }
+        //                 }
+        //             });
+        //         }
+        //     }
+        // });

@@ -1,7 +1,7 @@
 @extends('layout.dashboard.app')
 
 @section('title')
-    {{ 'Laporan | Pengembalian' }}
+    {{ 'Laporan | Kunjungan' }}
 @endsection
 
 @section('header')
@@ -28,20 +28,9 @@
             <div class="col-lg-auto">
                 <div class="card card-primary card-outline">
                     <div class="card-header">
-                        <h5 class="m-0 bi"><i class="fa-solid fa-folder-minus"></i> Daftar Pengembalian Buku</h5>
-                        <br />
-                        <td>
-                            <a href="{{ url('sirkulasi/peminjaman') }}"
-                                class="btn btn-primary {{ Request()->is('sirkulasi/peminjaman') ? 'active' : null }}"
-                                role="button"><i class="fa-regular fa-circle-up"></i>&nbsp;Data Peminjaman</a>
-                            <a href="{{ url('sirkulasi/pengembalian') }}"
-                                class="btn btn-info {{ Request()->is('sirkulasi/pengembalian') ? 'active' : null }}"
-                                role="button"><i class="fa-regular fa-circle-down"></i>&nbsp;Data Pengembalian</a>
-                        </td>
+                        <h5 class="m-0 bi"> <i class="fa-solid fa-book"></i> Laporan Kunjungan</h5>
                     </div>
                     <div class="card-body">
-                        <a href="{{ url('sirkulasi/formpinjam') }}" class="btn btn-success"><i class="fa-solid fa-plus"></i>
-                            Peminjaman</a>
                         <div class="row">
                             <div class="col-lg-7">
                                 <br />
@@ -52,52 +41,33 @@
                                 <thead class="thead-light">
                                     <tr>
                                         <th style="width:1px; white-space:nowrap;">No</th>
+                                        <th style="width:1px; white-space:nowrap;">NIS</th>
                                         <th style="width:1px; white-space:nowrap;">Nama Anggota</th>
-                                        <th style="width:1px; white-space:nowrap;">Tanggal Dikembalikan</th>
-                                        <th style="width:1px; white-space:nowrap;">Terlambat</th>
-                                        <th style="width:1px; white-space:nowrap;">Status</th>
-                                        <th style="width:1px; white-space:nowrap;">Jumlah Denda</th>
+                                        <th style="width:1px; white-space:nowrap;">Kelas</th>
+                                        <th style="width:1px; white-space:nowrap;">Tanggal Kunjungan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $no = 1;
                                     ?>
-                                    @foreach ($kembali as $pengembalian)
+                                    @foreach ($kunjungan as $kunjungan)
                                         <tr>
-                                            <td><?php echo $no++; ?></td>
-                                            <td>
-                                                @foreach ($sirPinjam as $kembali21)
-                                                    @if ($kembali21->kode_pinjam == $pengembalian->pinjam_kode)
-                                                        @foreach ($Anggota as $kembali22)
-                                                            @if ($kembali22->id_anggota == $kembali21->anggota_id)
-                                                                {{ $kembali22->nama_anggota }}
-                                                            @endif
-                                                        @endforeach
-                                                    @endif
-                                                @endforeach
-                                            </td>
-                                            <td>{{ $pengembalian->tgl_dikembalikan }}</td>
-                                            <td>{{ $pengembalian->terlambat }}&nbsp;Hari</td>
-                                            <td>
-                                                @if ($pengembalian->status == 'Terlambat')
-                                                    <label class="badge badge-warning">Terlambat</label>
-                                                @else
-                                                    <label class="badge badge-success">Tepat Waktu</label>
-                                                @endif
-                                            </td>
-                                            <td>{{ $pengembalian->total_denda }}</td>
+                                            <td style="text-align:center;"><?php echo $no++; ?></td>
+                                            <td>{{ $kunjungan->nis }}</td>
+                                            <td>{{ $kunjungan->nama_anggota }}</td>
+                                            <td>{{ $kunjungan->kelas }}</td>
+                                            <td>{{ $kunjungan->tgl_kunjungan }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <th style="width:1px; white-space:nowrap;">No</th>
+                                        <th style="width:1px; white-space:nowrap;">NIS</th>
                                         <th style="width:1px; white-space:nowrap;">Nama Anggota</th>
-                                        <th style="width:1px; white-space:nowrap;">Tanggal Dikembalikan</th>
-                                        <th style="width:1px; white-space:nowrap;">Terlambat</th>
-                                        <th style="width:1px; white-space:nowrap;">Status</th>
-                                        <th style="width:1px; white-space:nowrap;">Jumlah Denda</th>
+                                        <th style="width:1px; white-space:nowrap;">Kelas</th>
+                                        <th style="width:1px; white-space:nowrap;">Tanggal Kunjungan</th>
                                     </tr>
                                 </tfoot>
                             </table>

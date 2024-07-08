@@ -187,7 +187,7 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link {{ Request()->is('#') ? 'active' : null }}">
+                            <a href="{{url('laporan/kunjungan')}}" class="nav-link {{ Request()->is('laporan/kunjungan') ? 'active' : null }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Laporan Kunjungan</p>
                             </a>

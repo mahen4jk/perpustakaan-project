@@ -10,6 +10,11 @@ use App\MdBuku;
 use App\MdPenerbit;
 use App\MdKategori;
 use App\MdDDC;
+use App\MdKunjungan;
+use App\MdDenda;
+use App\MdAnggota;
+use App\MdKembali;
+use App\MdPinjam;
 
 class Laporan extends Controller
 {
@@ -21,45 +26,24 @@ class Laporan extends Controller
         $penerbit = MdPenerbit::all();
         $kategori = MdKategori::all();
 
-        $dataPinjam = DB::table('tb_peminjaman')
-            ->join('tb_buku', 'buku_id', '=', 'id_buku')
-            ->select(
-                'tb_buku.judul as judul',
-                DB::raw('count(tb_peminjaman.buku_id)as jumlah_buku')
-            )->groupBy('tb_buku.judul')->take(10)->get();
+        // $dataPinjam = DB::table('tb_peminjaman')
+        //     ->join('tb_buku', 'buku_id', '=', 'id_buku')
+        //     ->select(
+        //         'tb_buku.judul as judul',
+        //         DB::raw('count(tb_peminjaman.buku_id)as jumlah_buku')
+        //     )->groupBy('tb_buku.judul')->take(10)->get();
 
-        $Peminjaman = $dataPinjam->mapWithKeys(function ($pinjam, $key) {
-            return [$pinjam->judul => $pinjam->jumlah_buku];
-        });
+        // $Peminjaman = $dataPinjam->mapWithKeys(function ($pinjam, $key) {
+        //     return [$pinjam->judul => $pinjam->jumlah_buku];
+        // });
 
         return view(
             'admin.laporan.laporanbuku',
-            compact('buku', 'klasifikasi', 'penerbit', 'kategori', 'Peminjaman')
+            compact('buku', 'klasifikasi', 'penerbit', 'kategori')
         );
     }
 
     #Filter Laporan Buku
-    public function FilterLPBuku(Request $request)
-    {
-        $tanggalAwal = Carbon::parse($request->input('tanggal_awal'))->startOfDay();
-        $tanggalAkhir = Carbon::parse($request->input('tanggal_akhir'))->endOfDay();
-
-        $buku = MdBuku::whereBetween('created_at', [$tanggalAwal, $tanggalAkhir])->get();
-
-        $dataPinjam = DB::table('tb_peminjaman')
-            ->join('tb_buku', 'buku_id', '=', 'id_buku')
-            ->select(
-                'tb_buku.judul as judul',
-                DB::raw('count(tb_peminjaman.buku_id)as jumlah_buku')
-            )->groupBy('tb_buku.judul')->take(10)->get();
-
-        $Peminjaman = $dataPinjam->mapWithKeys(function ($pinjam, $key) {
-            return [$pinjam->judul => $pinjam->jumlah_buku];
-        });
-
-
-        return view('admin.laporan.laporanbuku', compact('buku', 'Peminjaman'));
-    }
 
     //Laporan Sirkulasi
     public function LaporanPinjam()
@@ -74,5 +58,18 @@ class Laporan extends Controller
 
     public function LaporanKembali()
     {
+        $sirPinjam = MdPinjam::all();
+        $Anggota = MdAnggota::all();
+        $Buku = MdBuku::all();
+        $kembali = MdKembali::all();
+        $Denda = MdDenda::all();
+        return view('admin.laporan.laporanpengembalian', compact('sirPinjam', 'Anggota', 'Buku', 'kembali', 'Denda'));
+    }
+
+    //Laporan Kunjungan
+    public function LaporanKunjungan()
+    {
+        $kunjungan = MdKunjungan::all();
+        return view('admin.laporan.laporankunjungan', compact('kunjungan'));
     }
 }

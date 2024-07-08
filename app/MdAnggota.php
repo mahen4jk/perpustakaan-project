@@ -35,6 +35,11 @@ class MdAnggota extends Model
         return $this->hasMany(MdPinjam::class);
     }
 
+    public function kunjungan()
+    {
+        return $this->hasMany(MdKunjungan::class);
+    }
+
     public function insAnggota($anggota)
     {
 
