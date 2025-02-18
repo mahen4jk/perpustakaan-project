@@ -19,7 +19,7 @@ class PinjamCon extends Controller
         $Buku = MdBuku::all();
         $Peminjaman = MdPinjam::all();
 
-        return view('admin.sirkulasi.peminjaman', compact('Peminjaman','Buku', 'Anggota'));
+        return view('admin.sirkulasi.peminjaman', compact('Peminjaman','Anggota','Buku'));
     }
 
     public function formpinjam()
@@ -27,30 +27,20 @@ class PinjamCon extends Controller
         $Anggota = MdAnggota::all();
         $Buku = MdBuku::all();
         $kode_pinjam = MdPinjam::kode_pinjam();
-        return view('admin.sirkulasi.formpeminjaman', compact('Anggota', 'Buku'), ['kode_pinjam' => $kode_pinjam]);
+        return view('admin.sirkulasi.formpeminjaman', compact('kode_pinjam','Anggota', 'Buku'));
     }
 
     public function simpanPinjam(Request $peminjaman)
     {
         # code...
         $this->validate($peminjaman, [
-            'kode_pinjam' => 'required',
             'tgl_pinjam' => 'required',
             'tgl_kembali' => 'required',
             'anggota_id' => 'required',
             'buku_id' => 'required',
         ]);
-
         $pinjam = new MdPinjam();
         $pinjam->insPinjam($peminjaman);
         return redirect('sirkulasi/peminjaman')->with('toast_success', 'Data Berhasil Disimpan!');
-    }
-
-    public function ubahPinjam(Request $idPinjam)
-    {
-        # code...
-        $pinjam = new MdPinjam();
-        $pinjam->updatePinjam($idPinjam);
-        return redirect('sirkulasi/peminjaman');
     }
 }

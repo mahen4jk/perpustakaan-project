@@ -1,4 +1,4 @@
-@extends('admin.template')
+@extends('layout.dashboard.app')
 
 @section('title')
     {{ 'Sirkulasi | Form Pengembalian' }}
@@ -36,17 +36,17 @@
                         <!-- Form -->
                         <form action="kembaliBuku" method="POST">
                             {{ csrf_field() }}
-                            @foreach ($kode_pinjam as $kembali)
-                                <div class="form-group row">
-                                    <label for="staticKdBUKU" class="col-sm-2 col-form-label">Kode Transaksi</label>
+                            @foreach ($Pinjam as $kembali)
+                                <div class="form-group row" hidden>
+                                    <label for="staticKdBUKU" class="col-sm-2 col-form-label">Kode Kembali</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" name="kode_kembali" id="kd_kembali"
-                                            placeholder="" value="{{ 'IN-' . date('d-m-Y') . '-' . $kode_kembali }}"
+                                            placeholder="" value="{{ 'IN-' . date('dmY') . '-' . $kode_kembali }}"
                                             required readonly>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label for="staticKdBUKU" class="col-sm-2 col-form-label">Kode Transaksi</label>
+                                <div class="form-group row" hidden>
+                                    <label for="staticKdBUKU" class="col-sm-2 col-form-label">Kode Pinjam</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" name="pinjam_kode" id="kd_pinjam"
                                             placeholder="" value="{{ $kembali->kode_pinjam }}" readonly>
@@ -91,7 +91,7 @@
                                             @foreach ($Anggota as $kembali1)
                                                 @if (strval($kembali1->id_anggota) == $kembali->anggota_id)
                                                     <input id="nama_anggota" type="text" class="form-control"
-                                                        readonly="" value="{{ $kembali->nama_anggota }}">
+                                                        readonly="" value="{{ $kembali1->nama_anggota }}">
                                                     <input id="anggota_id" type="text" class="form-control"
                                                         value="{{ $kembali->anggota_id }}" readonly="" hidden>
                                                 @endif
@@ -106,9 +106,9 @@
                                             @foreach ($Buku as $kembali2)
                                                 @if (strval($kembali2->id_buku == $kembali->buku_id))
                                                     <input id="buku_judul" type="text" class="form-control"
-                                                        readonly="" value="{{ $kembali->judul }}">
+                                                        readonly="" value="{{ $kembali2->judul }}">
                                                     <input id="buku_id" type="text" class="form-control"
-                                                        value="{{ $kembali->buku_id }}" readonly=""hidden>
+                                                        name="buku_id" value="{{ $kembali->buku_id }}" readonly="" hidden>
                                                 @endif
                                             @endforeach
                                         </div>

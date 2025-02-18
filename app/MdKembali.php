@@ -67,83 +67,92 @@ class MdKembali extends Model
 
     public function Kembali($kembali)
     {
-
         // Insert Pengembalian
-        //Denda dengan status
-        $stsDenda = MdDenda::all()->where('status', 'A');
-        foreach ($stsDenda as $nom_Denda) {
-            # code...
-            $id_denda = $nom_Denda->id_denda;
-            $denda = $nom_Denda->nominal_denda;
-        }
-        //Membuat selisih hari
-        // $pinjam = MdPinjam::find($kembali);
-        $pinjam = MdPinjam::all();
-        foreach ($pinjam as $pinjam11) {
-            # code...
-            $tg_kembali = $pinjam11->tgl_kembali;
-        }
-        $tg_kembali = Carbon::parse($tg_kembali);
-        $tgl_pengembalian = $kembali->input('tgl_dikembalikan');
-        $tgl_pengembalian = Carbon::parse($tgl_pengembalian);
+        // Denda dengan status 'A'
+        // $stsDenda = MdDenda::where('status', 'A')->first();
+        // if (!$stsDenda) {
+        //     return back()->withErrors('Denda dengan status aktif tidak ditemukan.');
+        // }
 
-        $selisih = $tg_kembali->diffInDays($tgl_pengembalian);
+        // $id_denda = $stsDenda->id_denda;
+        // $denda = $stsDenda->nominal_denda;
+
+        // Mengambil semua denda dengan status 'A'
+        $activeDendas = MdDenda::where('status', 'A')->get();
+
+        if ($activeDendas->count() == 0) {
+            return back()->withErrors('Denda dengan status aktif tidak ditemukan.');
+        }
+
+        // Pilih denda tertinggi jika ada lebih dari satu
+        $denda = $activeDendas->max('nominal_denda');
+        $id_denda = $activeDendas->where('nominal_denda', $denda)->first()->id_denda;
+
+        // Mengambil data pinjam berdasarkan pinjam_kode
+        $pinjam = MdPinjam::where('kode_pinjam', $kembali->pinjam_kode)->first();
+        if (!$pinjam) {
+            return back()->withErrors('Data pinjaman tidak ditemukan.');
+        }
+
+        $tg_kembali = Carbon::parse($pinjam->tgl_kembali);
+        $tgl_pengembalian = Carbon::parse($kembali->input('tgl_dikembalikan'));
+
+        // Membuat selisih hari
+        $selisih = $tg_kembali->diffInDays($tgl_pengembalian, false);
         if ($selisih > 0) {
             $jmldenda = $denda * $selisih;
+            $status = 'terlambat';
         } else {
             $selisih = 0;
             $jmldenda = 0;
+            $status = 'tepat';
         }
-        $jmldenda;
 
-        //Insert Pengembalian
-        if ($selisih > 0){
-            DB::table('tb_pengembalian')->insert([
-                'kode_kembali' => $kembali->kode_kembali,
-                'pinjam_kode' => $kembali->pinjam_kode,
-                'tgl_dikembalikan' => $kembali->tgl_dikembalikan,
-                'terlambat' => $selisih,
-                'status' => 'Terlambat',
-                'denda_id' => $id_denda,
-                'total_denda' => $jmldenda,
-                'created_at' => now()
-            ]);
-        } else {
-            DB::table('tb_pengembalian')->insert([
-                'kode_kembali' => $kembali->kode_kembali,
-                'pinjam_kode' => $kembali->pinjam_kode,
-                'tgl_dikembalikan' => $kembali->tgl_dikembalikan,
-                'terlambat' => $selisih,
-                'status' => 'Tepat',
-                'denda_id' => $id_denda,
-                'total_denda' => $jmldenda,
-                'created_at' => now()
-            ]);
-        }
+        // Insert data pengembalian ke database
+        DB::table('tb_pengembalian')->insert([
+            'kode_kembali' => $kembali->kode_kembali,
+            'pinjam_kode' => $kembali->pinjam_kode,
+            'tgl_dikembalikan' => $tgl_pengembalian->toDateString(),
+            'terlambat' => $selisih,
+            'status' => $status,
+            'denda_id' => $id_denda,
+            'total_denda' => $jmldenda,
+            'created_at' => now()
+        ]);
 
         //Update Status Peminjaman
-        $pinjamID = MdPinjam::all();
-        foreach ($pinjamID as $pinjam12) {
-            # code...
-            $pinjam_id = $pinjam12->kode_pinjam;
-            // $pinjam_sts = $pinjam12->status;
-        }
-        DB::table('tb_peminjaman')->where('kode_pinjam', $pinjam_id)->update([
+        DB::table('tb_peminjaman')->where('kode_pinjam', $kembali->pinjam_kode)->update([
             'status' => 'Kembali',
             'updated_at' => now()
         ]);
 
-        // Update Stock Buku
-        $buku = MdBuku::all();
-        foreach ($buku as $bukuID) {
-            # code...
-            $buku_id = $bukuID->id_buku;
-            $qty_now = $bukuID->stok_buku;
-        }
+        $buku = DB::table('tb_peminjaman')->join(
+            'tb_buku',
+            'buku_id',
+            '=',
+            'id_buku'
+        )->where('kode_pinjam', $kembali->pinjam_kode)
+            ->where(
+                'id_buku',
+                $kembali->buku_id
+            )->get();
 
-        $qty_new = $qty_now + 1;
-        DB::table('tb_buku')->where('id_buku', $buku_id)->update([
-            'stok_buku' => $qty_new
-        ]);
+        if ($buku->isNotEmpty()) {
+            // Looping melalui setiap buku yang memenuhi kondisi
+            foreach ($buku as $item) {
+                $qty_now = $item->sisa_exemplar;
+                $qty_new = $qty_now + 1;
+
+                // Memperbarui stok buku
+                DB::table('tb_buku')
+                    ->where('id_buku', $item->id_buku)
+                    ->update([
+                        'sisa_exemplar' => $qty_new,
+                        'updated_at' => now()
+                    ]);
+            }
+        } else {
+            dd($buku);
+        }
     }
 }

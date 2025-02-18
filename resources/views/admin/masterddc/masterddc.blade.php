@@ -1,4 +1,4 @@
-@extends('admin.template')
+@extends('layout.dashboard.app')
 
 @section('title')
     {{ 'Master DDC' }}
@@ -50,15 +50,20 @@
                         <table id="example2" class="table table-hover table-sm" cellspacing="0" width="100%">
                             <thead class="thead-light">
                                 <tr>
-                                    <th style="width:1px; white-space:nowrap;">Class</th>
+                                    <th style="width:1px; white-space:nowrap;">No</th>
+                                    <th style="width:1px; white-space:nowrap;">Kode</th>
                                     <th style="width:1px; white-space:nowrap;">About</th>
                                     <th style="width:1px; white-space:nowrap;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php
+                                $no = 1;
+                                ?>
                                 @foreach ($ddc as $klasifikasi)
                                     <tr>
-                                        <td>{{ $klasifikasi->id_class }}</td>
+                                        <td style="text-align:center;"><?php echo $no++; ?></td>
+                                        <td>{{ $klasifikasi->kode_class }}</td>
                                         <td>{{ $klasifikasi->ket }}</td>
                                         <td>
                                             <a href="editDDC/{{ encrypt($klasifikasi->id_class) }}" class="btn btn-warning"
@@ -74,7 +79,8 @@
                                 @endforeach
                             </tbody>
                             <tfoot>
-                                <th style="width:1px; white-space:nowrap;">Class</th>
+                                <th style="width:1px; white-space:nowrap;">No</th>
+                                <th style="width:1px; white-space:nowrap;">Kode</th>
                                 <th style="width:1px; white-space:nowrap;">About</th>
                                 <th style="width:1px; white-space:nowrap;">Pilihan</th>
                             </tfoot>

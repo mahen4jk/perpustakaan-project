@@ -1,4 +1,4 @@
-@extends('admin.template')
+@extends('layout.dashboard.app')
 
 @section('title')
     {{ 'Master Anggota' }}
@@ -35,13 +35,13 @@
                         <a href="{{ url('anggota/tambahanggota') }}" class="btn btn-success"><i
                                 class="fa-solid fa-plus"></i>
                             Tambah Anggota</a>
-                        <a href="{{ url('anggota/exportanggota') }}" class="btn btn-secondary"><i
+                        {{-- <a href="{{ url('anggota/exportanggota') }}" class="btn btn-secondary"><i
                                 class="fa-regular fa-file-excel"></i>
                             Export Anggota</a>
                         <button type="button" class="btn btn-primary" data-toggle="modal"
                             data-target="#modal-import-anggota">
                             <span class="fa-solid fa-file-import"></span> Import Anggota
-                        </button>
+                        </button> --}}
                         <div class="row">
                             {{-- <div class="col-lg-7 pt-8">
                             </div>
@@ -62,10 +62,10 @@
                                 <thead class="thead-light">
                                     <tr>
                                         <th style="width:1px; white-space:nowrap;">No</th>
+                                        <th style="width:1px; white-space:nowrap;">Kelas</th>
                                         <th style="width:1px; white-space:nowrap;">NIS</th>
                                         <th style="width:1px; white-space:nowrap;">Nama</th>
-                                        <th style="width:1px; white-space:nowrap;">Kelas</th>
-                                        <th style="width:1px; white-space:nowrap;">Status</th>
+                                        <th style="width:1px; white-space:nowrap;">Kelamin</th>
                                         <th style="width:1px; white-space:nowrap;">Actions</th>
                                     </tr>
                                 </thead>
@@ -76,32 +76,24 @@
                                     @foreach ($anggota as $anggota)
                                         <tr>
                                             <td><?php echo $no++; ?></td>
+                                            <td>{{ $anggota->kelas->kelas }}</td>
                                             <td>{{ $anggota->nis }}</td>
                                             <td>{{ $anggota->nama_anggota }}</td>
-                                            <td>{{ $anggota->kelas->kelas }}</td>
                                             <td>
-                                                @if ($anggota->status == 'Aktif')
-                                                    <span class="badge badge-success">Aktif</span>
-                                                @else
-                                                    <span class="badge badge-info">Tidak Aktif</span>
+                                                @if ($anggota->j_kelamin == 'L')
+                                                    Laki-Laki
+                                                @elseif ($anggota->j_kelamin == 'P')
+                                                    Perempuan
                                                 @endif
                                             </td>
                                             <td>
-                                                <a id="detail-anggota" class="btn btn-default btn-sm" data-toggle="modal"
-                                                    data-target="#modal-detail-anggota" data-nis="{{ $anggota->nis }}"
-                                                    data-nm_lengkap="{{ $anggota->nama_anggota }}"
-                                                    data-j_kelamin="{{ $anggota->j_kelamin }}"
-                                                    data-kelas="{{ $anggota->kelas->kelas }}"
-                                                    data-alamat="{{ $anggota->alamat }}" data-no_hp="{{ $anggota->hp }}">
-                                                    <i class="fa-regular fa-eye"></i>&nbsp;Detail
-                                                </a>
                                                 <a href="editANG/{{ encrypt($anggota->id_anggota) }}"
                                                     class="btn btn-warning btn-sm" role="button">
                                                     <i class="fa-solid fa-pen-nib"></i>&nbsp;Ubah
                                                 </a>
                                                 <a href="#" class="btn btn-danger btn-sm btnDelAnggota"
                                                     data-id="{{ $anggota->id_anggota }}"
-                                                    data-name="{{ $anggota->nama_lengkap }}" role="button">
+                                                    data-name="{{ $anggota->nama_anggota }}" role="button">
                                                     <i class="fa-solid fa-trash"></i>&nbsp;Hapus</button>
                                                 </a>
                                             </td>
@@ -110,15 +102,15 @@
                                 </tbody>
                                 <tfoot>
                                     <th style="width:1px; white-space:nowrap;">No</th>
+                                    <th style="width:1px; white-space:nowrap;">Kelas</th>
                                     <th style="width:1px; white-space:nowrap;">NIS</th>
                                     <th style="width:1px; white-space:nowrap;">Nama</th>
-                                    <th style="width:1px; white-space:nowrap;">Kelas</th>
-                                    <th style="width:1px; white-space:nowrap;">Status</th>
+                                    <th style="width:1px; white-space:nowrap;">Kelamin</th>
                                     <th style="width:1px; white-space:nowrap;">Actions</th>
                                 </tfoot>
                             </table>
                         </div>
-                        <div class="modal fade" id="modal-detail-anggota">
+                        {{-- <div class="modal fade" id="modal-detail-anggota">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -159,11 +151,11 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <!-- Modal Import Anggota -->
-                <div class="modal fade" id="modal-import-anggota">
+                {{-- <div class="modal fade" id="modal-import-anggota">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -187,7 +179,7 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <!-- /.col-md-6 -->
         </div>
@@ -197,23 +189,23 @@
 @section('js')
     <script type="text/javascript">
         $(document).ready(function() {
-            //Modal Detail Anggota
-            $(document).on('click', '#detail-anggota', function() {
-                var nis = $(this).data('nis');
-                var nm_lengkap = $(this).data('nm_lengkap');
-                var j_kelamin = $(this).data('j_kelamin');
-                var kelas = $(this).data('kelas');
-                var alamat = $(this).data('alamat');
-                var no_hp = $(this).data('no_hp');
-                // var status = $(this).data('status');
-                $('#nis').text(nis);
-                $('#nm_lengkap').text(nm_lengkap);
-                $('#j_kelamin').text(j_kelamin);
-                $('#kelas').text(kelas);
-                $('#alamat').text(alamat);
-                $('#no_hp').text(no_hp);
-                // $('#status').text(status);
-            })
+            // //Modal Detail Anggota
+            // $(document).on('click', '#detail-anggota', function() {
+            //     var nis = $(this).data('nis');
+            //     var nm_lengkap = $(this).data('nm_lengkap');
+            //     var j_kelamin = $(this).data('j_kelamin');
+            //     var kelas = $(this).data('kelas');
+            //     var alamat = $(this).data('alamat');
+            //     var no_hp = $(this).data('no_hp');
+            //     // var status = $(this).data('status');
+            //     $('#nis').text(nis);
+            //     $('#nm_lengkap').text(nm_lengkap);
+            //     $('#j_kelamin').text(j_kelamin);
+            //     $('#kelas').text(kelas);
+            //     $('#alamat').text(alamat);
+            //     $('#no_hp').text(no_hp);
+            //     // $('#status').text(status);
+            // })
 
             //Delete Anggota
             $('.btnDelAnggota').click(function() {

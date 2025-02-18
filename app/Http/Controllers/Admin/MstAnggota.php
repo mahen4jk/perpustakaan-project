@@ -64,14 +64,10 @@ class MstAnggota extends Controller
     {
         # code...
         $validate_anggota = $Anggota->validate([
-            'id_anggota' => 'required',
             'nis' => 'required',
             'nama_anggota' => 'required',
             'j_kelamin' => 'required',
             'kelas_id' => 'required',
-            'alamat' => 'required',
-            'hp' => 'required',
-            'status' => 'required',
         ]);
         $simpan = new MdAnggota();
         $simpan->insAnggota($Anggota, ['id_anggota' => $validate_anggota]);
@@ -94,17 +90,13 @@ class MstAnggota extends Controller
         # code...
         $validate_anggota = $Anggota->validate([
             'id_anggota' => 'required',
+            'kelas_id' => 'required',
             'nis' => 'required',
             'nama_anggota' => 'required',
             'j_kelamin' => 'required',
-            'kelas_id' => 'required',
-            'alamat' => 'required',
-            'hp' => 'required',
-            'status' => 'required',
         ]);
         $simpan = new MdAnggota();
         $simpan->editAnggota($Anggota, ['id_anggota' => $validate_anggota]);
-        // dd ($Anggota->all());
         return redirect('anggota/masteranggota')->with('toast_success', 'Data Berhasil diubah');
     }
 

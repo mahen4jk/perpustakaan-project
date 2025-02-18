@@ -1,0 +1,3 @@
+Buat value tanggalan
+value="{{ date('Y-m-d',
+strtotime(Carbon\Carbon::today()->addDay(3)->nextWeekday()->toDateString())) }}"

@@ -1,4 +1,4 @@
-@extends('halindex.temp_index')
+@extends('layout.home.app')
 
 @section('title')
     {{ 'Katalog' }}
@@ -27,17 +27,21 @@
 @section('content')
     <!-- Search Katalog -->
     <div class="row justify-content-center">
-        <div class="col-lg-10 search-katalog">
+        <div class="col-lg-10" id="search-katalog">
             <div class="row">
                 <div class="col-lg">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search...">
-                        <div class="input-group-append">
-                            <button class="btn" type="button">
-                                <i class="fas fa-search"></i>
-                            </button>
+                    <form action="{{ route('katalog.search') }}" method="GET">
+                        <div class="form-group input-group" id="desain-input">
+                            <input type="text" class="form-control" name="search" id="search_buku"
+                                placeholder="Search...">
+                            <div class="input-group-append" id="btn-input-search">
+                                <button class="btn btn-default" id="searchBtn" type="submit">
+                                    <i class="fas fa-search"></i>
+                                    &nbsp;Search
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -46,13 +50,103 @@
 
     <!-- Tampilan Buku -->
     <div class="row tampilan-buku">
-        <div class="col">
-
-            <div class="card"></div>
+        <div class="col-lg-12">
+            <div class="row">
+                @foreach ($buku as $katalog)
+                    <div class="col-lg-6">
+                        <div class="card card-katalog mb-3" style="max-width: 540px;">
+                            <div class="row no-gutters" id="searchResult">
+                                <div class="col-md-3">
+                                    @if ($katalog->cover)
+                                        <a href="{{ url('detail-buku', encrypt($katalog->id_buku)) }}" class="detail-buku-cv">
+                                            <img src="{{ asset('image/buku/' . $katalog->cover) }}" alt="Cover Buku"
+                                                class="img-katalog img-thumbnail">
+                                        </a>
+                                    @else
+                                        <a href="{{ url('detail-buku', encrypt($katalog->id_buku)) }}" class="detail-buku">
+                                            <img src="{{ asset('image/no-image.png') }}" alt="No Image"
+                                                class="img-katalog img-thumbnail ">
+                                        </a>
+                                    @endif
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <a href="{{ url('detail-buku', encrypt($katalog->id_buku)) }}"
+                                                class="detail-buku">
+                                                {{ $katalog->judul }}
+                                            </a>
+                                        </h5>
+                                        <p class="card-text">
+                                            <small class="text-muted">
+                                                Buku masuk: {{ $katalog->created_at->format('d-m-Y') }}
+                                            </small><br>
+                                            <small class="text-muted">
+                                                <i class="fa-solid fa-user"></i>
+                                                &nbsp;{{ $katalog->pengarang }}
+                                            </small><br>
+                                            {{-- <small class="text-muted">
+                                                <i class="fa-solid fa-circle-check"></i>
+                                                &nbsp;{{ $katalog->kategori->kategori }}
+                                            </small></br> --}}
+                                            <small class="text-muted">
+                                                <i class="fa-solid fa-calendar-days"></i>
+                                                &nbsp;{{ $katalog->tahun_terbit }}
+                                            </small><br>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         </div>
     </div>
     <!-- Akhir Tampilan Buku -->
+    {{-- Pagination --}}
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Tampilkan navigasi pagination dengan Bootstrap -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center pagi-ubah">
+                    {{ $bukuPaginator->links() }}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    {{-- Tampilan Akhir Pagination --}}
 @endsection
 
 @section('js')
+    <script>
+        $(document).ready(function() {
+            $('#search_buku').autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: '{{ route('katalog.autocomplete') }}',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {
+                            term: request.term
+                        },
+                        success: function(data) {
+                            if (data.length === 0) {
+                                response(['Judul yang Anda cari tidak tersedia']);
+                            } else {
+                                response(data);
+                            }
+                        }
+                    });
+                },
+                minLength: 1, // Jumlah karakter minimal sebelum pencarian mulai dilakukan
+                // Tambahkan opsi select untuk menonaktifkan fitur input dari pesan yang muncul
+                select: function(event, ui) {
+                    if (ui.item.value === 'Judul yang Anda cari tidak tersedia') {
+                        return false; // Tidak memperbolehkan memilih pesan tersebut
+                    }
+                }
+            });
+        });
+    </script>
 @endsection

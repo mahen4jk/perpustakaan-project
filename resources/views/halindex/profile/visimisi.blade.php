@@ -1,4 +1,4 @@
-@extends('halindex.temp_index')
+@extends('layout.home.app')
 
 @section('title')
     {{ 'Visi & Misi' }}
@@ -41,7 +41,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
                     <li class="breadcrumb-item {{ Request()->is('profile') ? 'active' : '' }}">
-                        Profile
+                        Visi & Misi
                     </li>
                 </ol>
                 <div class="row">

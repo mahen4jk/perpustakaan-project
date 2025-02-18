@@ -1,4 +1,4 @@
-@extends('admin.template')
+@extends('layout.dashboard.app')
 
 @section('title')
     {{ 'Sirkulasi | Pengembalian' }}
@@ -84,6 +84,7 @@
                                 <thead class="thead-light">
                                     <tr>
                                         <th style="width:1px; white-space:nowrap;">No</th>
+                                        <th style="width:1px; white-space:nowrap;">Kode Kembali</th>
                                         <th style="width:1px; white-space:nowrap;">Nama Anggota</th>
                                         <th style="width:1px; white-space:nowrap;">Tanggal Dikembalikan</th>
                                         <th style="width:1px; white-space:nowrap;">Terlambat</th>
@@ -98,6 +99,7 @@
                                     @foreach ($kembali as $pengembalian)
                                         <tr>
                                             <td><?php echo $no++; ?></td>
+                                            <td>{{ $pengembalian->kode_kembali }}</td>
                                             <td>
                                                 @foreach ($sirPinjam as $kembali21)
                                                     @if ($kembali21->kode_pinjam == $pengembalian->pinjam_kode)
@@ -112,7 +114,7 @@
                                             <td>{{ $pengembalian->tgl_dikembalikan }}</td>
                                             <td>{{ $pengembalian->terlambat }}&nbsp;Hari</td>
                                             <td>
-                                                @if ($pengembalian->status == 'Terlambat')
+                                                @if ($pengembalian->status == 'terlambat')
                                                     <label class="badge badge-warning">Terlambat</label>
                                                 @else
                                                     <label class="badge badge-success">Tepat Waktu</label>
@@ -125,6 +127,7 @@
                                 <tfoot>
                                     <tr>
                                         <th style="width:1px; white-space:nowrap;">No</th>
+                                        <th style="width:1px; white-space:nowrap;">Kode Kembali</th>
                                         <th style="width:1px; white-space:nowrap;">Nama Anggota</th>
                                         <th style="width:1px; white-space:nowrap;">Tanggal Dikembalikan</th>
                                         <th style="width:1px; white-space:nowrap;">Terlambat</th>

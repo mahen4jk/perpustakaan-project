@@ -11,8 +11,8 @@ class MdDDC extends Model
     protected $table = 'tb_ddc';
     protected $primarykey = 'id_class';
     public $incrementing = false;
-    public $timestamps = false;
-    protected $fillable = ['id_class', 'ket','created_at', 'updated_at'];
+    public $timestamps = true;
+    protected $fillable = ['id_class', 'kode_class', 'ket','created_at', 'updated_at'];
 
     public function buku()
     {
@@ -25,10 +25,9 @@ class MdDDC extends Model
     {
         # tambah data kategori...
         DB::table('tb_ddc')->insert([
-            'id_class' => $ddc->id_class,
+            'kode_class' => $ddc->kode_class,
             'ket' => $ddc->ket,
             'created_at' => now(),
-            'updated_at' => now()
         ]);
     }
 
@@ -42,6 +41,7 @@ class MdDDC extends Model
     {
         # tambah data kategori...
         DB::table('tb_ddc')->where('id_class', $ddc->id_class)->update([
+            'kode_class' => $ddc->kode_class,
             'ket' => $ddc->ket,
             'updated_at' => now()
         ]);

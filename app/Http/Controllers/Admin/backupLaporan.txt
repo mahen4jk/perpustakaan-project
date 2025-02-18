@@ -1,0 +1,66 @@
+// filter laporan kunjungan
+$tahunAjaran = $request->input('tahun_ajaran');
+        $bulan = $request->input('bulan');
+
+        $tahun = explode('/', $tahunAjaran);
+        $startYear = $tahun[0];
+
+        // Tentukan rentang tanggal berdasarkan bulan dan tahun yang dipilih
+        $startDate = Carbon::create($startYear, $bulan, 1)->startOfDay();
+        $endDate = $startDate->copy()->endOfMonth()->endOfDay();
+
+        $reports = MdKunjungan::whereBetween('created_at', [$startDate, $endDate])->get();
+
+        $tahunAjaranList = MdKunjungan::selectRaw("DISTINCT CONCAT(YEAR(created_at), '/', YEAR(created_at) + 1) AS tahun_ajaran")
+            ->pluck('tahun_ajaran');
+
+        $dates = [];
+        $totals = [];
+
+        for ($date = $startDate->copy()->startOfMonth(); $date <= $endDate; $date->addDay()) {
+            $dates[] = $date->format('Y-m-d');
+        }
+
+        $datakunjungan = DB::table('tb_kunjungan')
+            ->select(DB::raw('DATE(tgl_kunjungan) as date'), DB::raw('count(*) as total'))
+            ->whereBetween('tgl_kunjungan', [$startDate, $endDate])
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        $datakunjungan = $datakunjungan->keyBy('date');
+        foreach ($dates as $date) {
+            $totals[] = isset($datakunjungan[$date]) ? $datakunjungan[$date]->total : 0;
+        }
+
+        // Siapkan data anggota dan kelas
+        $dataAnggota = DB::table('tb_kunjungan')
+            ->select('nama_anggota as nama', DB::raw('count(nama_anggota) as total_anggota'))
+            ->groupBy('nama')
+            ->take(10)
+            ->get();
+
+        $Anggota = $dataAnggota->mapWithKeys(function ($kunjungan) {
+            return [$kunjungan->nama => $kunjungan->total_anggota];
+        });
+
+        $dataKelas = DB::table('tb_kunjungan')
+            ->select('kelas', DB::raw('count(kelas) as total_kelas'))
+            ->groupBy('kelas')
+            ->take(10)
+            ->get();
+
+        $Kelas = $dataKelas->mapWithKeys(function ($kunjungan) {
+            return [$kunjungan->kelas => $kunjungan->total_kelas];
+        });
+
+        return view('admin.laporan.laporankunjungan', [
+            'reports' => $reports,
+            'selectedTahunAjaran' => $tahunAjaran,
+            'selectedBulan' => Carbon::create()->month($bulan)->translatedFormat('F'),
+            'tahunAjaran' => $tahunAjaranList,
+            'dates' => $dates,
+            'totals' => $totals,
+            'Anggota' => $Anggota,
+            'Kelas' => $Kelas
+        ]);

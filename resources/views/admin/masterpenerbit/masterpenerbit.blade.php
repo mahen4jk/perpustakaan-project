@@ -1,4 +1,4 @@
-@extends('admin.template')
+@extends('layout.dashboard.app')
 
 @section('title')
     {{ 'Master Penerbit' }}

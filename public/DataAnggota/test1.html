@@ -1,0 +1,222 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+
+<SCRIPT>
+//mouse
+//Circling text trail- Tim Tilton
+//Website: http://www.tempermedia.com/
+//Visit http://www.dynamicdrive.com for this script and more
+function cursor_text_circle(){
+// your message here
+var msg='e-DDC Edition 23'.split('').reverse().join('');
+
+var font='Verdana,Arial';
+var size=4; // up to seven
+var color='#DC143C';
+
+// This is not the rotation speed, its the reaction speed, keep low!
+// Set this to 1 for just plain rotation w/out drag
+var speed=.1;
+
+// This is the rotation speed, set it negative if you want
+// it to spin clockwise
+var rotation=-.1;
+
+// Alter no variables past here!, unless you are good
+//---------------------------------------------------
+
+
+var ns=(document.layers);
+var ie=(document.all);
+var dom=document.getElementById;
+msg=msg.split('');
+var n=msg.length;
+var a=size*13;
+var currStep=0;
+var ymouse=0;
+var xmouse=0;
+var props="<font face="+font+" size="+size+" color="+color+">";
+
+if (ie)
+window.pageYOffset=0
+
+// writes the message
+if (ns){
+for (i=0; i < n; i++)
+document.write('<layer name="nsmsg'+i+'" top=0 left=0 height='+a+' width='+a+'><center>'+props+msg[i]+'</font></center></layer>');
+}
+else if (ie||dom){
+document.write('<div id="outer" style="position:absolute;top:0px;left:0px;z-index:30000;"><div style="position:relative">');
+for (i=0; i < n; i++)
+document.write('<div id="iemsg'+(dom&&!ie? i:'')+'" style="position:absolute;top:0px;left:0;height:'+a+'px;width:'+a+'px;text-align:center;font-weight:normal;cursor:default">'+props+msg[i]+'</font></div>');
+document.write('</div></div>');
+}
+(ns)?window.captureEvents(Event.MOUSEMOVE):0;
+
+function Mouse(evnt){
+ymouse = (ns||(dom&&!ie))?evnt.pageY+20-(window.pageYOffset):event.y; // y-position
+xmouse = (ns||(dom&&!ie))?evnt.pageX+20:event.x-20; // x-position
+}
+
+if (ns||ie||dom)
+(ns)?window.onMouseMove=Mouse:document.onmousemove=Mouse;
+var y=new Array();
+var x=new Array();
+var Y=new Array();
+var X=new Array();
+for (i=0; i < n; i++){
+y[i]=0;
+x[i]=0;
+Y[i]=0;
+X[i]=0;
+}
+
+var iecompattest=function(){
+return (document.compatMode && document.compatMode!="BackCompat")? document.documentElement : document.body;
+}
+
+var makecircle=function(){ // rotation properties
+if (ie) outer.style.top=iecompattest().scrollTop+'px';
+currStep-=rotation;
+for (i=0; i < n; i++){ // makes the circle
+var d=(ns)?document.layers['nsmsg'+i]:ie? iemsg[i].style:document.getElementById('iemsg'+i).style;
+d.top=y[i]+a*Math.sin((currStep+i*1)/3.8)+window.pageYOffset-15+(ie||dom? 'px' : '');
+d.left=x[i]+a*Math.cos((currStep+i*1)/3.8)*2+(ie||dom? 'px' : ''); // remove *2 for just a plain circle, not oval
+}
+}
+
+var drag=function(){ // makes the resistance
+y[0]=Math.round(Y[0]+=((ymouse)-Y[0])*speed);
+x[0]=Math.round(X[0]+=((xmouse)-X[0])*speed);
+for (var i=1; i < n; i++){
+y[i]=Math.round(Y[i]+=(y[i-1]-Y[i])*speed);
+x[i]=Math.round(X[i]+=(x[i-1]-X[i])*speed);
+
+}
+makecircle();
+// not rotation speed, leave at zero
+setTimeout(function(){drag();},10);
+}
+if (ns||ie||dom)
+if ( typeof window.addEventListener != "undefined" )
+window.addEventListener( "load", drag, false );
+else if ( typeof window.attachEvent != "undefined" )
+window.attachEvent( "onload", drag );
+else {
+if ( window.onload != null ) {
+var oldOnload = window.onload;
+window.onload = function ( e ) {
+oldOnload( e );
+drag();
+};
+}
+else
+window.onload = drag;
+}
+
+}
+cursor_text_circle();
+
+</SCRIPT>
+
+<title>Home</title>
+<meta name="GENERATOR" content="WinCHM">
+<meta http-equiv="Content-Type" content="text/html; charset=Windows-1252">
+
+
+
+
+<link REL="StyleSheet">
+<style type="text/css">
+<!--
+body {
+	background-image: url(template/DDC%20ed%2023.jpg);
+	background-repeat: repeat-y;
+}
+-->
+</style></head>
+
+<body leftMargin=0 topMargin=0 marginwidth="0" marginheight="0">
+<TABLE style="WIDTH: 100%; HEIGHT: 29px" cellSpacing=0 cellPadding=0
+width="100%" bgColor=#cccccc border=0>
+  <TBODY>
+  <TR>
+    <TD width=5></TD>
+    <TD><A href="Home.htm"><IMG style="WIDTH: 72px; HEIGHT: 46px" height=96 alt="" hspace=2 src="template/icon.gif" width=110 align=absMiddle border=0></A>&nbsp;<EM><FONT face=Arial color=#000000
+      size=4><STRONG>
+      <MARQUEE onmouseover=this.stop() onmouseout=this.start()
+      scrollAmount=7><SPAN style="FONT-SIZE: 145%; COLOR: #800000"><SPAN
+      style="FONT-WEIGHT: bold">electronic-Dewey Decimal Classification Edition
+      23</SPAN></SPAN></MARQUEE></STRONG></FONT></EM></TD>
+    <TD align=right width=60></TD>
+    <TD width=12>&nbsp;</TD></TR></TBODY></TABLE>
+<DIV style="PADDING-LEFT: 10px; PADDING-BOTTOM: 10px; PADDING-TOP: 10px"><FONT
+face=Tahoma><FONT color=#ff0000 size=4><STRONG>Home</STRONG></FONT> </FONT>
+<P><FONT face=Arial><FONT size=2>
+<P><FONT face=Arial size=2><FONT face=Arial size=2><FONT color=#000000><A href="Home.htm">Home</A></FONT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="Introduction.htm">About
+e-DDC</A>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="How%20to%20Use%20e-DDC.htm">Tutorial
+e-DDC</A>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="Quick%20Guide%20e-DDC.htm">Quick Guide
+e-DDC</A>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="Tables.htm">Tables</A>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A href="Warning.htm">Warning</A>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<A
+href="http://www.e-ddc.org/" target=_blank>Go to e-DDC
+Site</A><BR>&nbsp;<BR><BR><BR></FONT></P>
+<P align=left><FONT face=Arial size=2><SPAN class=style3><FONT face=Tahoma
+color=#ff0000><STRONG><FONT size=5><FONT
+color=#000000>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp;</FONT><FONT color=#ff0000>The First Ten Main
+Classes</FONT> <BR><BR></FONT></STRONG></FONT></SPAN></P>
+<P class=style4 align=left><FONT size=2>
+<P align=left><STRONG><FONT color=#ff0000 size=5></FONT></STRONG><FONT
+face=Arial></P>
+<P align=left><STRONG><FONT color=#ff0000 size=5></FONT></STRONG>
+<P align=left><FONT face=Verdana color=#000000
+size=4><STRONG>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 10 Kelas Utama<BR><BR></STRONG></FONT><FONT
+face=Verdana color=#000000><STRONG><BR></P></STRONG></FONT></FONT>
+<P align=left><FONT face=Arial
+size=3><STRONG>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp;<A href="000%20Generalities.htm">000 Generalities (Karya
+Umum)</A>&nbsp;<BR></STRONG></FONT><FONT face=Arial
+size=3><STRONG>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; <A href="100%20Philosophy%20and%20Psychology.htm">100 Philosopy and Psychology
+(Filsafat dan Psikologi)</A>&nbsp;<BR></STRONG></FONT><FONT face=Arial
+size=3><STRONG>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; <A href="200%20Religion.htm">200 Religion
+(Agama)</A>&nbsp;<BR></STRONG></FONT><FONT face=Arial
+size=3><STRONG>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <A href="300%20Social%20Science.htm">300 Social Science (Ilmu-ilmu
+Sosial)</A>&nbsp;<BR></STRONG></FONT><FONT face=Arial
+size=3><STRONG>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <A href="400%20Language.htm">400 Language
+(Bahasa)</A>&nbsp;<BR></STRONG></FONT><FONT face=Arial
+size=3><STRONG>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; <A href="500%20Natural%20Science%20and%20Mathematics.htm">500 Natural Science and
+Mathematics (Ilmu-ilmu Alam dan Matematika)</A>&nbsp;<BR></STRONG></FONT><FONT
+face=Arial
+size=3><STRONG>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; <A href="600%20Technology%20and%20Applied%20Sciences.htm">600 Technology and
+Applied Science (Teknologi dan Ilmu-ilmu
+Terapan)</A>&nbsp;<BR></STRONG></FONT><FONT face=Arial
+size=3><STRONG>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; <A href="700%20The%20Art,%20Fine%20and%20Sport.htm">700 The Art, Fine and Sport
+(Kesenian, Hiburan dan Olahraga)</A>&nbsp;<BR></STRONG></FONT><FONT face=Arial
+size=3><STRONG>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; <A href="800%20Literature.htm">800 Literature and Rhetoric
+(Kesusastraan)</A>&nbsp;<BR></STRONG></FONT><FONT face=Arial
+size=3><STRONG>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; <A href="900%20Geography%20and%20History.htm">900 Geography and History
+(Geografi dan
+Sejarah)</A></STRONG></FONT></P></FONT></FONT></FONT><EMBED src=Basmalah.mp3
+width=0 height=0 autostart="true" loop="false"> </EMBED><NOEMBED><BGSOUND
+balance=0 src="Basmalah.mp3" volume=0 loop=false></NOEMBED></FONT></FONT><FONT face=Arial
+size=2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</FONT></P>
+<P align=right><A href="Home.htm"><IMG alt="" src="template/ilovebook.jpg" border=0></A></P><FONT
+face="Times New Roman" color=#808080><FONT size=2>
+<HR>
+</FONT><FONT face=Arial color=#ff0000 size=1><EM><STRONG>Copyright   2014
+Rotmianto Mohamad</STRONG></EM></FONT></FONT></DIV>
+<P></P>
+</body>
+</html>

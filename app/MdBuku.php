@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class MdBuku extends Model
 {
@@ -12,40 +13,26 @@ class MdBuku extends Model
     protected $table = 'tb_buku';
     protected $primarykey = 'id_buku';
     public $incrementing = false;
-    public $timestamps = false;
+    public $timestamps = true;
     protected $fillable = [
-        'id_buku', 'judul', 'isbn', 'pengarang', 'penerbit_id',
-        'class_id', 'kategori_id', 'tahun_terbit', 'stok_buku', 'deskripsi',
+        'id_buku', 'judul', 'jilid', 'isbn', 'pengarang', 'class_id', 'tmp_terbit',
+        'penerbit', 'tahun_terbit', 'stok_buku', 'deskripsi',
         'created_at', 'updated_at'
     ];
 
     public function klasifikasi()
     {
-        # code...
-        // return $this->belongsTo('App\MdDDC','class_id','id_class')->withDefault([
-        //     'about' => 'Tidak Ada',
-        // ]);
-        return $this->belongsTo(MdDDC::class,'class_id','id_class')->withDefault([
-            'ket' => 'Tidak ada'
-        ]);
+        return $this->belongsTo(MdDDC::class, 'class_id', 'id_class');
     }
-    public function penerbit()
-    {
-        # code...
-        // return $this->belongsTo('App\MdPenerbit','penerbit_id','id_penerbit')
-        // ->withDefault([
-        //     'nama_penerbit' => 'Tidak Ada',
-        // ]);
-        return $this->belongsTo(MdPenerbit::class,'penerbit_id','id_penerbit');
-    }
-    public function kategori()
-    {
-        # code...
-        // return $this->belongsTo('App\MdKategori','kategori_id','id_kategori')->withDefault([
-        //     'kategori' => 'Tidak Ada',
-        // ]);
-        return $this->belongsTo(MdKategori::class,'kategori_id','id_kategori');
-    }
+
+    // public function penerbit()
+    // {
+    //     return $this->belongsTo(MdPenerbit::class, 'penerbit_id', 'id_penerbit');
+    // }
+    // public function kategori()
+    // {
+    //     return $this->belongsTo(MdKategori::class, 'kategori_id', 'id_kategori');
+    // }
 
     public function pengembalian()
     {
@@ -54,66 +41,66 @@ class MdBuku extends Model
 
     public function peminjaman()
     {
-    	return $this->hasMany(MdPinjam::class);
+        return $this->hasMany(MdPinjam::class);
     }
 
     public static function kode()
     {
         # code...
-        $kd_buku = DB::table('tb_buku')->max('id_buku',6);
+        // Mendapatkan ID buku maksimum dari database, jika ada
+        $kd_buku = DB::table('tb_buku')->max('id_buku');
+
+        // Mengambil semua ID buku untuk pengecekan
         $query = DB::table('tb_buku')->get('id_buku');
 
-        if (strlen($query) <> 0) {
-            $incrementKode = intval($kd_buku)+1;
+        // Menentukan nilai increment kode berdasarkan ID buku yang ada
+        if (strlen($kd_buku) != 0) {
+            $incrementKode = intval(substr($kd_buku, 2)) + 1; // Mengabaikan prefiks "BK" saat konversi ke integer
         } else {
             $incrementKode = 1;
         }
+
+        // Membuat ID buku baru dengan padding nol di depan
         $kodebaruMax = str_pad($incrementKode, 6, "0", STR_PAD_LEFT);
-        $kodebaru = "".$kodebaruMax;
+
+        // Menambahkan prefiks "BK" di depan kode buku baru
+        $kodebaru = "BK" . $kodebaruMax;
 
         return $kodebaru;
-
-
-        // $stok = DB::table('tb_buku')->max('stok_buku');
-        // $kd_buku = str_replace("","",$kd_buku);
-        // if ((int)$kd_buku == 0) {
-        //     $kd_buku = (int)$kd_buku + 1;
-        // } else {
-        //     $kd_buku = (int)$kd_buku + (int)$stok;
-        // }
-        // $incrementKode = $kd_buku;
-
-        // if (strlen($kd_buku) == 1) {
-        //     $addNol = "00000";
-        // } elseif (strlen($kd_buku) == 2){
-        //     $addNol = "0000";
-        // } elseif (strlen($kd_buku == 3)) {
-        //     $addNol = "000";
-        // } elseif (strlen($kd_buku == 4)) {
-        //     $addNol = "00";
-        // } elseif (strlen($kd_buku == 5)) {
-        //     $addNol = "0";
-        // }
-        // $kodebaru = "".$addNol.$incrementKode;
-        // return $kodebaru;
     }
 
     public function insBuku($buku)
     {
         # code...
+
+        if ($buku->hasFile('cover')) {
+            $file = $buku->file('cover');
+            $dt = Carbon::now();
+            $acak = $file->getClientOriginalExtension();
+            $fileName = rand(11111, 99999) . '-' . $dt->format('Y-m-d-H-i-s') . '.' . $acak;
+
+            // Pindahkan file ke folder yang dituju
+            $file->move(public_path('image/buku'), $fileName);
+            $cover = $fileName;
+        } else {
+            $cover = NULL;
+        }
+
         DB::table('tb_buku')->insert([
             'id_buku' => $buku->id_buku,
             'judul' => $buku->judul,
+            'jilid' => $buku->jilid,
             'isbn' => $buku->ISBN,
             'pengarang' => $buku->pengarang,
-            'penerbit_id' => $buku->penerbit_id,
             'class_id' => $buku->class_id,
-            'kategori_id' => $buku->kategori_id,
+            'tmp_terbit' => $buku->tmp_terbit,
+            'penerbit' => $buku->penerbit,
             'tahun_terbit' => $buku->tahun_terbit,
             'stok_buku' => $buku->stok_buku,
+            'sisa_exemplar' => $buku->stok_buku,
             'deskripsi' => $buku->deskripsi,
-            'created_at' => now(),
-            'updated_at' => now()
+            'cover' => $cover,
+            'created_at' => now()
         ]);
     }
 
@@ -126,19 +113,47 @@ class MdBuku extends Model
     public function editBUKU($buku)
     {
         # code...
+        if ($buku->hasFile('cover')) {
+            // Mendapatkan file cover yang diunggah
+            $file = $buku->file('cover');
+
+            // Membuat nama file unik menggunakan timestamp dan ekstensi file asli
+            $dt = Carbon::now();
+            $acak = $file->getClientOriginalExtension();
+            $fileName = rand(11111, 99999) . '-' . $dt->format('Y-m-d-H-i-s') . '.' . $acak;
+
+            // Pindahkan file ke folder yang dituju
+            $file->move(public_path('image/buku'), $fileName);
+            $cover = $fileName;
+
+            // Hapus gambar lama jika ada
+            if ($buku->cover) {
+                $oldCoverPath = public_path('image/buku/' . $buku->cover);
+                if (file_exists($oldCoverPath)) {
+                    unlink($oldCoverPath);
+                }
+            }
+        } else {
+            $cover = NULL;
+        }
+
         DB::table('tb_buku')->where('id_buku', $buku->id_buku)->update([
             'judul' => $buku->judul,
+            'jilid' => $buku->jilid,
             'isbn' => $buku->ISBN,
             'pengarang' => $buku->pengarang,
-            'penerbit_id' => $buku->penerbit_id,
             'class_id' => $buku->class_id,
-            'kategori_id' => $buku->kategori_id,
+            'tmp_terbit' => $buku->tmp_terbit,
+            'penerbit' => $buku->penerbit,
             'tahun_terbit' => $buku->tahun_terbit,
             'stok_buku' => $buku->stok_buku,
+            'sisa_exemplar' => $buku->stok_buku,
             'deskripsi' => $buku->deskripsi,
+            'cover' => $cover,
             'updated_at' => now()
         ]);
     }
+
     public function hpsBUKU($buku)
     {
         # menghapus kelas...

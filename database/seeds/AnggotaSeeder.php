@@ -12,6 +12,6 @@ class AnggotaSeeder extends Seeder
     public function run()
     {
         //
-        factory(App\MdAnggota::class, 25)->create();
+        factory(App\MdAnggota::class, 35)->create();
     }
 }

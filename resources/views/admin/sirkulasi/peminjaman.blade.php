@@ -1,4 +1,4 @@
-@extends('admin.template')
+@extends('layout.dashboard.app')
 
 @section('title')
     {{ 'Sirkulasi | Peminjaman' }}
@@ -84,6 +84,7 @@
                                 <thead class="thead-light">
                                     <tr>
                                         <th style="width:1px; white-space:nowrap;">No</th>
+                                        <th style="width:1px; white-space:nowrap;">Kode Pinjam</th>
                                         <th style="width:1px; white-space:nowrap;">Nama Anggota</th>
                                         <th style="width:1px; white-space:nowrap;">Tanggal Pinjam</th>
                                         <th style="width:1px; white-space:nowrap;">Tanggal Kembali</th>
@@ -98,6 +99,7 @@
                                     @foreach ($Peminjaman as $pinjam)
                                         <tr>
                                             <td><?php echo $no++; ?></td>
+                                            <td>{{ $pinjam->kode_pinjam }}</td>
                                             <td>{{ $pinjam->Anggota->nama_anggota }}</td>
                                             <td>{{ $pinjam->tgl_pinjam }}</td>
                                             <td>{{ $pinjam->tgl_kembali }}</td>
@@ -111,23 +113,34 @@
                                             <td>
                                                 <a id="detail-pinjam" class="btn btn-default btn-sm" data-toggle="modal"
                                                     data-target="#modal-detail-pinjam"
-                                                    data-kode_pinjam="{{ $pinjam->kode_pinjam }}"
+                                                    {{-- data-kode_pinjam="{{ $pinjam->kode_pinjam }}" --}}
                                                     data-id_buku="{{ $pinjam->buku_id }}"
                                                     data-judul="{{ $pinjam->Buku->judul }}">
                                                     <i class="fa-regular fa-eye"></i>&nbsp;Detail
                                                 </a>
-                                                @if ($pinjam->tgl_kembali <= Carbon\Carbon::today())
+                                                {{-- @if ($pinjam->tgl_kembali <= Carbon\Carbon::today())
                                                     @if ($pinjam->status != 'Kembali')
-                                                        <a href="pengembalian/{{ encrypt($pinjam->kode_pinjam) }}"
+                                                        <a href="pengembalian/{{ $pinjam->kode_pinjam }}"
                                                             class="btn btn-warning btn-sm" role="button">
                                                             <i class="fa fa-share"></i>&nbsp;Kembalikan</button>
                                                         </a>
                                                     @else
-                                                        <a href="pengembalian/{{ encrypt($pinjam->kode_pinjam) }}"
+                                                        <a href="pengembalian/{{ $pinjam->kode_pinjam }}"
                                                             class="btn btn-warning btn-sm" role="button" hidden>
                                                             <i class="fa fa-share"></i>&nbsp;Kembalikan/button>
                                                         </a>
                                                     @endif
+                                                @endif --}}
+                                                @if ($pinjam->status != 'Kembali')
+                                                    <a href="pengembalian/{{ $pinjam->kode_pinjam }}"
+                                                        class="btn btn-warning btn-sm" role="button">
+                                                        <i class="fa fa-share"></i>&nbsp;Kembalikan</button>
+                                                    </a>
+                                                @else
+                                                    <a href="pengembalian/{{ $pinjam->kode_pinjam }}"
+                                                        class="btn btn-warning btn-sm" role="button" hidden>
+                                                        <i class="fa fa-share"></i>&nbsp;Kembalikan/button>
+                                                    </a>
                                                 @endif
                                             </td>
                                         </tr>
@@ -135,6 +148,7 @@
                                 </tbody>
                                 <tfoot>
                                     <th style="width:1px; white-space:nowrap;">No</th>
+                                    <th style="width:1px; white-space:nowrap;">Kode Pinjam</th>
                                     <th style="width:1px; white-space:nowrap;">Nama Anggota</th>
                                     <th style="width:1px; white-space:nowrap;">Tanggal Pinjam</th>
                                     <th style="width:1px; white-space:nowrap;">Tanggal Kembali</th>
@@ -156,10 +170,10 @@
                                 <div class="modal-body tabble-responsive">
                                     <table class="table table-bordered no-margin">
                                         <tbody>
-                                            <tr>
+                                            {{-- <tr>
                                                 <th style="">Kode Pinjam</th>
                                                 <td><span id="kode_pinjam"></span></td>
-                                            </tr>
+                                            </tr> --}}
                                             <tr>
                                                 <th style="">Kode Buku</th>
                                                 <td><span id="id_buku"></span></td>
@@ -186,10 +200,10 @@
         $(document).ready(function() {
             //Modal Detail Pinjam
             $(document).on('click', '#detail-pinjam', function() {
-                var kode_pinjam = $(this).data('kode_pinjam');
+                // var kode_pinjam = $(this).data('kode_pinjam');
                 var id_buku = $(this).data('id_buku');
                 var judul = $(this).data('judul');
-                $('#kode_pinjam').text(kode_pinjam);
+                // $('#kode_pinjam').text(kode_pinjam);
                 $('#id_buku').text(id_buku);
                 $('#judul').text(judul);
             })

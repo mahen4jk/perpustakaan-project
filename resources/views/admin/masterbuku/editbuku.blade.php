@@ -1,4 +1,4 @@
-@extends('admin.template')
+@extends('layout.dashboard.app')
 
 @section('title')
     {{ 'Form Buku' }}
@@ -35,7 +35,7 @@
                     </div>
                     <div class="card-body">
                         <!-- Form -->
-                        <form action="updateBUKU" method="POST">
+                        <form action="updateBUKU" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             @foreach ($kode as $BUKU)
                                 <div class="form-group row">
@@ -60,13 +60,20 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label for="staticPengarang" class="col-sm-2 col-form-label">Jilid/Editis</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="jilid" id="jilid"
+                                            value="{{ $BUKU->jilid }}" placeholder="Pengarang Buku">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label for="staticPengarang" class="col-sm-2 col-form-label">Pengarang</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" name="pengarang" id="pengarang"
                                             value="{{ $BUKU->pengarang }}" placeholder="Pengarang Buku" required>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                {{-- <div class="form-group row">
                                     <label for="penerbit_id" class="col-sm-2 col-form-label">Penerbit</label>
                                     <div class="col-sm-10">
                                         <select class="form-control penerbit" name="penerbit_id" required>
@@ -78,7 +85,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="form-group row">
                                     <label for="class_id" class="col-sm-2 col-form-label">Klasifikasi</label>
                                     <div class="col-sm-10">
@@ -87,13 +94,13 @@
                                             @foreach ($klasifikasi as $class)
                                                 <option value="{{ $class->id_class }}"
                                                     {{ $BUKU->class_id == $class->id_class ? 'selected' : '' }}>
-                                                    {{ $class->id_class }}&nbsp;{{ $class->ket }}
+                                                    {{ $class->kode_class }}&nbsp;{{ $class->ket }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                {{-- <div class="form-group row">
                                     <label for="kategori_id" class="col-sm-2 col-form-label">Kategori</label>
                                     <div class="col-sm-10">
                                         <select class="form-control kategori" name="kategori_id" required>
@@ -101,10 +108,24 @@
                                             @foreach ($kategori as $KAT)
                                                 <option value="{{ $KAT->id_kategori }}"
                                                     {{ $BUKU->kategori_id == $KAT->id_kategori ? 'selected' : '' }}>
-                                                    {{$KAT->kode_kategori}}&nbsp;-&nbsp;{{ $KAT->kategori }}
+                                                    {{ $KAT->kode_kategori }}&nbsp;-&nbsp;{{ $KAT->kategori }}
                                                 </option>
                                             @endforeach
                                         </select>
+                                    </div>
+                                </div> --}}
+                                <div class="form-group row">
+                                    <label for="staticPengarang" class="col-sm-2 col-form-label">Tempat Terbit</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="tmp_terbit" id="tmp_terbit"
+                                            value="{{ $BUKU->tmp_terbit }}" placeholder="Tempat Terbit" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="staticPengarang" class="col-sm-2 col-form-label">Penerbit</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="penerbit" id="penerbit"
+                                            value="{{ $BUKU->penerbit }}" placeholder="Penerbit" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -130,6 +151,28 @@
                                         <textarea type="text" class="form-control" name="deskripsi" id="sinopsis" placeholder="Sinopsis Buku">{{ $BUKU->deskripsi }}</textarea>
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label for="deskripsi" class="col-sm-2 col-form-label">Cover</label>
+                                    <div class="col-sm-10">
+                                        {{-- <input type="file" id="image-input" name="cover"
+                                        class="form-control" onchange="previewImage(event)"> --}}
+                                        <input type="file" id="image-input" name="cover" class="form-control"
+                                            onchange="previewImage(event)">
+                                        </br>
+                                        @if ($BUKU->cover)
+                                            <img id="preview-image" src="{{ asset('image/buku/' . $BUKU->cover) }}"
+                                                alt="Cover Buku" class="card-img-top" alt="Preview Image"
+                                                style="max-width: 200px; max-height: 200px">
+                                        @else
+                                            <img id="preview-image" src="{{ asset('image/no-image.png') }}"
+                                                alt="No Image" class="card-img-top" alt="Preview Image"
+                                                style="max-width: 200px; max-height: 200px">
+                                        @endif
+                                        {{-- <img id="preview-image" src="{{ asset('image/no-image.png') }}"
+                                            class="card-img-top" alt="Preview Image"
+                                            style="max-width: 200px; max-height: 200px"> --}}
+                                    </div>
+                                </div>
                             @endforeach
                             <button type="button" class="btn btn-danger float-right ml-2" onclick="kembali()"><i
                                     class="fa-solid fa-arrow-left"></i> Kembali</button>
@@ -151,6 +194,26 @@
         function kembali() {
             location.href = "{{ url('buku/masterbuku') }}";
         }
+
+        function previewImage(event) {
+            var input = event.target;
+            var preview = document.getElementById('preview-image');
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.src = '#';
+                preview.style.display = 'none';
+            }
+        }
+
         $(document).ready(function() {
             //select-option klasifikasi
             $('.klasifikasi').select2({

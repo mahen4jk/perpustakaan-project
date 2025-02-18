@@ -1,7 +1,7 @@
-@extends('halindex.temp_index')
+@extends('layout.home.app')
 
 @section('title')
-    {{ '' }}
+    {{ 'Selamat Datang' }}
 @endsection
 
 @section('style')
@@ -22,9 +22,9 @@
             <img class="img-jmb" src="{{ url('assets/image/logo.png') }}" alt="logo smp 4 waru">
             <h1 class="display-4">Selamat Datang di Perpustakaan <br> SMP Negeri 4 Waru</h1>
             <p class="lead">Di sini Anda dapat menemukan berbagai koleksi
-                buku yang bermanfaat untuk kebutuhan belajar dan hobi Anda.<br>
+                buku yang bermanfaat <br> untuk kebutuhan belajar dan hobi Anda.<br>
                 Selain itu, kami juga menyediakan fasilitas seperti ruang baca dan internet gratis
-                untuk membantu Anda dalam mengeksplorasi dunia pengetahuan.
+                <br> untuk membantu Anda dalam mengeksplorasi dunia pengetahuan.
             </p>
         </div>
     </div>
