@@ -61,7 +61,7 @@
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-danger">
+                    <div class="small-box bg-blue">
                         <div class="inner">
                             {{-- <h3>{{ number_format($anggota) }}</h3> --}}
                             <h3>{{ $kunjungan->count() }}</h3>
@@ -75,6 +75,22 @@
                     </div>
                 </div>
                 <!-- ./col -->
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-danger">
+                        <div class="inner">
+                            {{-- <h3>{{ number_format($anggota) }}</h3> --}}
+                            <h3>{{ $pinjam->count() }}</h3>
+                            <p>Jumlah Peminjaman</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa-regular fa-book-open-reader"></i>
+                        </div>
+                        <a href="{{ url('sirkulasi/peminjaman') }}" class="small-box-footer">More info <i
+                                class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <!-- ./col -->
             </div>
             <!-- /.row -->
             <div class="row">
@@ -82,7 +98,25 @@
                 <div class="col-lg">
                     <div class="card">
                         <div class="card-header border-0">
-                            <h3 class="card-title">Donut Chart</h3>
+                            <h3 class="card-title">Total Kunjungan Selama 7 Hari</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart">
+                                <canvas id="kunChart"
+                                    style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                            </div>
+                            <!-- /.d-flex -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!-- /.row -->
+                <div class="col-lg">
+                    <div class="card">
+                        <div class="card-header border-0">
+                            <h3 class="card-title">Buku yang sering dipinjam</h3>
                         </div>
                         <div class="card-body">
                             <div class="d-flex">
@@ -127,10 +161,66 @@
             });
             calendar.render();
         });
-        $(function() {
-            // var ctx = $('#myChart').get(0).getContext('2d');
 
-            //Chart
+        $(function() {
+            //Chart Kunjungan
+            $(document).ready(function() {
+                // Ambil data dari Blade
+                var dates = @json($dates);
+                var totals = @json($totals);
+
+                console.log('Dates:', dates); // Debug output
+                console.log('Totals:', totals); // Debug output
+
+                const ctx = document.getElementById('kunChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line', // Tipe chart
+                    data: {
+                        labels: dates, // Label untuk sumbu X
+                        datasets: [{
+                            label: 'Total Kunjungan',
+                            data: totals, // Data untuk sumbu Y
+                            borderColor: 'rgba(75, 192, 192, 1)', // Warna garis
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)', // Warna area di bawah garis
+                            borderWidth: 1,
+                            fill: true // Mengisi area di bawah garis
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Tanggal'
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Jumlah Kunjungan'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'top'
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        return `Total Kunjungan: ${tooltipItem.raw}`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+
+            //Chart Peminjaman
             $(document).ready(function() {
                 var Peminjaman = @json($Peminjaman);
 

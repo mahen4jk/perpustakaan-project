@@ -34,40 +34,107 @@
             </div>
             <div class="row">
                 <div class="col-lg">
-                    <form action="{{ route('kunjungan') }}" method="POST">
+                    {{-- <form action="{{ route('kunjungan') }}" method="POST">
                         @csrf
                         <div class="form-row align-items-center">
-                            <div class="col-auto inHidden">
+                            <div class="col-auto">
                                 <label class="sr-only" for="inlineFormInput">ID Anggota</label>
                                 <input type="input" class="form-control mb-2" name="anggota_id" id="anggota_id"
+                                    value="{{ old('anggota_id', $Anggota ? $Anggota->id_anggota : '') }}"
                                     placeholder="Anggota ID" readonly>
                             </div>
                             <div class="col-auto">
                                 <label class="sr-only" for="inlineFormInput">NIS</label>
                                 <input type="text" class="form-control mb-2" name="nis" id="nis"
-                                    placeholder="NIS" readonly>
+                                    value="{{ old('nis', $Anggota ? $Anggota->NIS : '') }}" placeholder="NIS">
                             </div>
                             <div class="col-auto">
                                 <label class="sr-only" for="inlineFormInput">Nama</label>
                                 <input type="text" class="form-control mb-2" name="nama_anggota" id="nama_anggota"
-                                    placeholder="Nama" readonly>
+                                    placeholder="Nama"
+                                    value="{{ old('nama_anggota', $Anggota ? $Anggota->nama_anggota : '') }}" readonly>
                             </div>
                             <div class="col-auto">
                                 <label class="sr-only" for="inlineFormInput">Kelas</label>
                                 <input type="text" class="form-control mb-2" name="kelas" id="kelas_id"
-                                    placeholder="Kelas" readonly>
-                            </div>
-                            <div class="col-auto">
-                                <button type="button" class="btn btn-info btn-primary mb-2" data-toggle="modal"
-                                    data-target="#mdlAnggota">
-                                    <i class="fa-regular fa-magnifying-glass"></i>&nbsp;Cari</button>
+                                    value="{{ old('kelas', $kelas ? $kelas->kelas : '') }}" placeholder="Kelas" readonly>
+                            </div> --}}
+                    {{-- <div class="col-auto">
+                                <button type="button" class="btn btn-info btn-primary mb-2" id="search-nis">
+                                    <i class="fa-regular fa-magnifying-glass"></i>&nbsp;Cari
+                                </button>
+                            </div> --}}
+                    {{-- <div class="col-auto">
+                                <button type="submit" class="btn btn-info btn-primary mb-2">
+                                    <i class="fa-regular fa-magnifying-glass"></i>&nbsp;Cari
+                                </button>
                             </div>
                             <div class="col-auto">
                                 <button type="submit" name="simpan" class="btn btn-success mb-2"><i
                                         class="fa-regular fa-floppy-disk"></i>&nbsp;Simpan</button>
                             </div>
                         </div>
-                    </form>
+                    </form> --}}
+                    <div class="row">
+                        <div class="col-auto">
+                            <form action="{{ route('search-anggota') }}" method="POST">
+                                @csrf
+                                <div class="form-row align-items-center">
+                                    <div class="col-auto">
+                                        <label class="sr-only" for="nis">NIS</label>
+                                        <input type="text" class="form-control mb-2" name="nis" id="nis"
+                                            placeholder="NIS" value="{{ old('nis') }}">
+                                    </div>
+                                    <div class="col-auto">
+                                        <button type="submit" class="btn btn-info btn-primary mb-2">
+                                            <i class="fa-regular fa-magnifying-glass"></i>&nbsp;Cari
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-auto">
+                            @if (isset($anggota))
+                                <form action="{{ route('save-kunjungan') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="anggota_id" value="{{ $anggota->id_anggota }}">
+                                    <input type="hidden" name="nis" value="{{ $anggota->NIS }}">
+                                    <input type="hidden" name="nama_anggota" value="{{ $anggota->nama_anggota }}">
+                                    <input type="hidden" name="kelas" value="{{ $kelas->kelas ?? '' }}">
+
+                                    <div class="form-row align-items-center">
+                                        <div class="col-auto">
+                                            <input type="hidden" name="anggota_id" value="{{ $anggota->id_anggota }}">
+                                        </div>
+                                        <div class="col-auto">
+                                            <label class="sr-only" for="nis">NIS</label>
+                                            <input type="text" class="form-control mb-2" name="nis" id="nis"
+                                                placeholder="NIS" value="{{ $anggota->nis }}" readonly>
+                                        </div>
+                                        <div class="col-auto">
+                                            <label class="sr-only" for="nama_anggota">Nama</label>
+                                            <input type="text" class="form-control mb-2" name="nama_anggota"
+                                                id="nama_anggota" value="{{ $anggota->nama_anggota }}" placeholder="Nama"
+                                                readonly>
+                                        </div>
+                                        <div class="col-auto">
+                                            <label class="sr-only" for="kelas_id">Kelas</label>
+                                            <input type="text" class="form-control mb-2" name="kelas" id="kelas_id"
+                                                value="{{ $kelas->kelas ?? '' }}" placeholder="Kelas" readonly>
+                                        </div>
+                                        <div class="col-auto">
+                                            <button type="submit" class="btn btn-success mb-2">
+                                                <i class="fa-regular fa-floppy-disk"></i>&nbsp;Simpan Kunjungan
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row mb-2">
@@ -127,59 +194,6 @@
                 </ul>
             </nav>
         </div>
-        <!-- MODAL Anggota-->
-        <div class="modal fade bd-example-modal-lg" id="mdlAnggota">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Cari Anggota</h4>
-                        <button type="buttton" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body tabble-responsive">
-                        <table class="table table-bordered table-hover table-striped" id="dtMdlAnggota">
-                            <thead>
-                                <tr>
-                                    <th style="">No</th>
-                                    <th style="">NIS</th>
-                                    <th style="">Nama Anggota</th>
-                                    <th style="">Kelas</th>
-                                    <th style="">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @php
-                                    $nomorIterasi = 1;
-                                @endphp
-
-                                @foreach ($Anggota as $anggota)
-                                    @if ($anggota->status != 'Tdk_Aktif')
-                                        <tr>
-                                            <td>{{ $nomorIterasi }}</td>
-                                            <td>{{ $anggota->nis }}</td>
-                                            <td>{{ $anggota->nama_anggota }}</td>
-                                            <td>{{ $anggota->kelas->kelas }}</td>
-                                            <td>
-                                                <button class="pilih_anggota btn btn-warning btn-secondary"
-                                                    data-anggota_id="<?php echo $anggota->id_anggota; ?>" data-nis="<?php echo $anggota->nis; ?>"
-                                                    data-nama_anggota="<?php echo $anggota->nama_anggota; ?>"
-                                                    data-kelas_id="<?php echo $anggota->kelas->kelas; ?>">Pilih&nbsp;<span
-                                                        class="fa-solid fa-plus"></span>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        @php
-                                            $nomorIterasi++;
-                                        @endphp
-                                    @endif
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 @endsection
 
@@ -190,34 +204,35 @@
             theme: 'bootstrap4'
         })
 
-        $(document).on('click', ".pilih_anggota", function(e) {
-            document.getElementById("anggota_id").value = $(this).attr('data-anggota_id');
-            document.getElementById("nis").value = $(this).attr('data-nis');
-            document.getElementById("nama_anggota").value = $(this).attr('data-nama_anggota');
-            document.getElementById("kelas_id").value = $(this).attr('data-kelas_id');
-            $('#mdlAnggota').modal('hide');
-        });
-
-        // $(document).on('click', ".pilih_anggota", function(e) {
-        //     var kelasId = $(this).attr('data-kelas_id');
-        //     var namaAnggota = $(this).attr('data-nama_anggota');
-        //     var nis = $(this).attr('data-nis');
-
-        //     // Kirim permintaan AJAX untuk mendapatkan nama kelas berdasarkan kelas_id
-        //     $.ajax({
-        //         type: 'GET',
-        //         url: '/get-nama-kelas/' + kelasId,
-        //         success: function(response) {
-        //             // Update nilai input dengan data yang diterima
-        //             document.getElementById("nama_anggota").value = namaAnggota;
-        //             document.getElementById("nis").value = nis;
-        //             document.getElementById("nama_kelas").value = response.nama_kelas;
-        //             $('#mdlAnggota').modal('hide');
-        //         },
-        //         error: function(xhr, status, error) {
-        //             // Tangani kesalahan jika diperlukan
-        //         }
+        // $(document).ready(function() {
+        //     $('#search-nis').on('click', function() {
+        //         var nis = $('#nis').val();
+        //         $.ajax({
+        //             url: '/get-member-details/' + nis,
+        //             method: 'GET',
+        //             success: function(response) {
+        //                 $('#anggota_id').val(response.id_anggota);
+        //                 $('#nama_anggota').val(response.nama_anggota);
+        //                 $('#kelas_id').val(response.kelas);
+        //             },
+        //             error: function(xhr) {
+        //                 alert('Member not found');
+        //             }
+        //         });
         //     });
         // });
+
+        $(document).ready(function() {
+            $('#dtMdlAnggota').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        })
+
     </script>
 @endsection

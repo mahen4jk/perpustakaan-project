@@ -1,0 +1,411 @@
+Route::group(['middleware' => ['auth', 'ceklevel:admin,pustakawan']], function () {
+
+    #Tampilan Dashboard
+    Route::get('dashboard', 'DashController@Dashboard');
+
+    #Tampilan MasterBuku
+    Route::prefix('buku')->group(function () {
+        #Tampilan Data
+        Route::get('masterbuku', 'Admin\MstBukuCon@MasterBuku');
+        #Tampilan Form dan Tambah Buku
+        Route::get('tambahbuku', 'Admin\MstBukuCon@formbuku');
+        Route::post('simpanBUKU', 'Admin\MstBukuCon@simpanBUKU');
+        #Tampilan Edit dan Ubah Buku
+        Route::get('editbuku/{id_buku}', 'Admin\MstBukuCon@kirimBuku');
+        Route::post('editbuku/updateBUKU', 'Admin\MstBukuCon@updateBUKU');
+        #Hapus buku
+        Route::get('hapusBUKU/{id_buku}', 'Admin\MstBukuCon@delBUKU');
+        # PDF
+        Route::get('previewKtBuku/{id_buku}', 'Admin\MstBukuCon@previewKartuBuku');
+        Route::get('printKtBuku/{id_buku}', 'Admin\MstBukuCon@kartuBuku');
+        # Label Buku
+        Route::get('previewLBL/{id_buku}', 'Admin\MstBukuCon@labelBuku');
+        Route::get('printLBL/{id_buku}', 'Admin\MstBukuCon@labelBK');
+    });
+
+    #Tampilan MasterKategori
+    Route::prefix('kategori')->group(function () {
+        # Tampilan Data
+        Route::get('masterkategori', 'Admin\MstCatCon@MasterKategori');
+        # Tampilan Form dan Tambah Buku
+        Route::get('tambahkategori', 'Admin\MstCatCon@formkategori');
+        Route::post('simpanKAT', 'Admin\MstCatCon@simpanKAT');
+        # Siap Update Kategori
+        Route::get('editKat/{id_kategori}', 'Admin\MstCatCon@kirimKat');
+        Route::post('editKat/updateKAT', 'Admin\MstCatCon@updateKAT');
+        # Hapus Penerbit
+        Route::get('hapusKAT/{id_kategori}', 'Admin\MstCatCon@deleteKAT');
+    });
+
+    #Tampilan MasterPenerbit
+    Route::prefix('penerbit')->group(function () {
+        # Tampilan Data
+        Route::get('masterpenerbit', 'Admin\MstPenCon@mstpenerbit');
+        # Tampilan form dan tambah penerbit
+        Route::get('tambahpenerbit', 'Admin\MstPenCon@formpenerbit');
+        Route::post('simpanPEN', 'Admin\MstPenCon@simpanPEN');
+        # Siap update penerbit
+        Route::get('editPEN/{id_penerbit}', 'Admin\MstPenCon@kirimPEN');
+        Route::post('editPEN/updatePEN', 'Admin\MstPenCon@updatePEN');
+        # Hapus Penerbit
+        Route::get('hapusPEN/{id_penerbit}', 'Admin\MstPenCon@deletePEN');
+    });
+
+    #DDC
+    Route::prefix('ddc')->group(function () {
+        #Tampilan Data DDC
+        Route::get('masterddc', 'Admin\MstDDC@masterddc');
+        #Tampilan form dan tambah penerbit
+        Route::get('tambahddc', 'Admin\MstDDC@tambahddc');
+        Route::post('simpanDDC', 'Admin\MstDDC@simpanDDC');
+        #Form ubah dan ubdah DDC
+        Route::get('editDDC/{id_class}', 'Admin\MstDDC@kirimDDC');
+        Route::post('editDDC/ubahDDC', 'Admin\MstDDC@ubahDDC');
+        #Hapus DDC
+        Route::get('hapusDDC/{id_class}', 'Admin\MstDDC@hpsDDC');
+    });
+
+    #Sirkulasi
+    Route::prefix('sirkulasi')->group(function () {
+        #Peminjaman
+        Route::get('peminjaman', 'Admin\PinjamCon@viewpinjam');
+        #Form Peminjaman
+        Route::get('formpinjam', 'Admin\PinjamCon@formpinjam');
+        Route::post('simpanpinjam', 'Admin\PinjamCon@simpanPinjam');
+        // Route::get('updatePinjam/{kode_pinjam}','Admin\PinjamCon@ubahPinjam');
+
+        #Pengembalian
+        Route::get('pengembalian', 'Admin\KembaliCon@viewkembali');
+        #Form Pengembalian
+        Route::get('pengembalian/{kode_pinjam}', 'Admin\KembaliCon@formKembali');
+        Route::post('pengembalian/kembaliBuku', 'Admin\KembaliCon@pengembalian');
+    });
+
+    Route::prefix('denda')->group(function () {
+        #Denda
+        Route::get('masterdenda', 'Admin\MstDenda@viewDenda');
+        #Form Denda
+        Route::get('formdenda', 'Admin\MstDenda@tambahDenda');
+        Route::post('simpanDenda', 'Admin\MstDenda@simpanDDA');
+        #Edit Denda
+        Route::get('editDenda/{id_denda}', 'Admin\MstDenda@kirimDenda');
+        Route::post('editDenda/ubahDenda', 'Admin\MstDenda@ubahDenda');
+        #Delete Denda
+        Route::get('hapusDDA/{id_denda}', 'Admin\MstDenda@hapusDenda');
+        // Route::get('pengembalian','Admin\KembaliCon@viewkembali');
+    });
+});
+
+#BACKUP
+#Tampilan Dashboard
+// Route::get('dashboard', 'DashController@Dashboard');
+
+// #Tampilan MasterAnggota
+// Route::prefix('anggota')->group(function () {
+//     Route::get('masteranggota', 'Admin\MstAnggota@MasterAnggota');
+//     Route::get('exportanggota', 'Admin\MstAnggota@exportAnggota');
+//     Route::post('importanggota', 'Admin\MstAnggota@importAnggota');
+//     #Tampilan Form Kelas
+//     Route::get('tambahanggota', 'Admin\MstAnggota@tambahanggota');
+//     Route::post('simpanAnggota', 'Admin\MstAnggota@simpanAnggota');
+//     #Update Anggota
+//     Route::get('editANG/{id_anggota}', 'Admin\MstAnggota@kirimAnggota');
+//     Route::post('editANG/ubahAnggota', 'Admin\MstAnggota@ubahAnggota');
+//     # Hapus Anggota
+//     Route::get('hapusAnggota/{id_anggota}', 'Admin\MstAnggota@hpsAnggota');
+// });
+
+// #Tampilan MasterAnggota
+// Route::prefix('pendik')->group(function () {
+//     Route::get('masterpendik', 'admin\MsPendik@msPendik');
+//     #Tampilan Form Kelas
+//     Route::get('formPendik', 'admin\MsPendik@formPendik');
+//     Route::post('simpanPendik', 'admin\MsPendik@simpanPendik');
+//     #Update Anggota
+//     Route::get('editPNDK/{id_pendik}', 'admin\MsPendik@editPNDK');
+//     Route::post('editPNDK/ubahPendik', 'admin\MsPendik@ubahPendik');
+//     # Hapus Anggota
+//     Route::get('hapusAnggota/{id_anggota}', 'Admin\MstAnggota@hpsAnggota');
+// });
+
+// // Tampilan MasterKelas
+// Route::prefix('kelas')->group(function () {
+//     #Tampilan Data
+//     Route::get('masterkelas', 'Admin\MstKelasCon@MasterKelas');
+//     #Tampilan Form Kelas
+//     Route::get('tambahkelas', 'Admin\MstKelasCon@formKelas');
+//     Route::post('simpanCLASS', 'Admin\MstKelasCon@simpanCLASS');
+//     # Siap Update Kelas
+//     Route::get('editKEL/{id_kelas}', 'Admin\MstKelasCon@kirimKEL');
+//     Route::post('editKEL/updateKEL', 'Admin\MstKelasCon@updateKEL');
+//     # Hapus Kelas
+//     Route::get('hapusKELAS/{id_kelas}', 'Admin\MstKelasCon@deleteKEL');
+// });
+// Route::prefix('petugas')->group(function () {
+//     #Tampilan Data
+//     Route::get('masterpetugas', 'Admin\UserController@MasterPetugas');
+//     #Tampilan Form Petugas
+//     Route::get('formpetugas', 'Admin\UserController@FormPetugas');
+//     Route::post('simpanPetugas', 'Admin\UserController@simpanPetugas');
+//     #Edit Petugas
+//     Route::get('editPTS/{id}', 'admin\UserController@editPetugas');
+//     Route::post('editPTS/ubahPetugas', 'admin\UserController@ubahPetugas');
+// });
+
+// #Tampilan MasterBuku
+// Route::prefix('buku')->group(function () {
+//     #Tampilan Data
+//     Route::get('masterbuku', 'Admin\MstBukuCon@MasterBuku');
+//     #Tampilan Form dan Tambah Buku
+//     Route::get('tambahbuku', 'Admin\MstBukuCon@formbuku');
+//     Route::post('simpanBUKU', 'Admin\MstBukuCon@simpanBUKU');
+//     #Tampilan Edit dan Ubah Buku
+//     Route::get('editbuku/{id_buku}', 'Admin\MstBukuCon@kirimBuku');
+//     Route::post('editbuku/updateBUKU', 'Admin\MstBukuCon@updateBUKU');
+//     #Hapus buku
+//     Route::get('hapusBUKU/{id_buku}', 'Admin\MstBukuCon@delBUKU');
+//     # PDF
+//     Route::get('previewKtBuku/{id_buku}', 'Admin\MstBukuCon@previewKartuBuku');
+//     Route::get('printKtBuku/{id_buku}', 'Admin\MstBukuCon@kartuBuku');
+//     # Label Buku
+//     Route::get('previewLBL/{id_buku}', 'Admin\MstBukuCon@labelBuku');
+//     Route::get('printLBL/{id_buku}', 'Admin\MstBukuCon@labelBK');
+// });
+
+// #Tampilan MasterKategori
+// Route::prefix('kategori')->group(function () {
+//     # Tampilan Data
+//     Route::get('masterkategori', 'Admin\MstCatCon@MasterKategori');
+//     # Tampilan Form dan Tambah Buku
+//     Route::get('tambahkategori', 'Admin\MstCatCon@formkategori');
+//     Route::post('simpanKAT', 'Admin\MstCatCon@simpanKAT');
+//     # Siap Update Kategori
+//     Route::get('editKat/{id_kategori}', 'Admin\MstCatCon@kirimKat');
+//     Route::post('editKat/updateKAT', 'Admin\MstCatCon@updateKAT');
+//     # Hapus Penerbit
+//     Route::get('hapusKAT/{id_kategori}', 'Admin\MstCatCon@deleteKAT');
+// });
+
+// #Tampilan MasterPenerbit
+// Route::prefix('penerbit')->group(function () {
+//     # Tampilan Data
+//     Route::get('masterpenerbit', 'Admin\MstPenCon@mstpenerbit');
+//     # Tampilan form dan tambah penerbit
+//     Route::get('tambahpenerbit', 'Admin\MstPenCon@formpenerbit');
+//     Route::post('simpanPEN', 'Admin\MstPenCon@simpanPEN');
+//     # Siap update penerbit
+//     Route::get('editPEN/{id_penerbit}', 'Admin\MstPenCon@kirimPEN');
+//     Route::post('editPEN/updatePEN', 'Admin\MstPenCon@updatePEN');
+//     # Hapus Penerbit
+//     Route::get('hapusPEN/{id_penerbit}', 'Admin\MstPenCon@deletePEN');
+// });
+
+// #DDC
+// Route::prefix('ddc')->group(function () {
+//     #Tampilan Data DDC
+//     Route::get('masterddc', 'Admin\MstDDC@masterddc');
+//     #Tampilan form dan tambah penerbit
+//     Route::get('tambahddc', 'Admin\MstDDC@tambahddc');
+//     Route::post('simpanDDC', 'Admin\MstDDC@simpanDDC');
+//     #Form ubah dan ubdah DDC
+//     Route::get('editDDC/{id_class}', 'Admin\MstDDC@kirimDDC');
+//     Route::post('editDDC/ubahDDC', 'Admin\MstDDC@ubahDDC');
+//     #Hapus DDC
+//     Route::get('hapusDDC/{id_class}', 'Admin\MstDDC@hpsDDC');
+// });
+
+// #Sirkulasi
+// Route::prefix('sirkulasi')->group(function () {
+//     #Peminjaman
+//     Route::get('peminjaman', 'Admin\PinjamCon@viewpinjam');
+//     #Form Peminjaman
+//     Route::get('formpinjam', 'Admin\PinjamCon@formpinjam');
+//     Route::post('simpanpinjam', 'Admin\PinjamCon@simpanPinjam');
+//     // Route::get('updatePinjam/{kode_pinjam}','Admin\PinjamCon@ubahPinjam');
+
+//     #Pengembalian
+//     Route::get('pengembalian', 'Admin\KembaliCon@viewkembali');
+//     #Form Pengembalian
+//     Route::get('pengembalian/{kode_pinjam}', 'Admin\KembaliCon@formKembali');
+//     Route::post('pengembalian/kembaliBuku', 'Admin\KembaliCon@pengembalian');
+// });
+
+// Route::prefix('denda')->group(function () {
+//     #Denda
+//     Route::get('masterdenda', 'Admin\MstDenda@viewDenda');
+//     #Form Denda
+//     Route::get('formdenda', 'Admin\MstDenda@tambahDenda');
+//     Route::post('simpanDenda', 'Admin\MstDenda@simpanDDA');
+//     #Edit Denda
+//     Route::get('editDenda/{id_denda}', 'Admin\MstDenda@kirimDenda');
+//     Route::post('editDenda/ubahDenda', 'Admin\MstDenda@ubahDenda');
+//     #Delete Denda
+//     Route::get('hapusDDA/{id_denda}', 'Admin\MstDenda@hapusDenda');
+//     // Route::get('pengembalian','Admin\KembaliCon@viewkembali');
+// });
+
+// #Laporan
+// Route::prefix('laporan')->group(function () {
+//     // Laporan Buku
+//     #View Laporan Buku
+//     Route::get('buku', 'Admin\Laporan@LaporanBuku');
+//     Route::get('viewBUKU', 'Admin\Laporan@viewBuku')->name('vLaporanBuku');
+//     #Cetak Laporan buku
+//     Route::get('cetakLaporanBK', 'Admin\Laporan@cetakLaporanBK')->name('cetakLaporanBuku');
+
+//     // Laporan Sirkulasi
+//     #Laporan Peminjaman
+//     Route::get('peminjaman', 'Admin\Laporan@LaporanPinjam');
+//     Route::get('viewPinjam', 'Admin\Laporan@viewPinjam')->name('vLaporanPinjam');
+//     #Cetak Peminjaman
+//     Route::get('cetakPinjam', 'Admin\Laporan@cetakPinjam')->name('cetakPinjam');
+
+//     #Laporan Pengembalian
+//     Route::get('pengembalian', 'Admin\Laporan@LaporanKembali');
+//     Route::get('viewKembali', 'Admin\Laporan@viewKembali')->name('vLaporanKembali');
+//     #Cetak Pengembalian
+//     Route::get('cetakKembali', 'Admin\Laporan@cetakKembali')->name('cetakKembali');
+
+//     // Laporan Kunjungan
+//     Route::get('kunjungan', 'Admin\Laporan@LaporanKunjungan');
+//     // Filter Laporan
+//     Route::get('kunjungan/filter', 'Admin\Laporan@filterKun')->name('report.filter');
+//     #Preview cetak laporan
+//     Route::get('viewLaporanKUN', 'Admin\Laporan@viewKunjungan')->name('vLaporanKunjungan');
+//     #Cetak Laporan kunjungan
+//     Route::get('cetakLaporanKUN', 'Admin\Laporan@cetakKunjungan')->name('cetakKunjungan');
+// });
+
+#BACKUP POST LOGIN
+// public function postLogin(Request $request)
+    // {
+    //     $request->validate([
+    //         'username' => 'required|string',
+    //         'password' => 'required|string',
+    //     ]);
+
+    //     $credentials = $request->only('username', 'password');
+
+    //     // Cek jika username dan password cocok dengan data di database
+    //     // $user = DB::table('tb_pendik')->where([
+    //     //     ['username', '=', $credentials['username']],
+    //     //     ['password', '=', $credentials['password']]
+    //     // ])->first();
+
+    //     // if ($user) {
+    //     //     // Hanya izinkan role tertentu untuk login
+    //     //     if (in_array($user->roles, ['admin', 'pustakawan', 'kepala_perpustakaan'])) {
+    //     //         Auth::guard('pendik')->loginUsingId($user->id_pendik); // Login tanpa hashing
+    //     //         return redirect()->intended('admin.dashboard');
+    //     //     } else {
+    //     //         return redirect('login')->with('toast_warning', 'Anda tidak memiliki akses');
+    //     //     }
+    //     // }
+
+    //     if (Auth::guard('pendik')->attempt($credentials)) {
+    //         $user = Auth::guard('pendik')->user();
+
+    //         // Hanya izinkan role tertentu untuk login
+    //         // Misalnya, jika roles disimpan sebagai string dengan role dipisahkan koma
+    //         $allowedRoles = ['admin', 'pustakawan', 'kepala_perpustakaan'];
+
+    //         // Cek apakah role pengguna termasuk dalam role yang diizinkan
+    //         if (in_array($user->role, $allowedRoles)) {
+    //             return redirect()->intended('admin.dashboard');
+    //         } else {
+    //             // Logout pengguna jika role tidak diizinkan
+    //             Auth::guard('pendik')->logout();
+    //             return redirect('login')->with('toast_warning', 'Anda tidak memiliki akses');
+    //         }
+    //     }
+
+    //     return redirect('login')->with('toast_warning', 'Username/Password salah');
+    // }
+
+#BACKUP VIEW CETAK Kunjungan
+// Ambil parameter tahun ajaran dari request
+        $tahunAjaran = $request->input('tahun_ajaran');
+
+        if ($tahunAjaran) {
+            // Jika tahun ajaran dipilih, proses data dengan filter
+            $tahun = explode('/', $tahunAjaran);
+            if (count($tahun) === 2) {
+                $startYear = $tahun[0];
+                $endYear = $tahun[1];
+
+                // Tentukan rentang tanggal dari Juli tahun yang dipilih hingga Juli tahun berikutnya
+                $startDate = Carbon::create($startYear, 7, 1)->startOfDay();
+                $endDate = Carbon::create($endYear, 6, 30)->endOfDay();
+
+                // Ambil laporan berdasarkan rentang tanggal yang difilter
+                $reports = MdKunjungan::whereBetween('created_at', [$startDate, $endDate])->get();
+            } else {
+                // Tangani jika format tahun ajaran tidak valid
+                return redirect()->back()->with('error', 'Format tahun ajaran tidak valid.');
+            }
+        } else {
+            // Jika tidak ada filter, ambil semua data
+            $reports = MdKunjungan::all();
+        }
+
+        // Kembalikan view dengan data yang sesuai
+        return view('admin.laporan.prLaporanKunjungan', [
+            'reports' => $reports,
+            'tahunAjaran' => $tahunAjaran
+        ]);
+
+
+#Backup postLogin
+public function postLogin(Request $request)
+    {
+        $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        $credentials = $request->only('username', 'password');
+
+        if (Auth::guard('pendik')->attempt($credentials)) {
+            $user = Auth::guard('pendik')->user();
+
+            \Log::info('Logged in User Roles: ' . trim($user->roles));
+
+            // Hanya izinkan role tertentu untuk login
+            if (in_array(trim($user->roles), ['admin', 'pustaka', 'kep_perpus'])) {
+                return redirect()->route('dashboard')->with('Selamat Datang');
+            } else {
+                Auth::guard('pendik')->logout();
+                return redirect('login')->with('toast_warning', 'Anda tidak memiliki akses');
+            }
+        }
+
+        return redirect('login')->with('toast_warning', 'Username/Password salah');
+    }
+
+#backup ceklevel
+public function handle($request, Closure $next, ...$roles)
+    {
+        $user = Auth::guard('pendik')->user(); // Mengambil pengguna yang sedang login
+
+        // Cek apakah pengguna terautentikasi
+        if (!$user) {
+            return redirect('login');
+        }
+
+        // Debugging: Print the user roles
+        // dd($user->roles);
+        // \Log::info('User Roles: ' . trim($user->roles));
+        // \Log::info('Allowed Roles: ' . implode(',', $roles));
+
+        $userRole = trim($user->roles);
+        \Log::info('User Role: ' . $userRole);
+        \Log::info('Allowed Roles: ' . implode(',', $roles));
+
+        // Cek apakah role pengguna termasuk dalam role yang diizinkan
+        if (!in_array($user->roles, $roles)) {
+            \Log::info('Unauthorized access attempt by user with role: ' . trim($user->roles));
+            return redirect('/unauthorized'); // Redirect jika pengguna tidak memiliki role yang diizinkan
+        }
+
+        return $next($request);
+    }

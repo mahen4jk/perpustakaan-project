@@ -35,17 +35,20 @@ Route::get('detail-buku/{id_buku}', 'halindex\katalog@show');
 
 #Halaman Kunjungan
 Route::prefix('kunjungan')->group(function () {
-    Route::get('/', 'halindex\kunjungan@show');
-    Route::post('/berkunjung', 'halindex\kunjungan@berkunjung')->name('kunjungan');
+    Route::get('/', 'halindex\kunjungan@show')->name('kunjungan.show');
+    Route::post('/save-kunjungan', 'halindex\kunjungan@saveKunjungan')->name('save-kunjungan');
+    route::post('/search-anggota', 'halindex\kunjungan@searchAnggota')->name('search-anggota');
 });
-
 
 # Sistem Login
 Route::get('login', 'LoginCon@tmplogin')->name('login');
 Route::post('postlogin', 'LoginCon@postlogin')->name('postlogin');
 Route::get('logout', 'LoginCon@logout')->name('logout');
 
-Route::group(['middleware' => ['auth', 'ceklevel:admin']], function () {
+Route::group(['middleware' => ['auth:pendik', 'ceklevel:admin,pustaka']], function () {
+
+    #Tampilan Dashboard
+    Route::get('dashboard', 'DashController@Dashboard');
 
     #Tampilan MasterAnggota
     Route::prefix('anggota')->group(function () {
@@ -58,6 +61,19 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin']], function () {
         #Update Anggota
         Route::get('editANG/{id_anggota}', 'Admin\MstAnggota@kirimAnggota');
         Route::post('editANG/ubahAnggota', 'Admin\MstAnggota@ubahAnggota');
+        # Hapus Anggota
+        Route::get('hapusAnggota/{id_anggota}', 'Admin\MstAnggota@hpsAnggota');
+    });
+
+    #Tampilan MasterPendik
+    Route::prefix('pendik')->group(function () {
+        Route::get('masterpendik', 'admin\MsPendik@msPendik');
+        #Tampilan Form Kelas
+        Route::get('formPendik', 'admin\MsPendik@formPendik');
+        Route::post('simpanPendik', 'admin\MsPendik@simpanPendik');
+        #Update Anggota
+        Route::get('editPNDK/{id_pendik}', 'admin\MsPendik@editPNDK');
+        Route::post('editPNDK/ubahPendik', 'admin\MsPendik@ubahPendik');
         # Hapus Anggota
         Route::get('hapusAnggota/{id_anggota}', 'Admin\MstAnggota@hpsAnggota');
     });
@@ -75,20 +91,9 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin']], function () {
         # Hapus Kelas
         Route::get('hapusKELAS/{id_kelas}', 'Admin\MstKelasCon@deleteKEL');
     });
-    Route::prefix('petugas')->group(function () {
-        #Tampilan Data
-        Route::get('masterpetugas', 'Admin\UserController@MasterPetugas');
-        #Tampilan Form Petugas
-        Route::get('formpetugas', 'Admin\UserController@FormPetugas');
-        Route::post('simpanPetugas', 'Admin\UserController@simpanPetugas');
-        #Edit Petugas
-        Route::get('editPTS/{id}', 'admin\UserController@editPetugas');
-        Route::post('editPTS/ubahPetugas', 'admin\UserController@ubahPetugas');
-    });
 });
 
-Route::group(['middleware' => ['auth', 'ceklevel:admin,pustakawan']], function () {
-
+Route::group(['middleware' => ['auth:pendik', 'ceklevel:pustaka,admin']], function () {
     #Tampilan Dashboard
     Route::get('dashboard', 'DashController@Dashboard');
 
@@ -107,34 +112,9 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin,pustakawan']], function (
         # PDF
         Route::get('previewKtBuku/{id_buku}', 'Admin\MstBukuCon@previewKartuBuku');
         Route::get('printKtBuku/{id_buku}', 'Admin\MstBukuCon@kartuBuku');
-    });
-
-    #Tampilan MasterKategori
-    Route::prefix('kategori')->group(function () {
-        # Tampilan Data
-        Route::get('masterkategori', 'Admin\MstCatCon@MasterKategori');
-        # Tampilan Form dan Tambah Buku
-        Route::get('tambahkategori', 'Admin\MstCatCon@formkategori');
-        Route::post('simpanKAT', 'Admin\MstCatCon@simpanKAT');
-        # Siap Update Kategori
-        Route::get('editKat/{id_kategori}', 'Admin\MstCatCon@kirimKat');
-        Route::post('editKat/updateKAT', 'Admin\MstCatCon@updateKAT');
-        # Hapus Penerbit
-        Route::get('hapusKAT/{id_kategori}', 'Admin\MstCatCon@deleteKAT');
-    });
-
-    #Tampilan MasterPenerbit
-    Route::prefix('penerbit')->group(function () {
-        # Tampilan Data
-        Route::get('masterpenerbit', 'Admin\MstPenCon@mstpenerbit');
-        # Tampilan form dan tambah penerbit
-        Route::get('tambahpenerbit', 'Admin\MstPenCon@formpenerbit');
-        Route::post('simpanPEN', 'Admin\MstPenCon@simpanPEN');
-        # Siap update penerbit
-        Route::get('editPEN/{id_penerbit}', 'Admin\MstPenCon@kirimPEN');
-        Route::post('editPEN/updatePEN', 'Admin\MstPenCon@updatePEN');
-        # Hapus Penerbit
-        Route::get('hapusPEN/{id_penerbit}', 'Admin\MstPenCon@deletePEN');
+        # Label Buku
+        Route::get('previewLBL/{id_buku}', 'Admin\MstBukuCon@labelBuku');
+        Route::get('printLBL/{id_buku}', 'Admin\MstBukuCon@labelBK');
     });
 
     #DDC
@@ -167,6 +147,7 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin,pustakawan']], function (
         Route::post('pengembalian/kembaliBuku', 'Admin\KembaliCon@pengembalian');
     });
 
+    #Denda
     Route::prefix('denda')->group(function () {
         #Denda
         Route::get('masterdenda', 'Admin\MstDenda@viewDenda');
@@ -182,18 +163,45 @@ Route::group(['middleware' => ['auth', 'ceklevel:admin,pustakawan']], function (
     });
 });
 
-Route::group(['middleware' => ['auth', 'ceklevel:admin,kep_perpus']], function () {
+Route::group(['middleware' => ['auth:pendik', 'ceklevel:admin,kep_perpus']], function () {
     #Tampilan Dashboard
     Route::get('dashboard', 'DashController@Dashboard');
     #Laporan
     Route::prefix('laporan')->group(function () {
-        #Laporan Buku
+        // Laporan Buku
+        #View Laporan Buku
         Route::get('buku', 'Admin\Laporan@LaporanBuku');
-        Route::get('buku/filter', 'Admin\Laporan@FilterLPBuku')->name('buku.filter');
-        #Laporan Sirkulasi
+        #Filter View Laporan
+        Route::get('buku/filter', 'Admin\Laporan@filBuku')->name('report.filter.buku');
+        #Preview Sebelum cetak dan kena filter
+        Route::get('viewBUKU', 'Admin\Laporan@viewBuku')->name('vLaporanBuku');
+        #Cetak Laporan buku
+        Route::get('cetakLaporanBK', 'Admin\Laporan@cetakLaporanBK')->name('cetakLaporanBuku');
+
+        // Laporan Sirkulasi
+        #Laporan Peminjaman
         Route::get('peminjaman', 'Admin\Laporan@LaporanPinjam');
+        Route::get('peminjaman/filter', 'Admin\Laporan@filPinjam')->name('report.filter.pinjam');
+        #Preview sebelum cetak dan kena filter
+        Route::get('viewPinjam', 'Admin\Laporan@viewPinjam')->name('vLaporanPinjam');
+        #Cetak Peminjaman
+        Route::get('cetakPinjam', 'Admin\Laporan@cetakPinjam')->name('cetakPinjam');
+
+        #Laporan Pengembalian
         Route::get('pengembalian', 'Admin\Laporan@LaporanKembali');
-        #Laporan Kunjungan
-        Route::get('kunjungan','Admin\Laporan@LaporanKunjungan');
+        Route::get('pengembalian/filter', 'Admin\Laporan@filKembali');
+        #Preview sebelum cetak dan kena filter
+        Route::get('viewKembali', 'Admin\Laporan@viewKembali')->name('vLaporanKembali');
+        #Cetak Pengembalian
+        Route::get('cetakKembali', 'Admin\Laporan@cetakKembali')->name('cetakKembali');
+
+        // Laporan Kunjungan
+        Route::get('kunjungan', 'Admin\Laporan@LaporanKunjungan');
+        // Filter Laporan
+        Route::get('kunjungan/filter', 'Admin\Laporan@filterKun')->name('report.filter.kunjungan');
+        #Preview cetak laporan
+        Route::get('viewLaporanKUN', 'Admin\Laporan@viewKunjungan')->name('vLaporanKunjungan');
+        #Cetak Laporan kunjungan
+        Route::get('cetakLaporanKUN', 'Admin\Laporan@cetakKunjungan')->name('cetakKunjungan');
     });
 });

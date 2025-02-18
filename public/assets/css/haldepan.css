@@ -297,9 +297,21 @@
 }
 
 /* Detail Buku */
+.detail-buku-cv {
+    padding-top: 35px;
+    padding-bottom: 50px;
+}
+
 .detail-buku {
     padding-top: 35px;
     padding-bottom: 50px;
+}
+
+.card-title {
+    margin-left: 20px;
+}
+.card-text {
+    margin-left: 20px;
 }
 
 /* Utility */
@@ -541,6 +553,8 @@
 
         margin-left: 5px;
     }
+
+
 
     .deskripsi-buku {
         margin-left: -20px;

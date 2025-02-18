@@ -46,6 +46,7 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th style="width:1px; white-space:nowrap; text-align:center;">No</th>
+                                    <th style="width:1px; white-space:nowrap;">Kode Buku</th>
                                     <th style="width:1px; white-space:nowrap;">Judul Buku</th>
                                     <th style="width:1px; white-space:nowrap;">Cover</th>
                                     <th style="width:1px; white-space:nowrap;">Jumlah Buku</th>
@@ -60,6 +61,7 @@
                                 @foreach ($buku as $katalog)
                                     <tr>
                                         <td><?php echo $no++; ?></td>
+                                        <td>{{ $katalog->id_buku }}</td>
                                         <td>{{ $katalog->judul }}</td>
                                         <td>
                                             @if ($katalog->cover)
@@ -76,9 +78,12 @@
                                         <td>
                                             <a id="detail-buku" class="btn btn-default btn-sm" data-toggle="modal"
                                                 data-target="#modal-detail-buku" data-judul="{{ $katalog->judul }}"
-                                                data-isbn="{{ $katalog->isbn }}" data-pengarang="{{ $katalog->pengarang }}"
-                                                data-id_penerbit="{{ $katalog->penerbit->nama_penerbit }}"
-                                                data-klasifikasi="{{ $katalog->class_id }}"data-id_kategori="{{ $katalog->kategori->kategori }}"
+                                                data-isbn="{{ $katalog->isbn }}"
+                                                data-jilid="{{ $katalog->jilid }}"
+                                                data-pengarang="{{ $katalog->pengarang }}"
+                                                data-klasifikasi="{{ $katalog->klasifikasi->kode_class }}"
+                                                data-tmp_terbit="{{ $katalog->tmp_terbit }}"
+                                                data-penerbit="{{ $katalog->penerbit }}"
                                                 data-tahun_terbit="{{ $katalog->tahun_terbit }}"
                                                 data-stok_buku="{{ $katalog->stok_buku }}"
                                                 data-sisa_exemplar="{{ $katalog->sisa_exemplar }}"
@@ -100,9 +105,17 @@
                                                         class="fa-solid fa-print"></i>&nbsp;Print</button>
                                                 <div class="dropdown-menu">
                                                     <a class="dropdown-item"
-                                                        href="previewKtBuku/{{ encrypt($katalog->id_buku) }}">Preview Kartu Buku</a>
+                                                        href="previewKtBuku/{{ encrypt($katalog->id_buku) }}">Preview Kartu
+                                                        Buku</a>
                                                     <a class="dropdown-item"
-                                                        href="printKtBuku/{{ encrypt($katalog->id_buku) }}">Kartu Buku</a>
+                                                        href="printKtBuku/{{ encrypt($katalog->id_buku) }}">Print Kartu
+                                                        Buku</a>
+                                                    <a class="dropdown-item"
+                                                        href="previewLBL/{{ encrypt($katalog->id_buku) }}">Preview Label
+                                                        Buku</a>
+                                                    <a class="dropdown-item"
+                                                        href="printLBL/{{ encrypt($katalog->id_buku) }}">Print Label
+                                                        Buku</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -111,6 +124,7 @@
                             </tbody>
                             <tfoot>
                                 <th style="width:1px; white-space:nowrap; text-align:center;">No</th>
+                                <th style="width:1px; white-space:nowrap;">Kode Buku</th>
                                 <th style="width:1px; white-space:nowrap;">Judul Buku</th>
                                 <th style="width:1px; white-space:nowrap;">Cover</th>
                                 <th style="width:1px; white-space:nowrap;">Jumlah Buku</th>
@@ -137,12 +151,16 @@
                                             <td><span id="judul"></span></td>
                                         </tr>
                                         <tr>
-                                            <th style="">ISBN</th>
-                                            <td><span id="isbn"></span></td>
-                                        </tr>
-                                        <tr>
                                             <th style="">Pengarang</th>
                                             <td><span id="pengarang"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th style="">Jilid</th>
+                                            <td><span id="jilid"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th style="">ISBN</th>
+                                            <td><span id="isbn"></span></td>
                                         </tr>
                                         <tr>
                                             <th style="">Penerbit</th>
@@ -153,8 +171,8 @@
                                             <td><span id="klasifikasi"></span></td>
                                         </tr>
                                         <tr>
-                                            <th style="">Kategori</th>
-                                            <td><span id="kategori"></span></td>
+                                            <th style="">Tempat Terbit</th>
+                                            <td><span id="tmp_terbit"></span></td>
                                         </tr>
                                         <tr>
                                             <th style="">Tahun Terbit</th>
@@ -192,10 +210,11 @@
                 // var id_buku = $(this).data('id_buku');
                 var judul = $(this).data('judul');
                 var isbn = $(this).data('isbn');
+                var jilid = $(this).data('jilid');
                 var pengarang = $(this).data('pengarang');
-                var id_penerbit = $(this).data('id_penerbit');
                 var klasifikasi = $(this).data('klasifikasi');
-                var id_kategori = $(this).data('id_kategori');
+                var tmp_terbit = $(this).data('tmp_terbit');
+                var penerbit = $(this).data('penerbit');
                 var tahun_terbit = $(this).data('tahun_terbit');
                 var stok_buku = $(this).data('stok_buku');
                 var sisa_exemplar = $(this).data('sisa_exemplar');
@@ -203,10 +222,11 @@
                 // $('#id_buku').text(id_buku);
                 $('#judul').text(judul);
                 $('#isbn').text(isbn);
+                $('#jilid').text(jilid);
                 $('#pengarang').text(pengarang);
-                $('#penerbit').text(id_penerbit);
                 $('#klasifikasi').text(klasifikasi);
-                $('#kategori').text(id_kategori);
+                $('#tmp_terbit').text(tmp_terbit);
+                $('#penerbit').text(penerbit);
                 $('#tahun_terbit').text(tahun_terbit);
                 $('#stok_buku').text(stok_buku);
                 $('#sisa_exemplar').text(sisa_exemplar);

@@ -41,16 +41,28 @@
                                     <label for="staticKdBUKU" class="col-sm-2 col-form-label">ID Anggota</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" name="id_anggota" id="kd_anggota"
-                                            placeholder="Masukan Nomor Induk Siswa" value="{{ $anggota->id_anggota }}" readonly
-                                            required>
+                                            placeholder="Masukan Nomor Induk Siswa" value="{{ $anggota->id_anggota }}"
+                                            readonly required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="staticPengarang" class="col-sm-2 col-form-label">Kelas</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control kelas" name="kelas_id" required>
+                                            <option style="display:none"></option>
+                                            @foreach ($kelas as $kelas)
+                                                <option value="{{ $kelas->id_kelas }}"
+                                                    {{ $anggota->kelas_id == $kelas->id_kelas ? 'selected' : '' }}>
+                                                    {{ $kelas->kelas }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label for="staticKdBUKU" class="col-sm-2 col-form-label">NIS</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" name="nis" id="NIS"
-                                            placeholder="Masukan Nomor Induk Siswa" value="{{ $anggota->nis }}"
-                                            required>
+                                            placeholder="Masukan Nomor Induk Siswa" value="{{ $anggota->nis }}" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -75,51 +87,6 @@
                                                 id="customRadio2" value="P"
                                                 {{ $anggota->j_kelamin == 'P' ? 'checked' : '' }} required>
                                             <label class="custom-control-label" for="customRadio2">Perempuan</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="staticPengarang" class="col-sm-2 col-form-label">Kelas</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-control kelas" name="kelas_id" required>
-                                            <option style="display:none"></option>
-                                            @foreach ($kelas as $kelas)
-                                                <option value="{{ $kelas->id_kelas }}"
-                                                    {{ $anggota->kelas_id == $kelas->id_kelas ? 'selected' : '' }}>
-                                                    {{ $kelas->kelas }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
-                                    <div class="col-sm-10">
-                                        <textarea type="text" class="form-control" name="alamat" id="alamat" placeholder="Alamat Anggota">{{ $anggota->alamat }}</textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="thn_terbit" class="col-sm-2 col-form-label">No. Handphone</label>
-                                    <div class="col-sm-10 input-group">
-                                        <input type="text" class="form-control" name="hp" id="no_hp"
-                                            placeholder="Masukan No. Handphone" value="{{ $anggota->hp }}" required>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="Status" class="col-sm-2 col-form-label">Status</label>
-                                    <div class="col-sm-10">
-                                        <div class="custom-control custom-radio">
-                                            <input class="custom-control-input" type="radio" name="status"
-                                                id="customRadio3" value="Aktif"
-                                                {{ $anggota->status == 'Aktif' ? 'checked' : '' }} required>
-                                            <label class="custom-control-label" for="customRadio3">Aktif</label>
-                                        </div>
-                                        <div class="custom-control custom-radio">
-                                            <input class="custom-control-input" type="radio" name="status"
-                                                id="customRadio4" value="Tdk_Aktif"
-                                                {{ $anggota->status == 'Tdk_Aktif' ? 'checked' : '' }} required>
-                                            <label class="custom-control-label" for="customRadio4">
-                                                Tidak Aktif
-                                            </label>
                                         </div>
                                     </div>
                                 </div>

@@ -15,25 +15,24 @@ class MdBuku extends Model
     public $incrementing = false;
     public $timestamps = true;
     protected $fillable = [
-        'id_buku', 'judul', 'isbn', 'pengarang', 'penerbit_id',
-        'class_id', 'kategori_id', 'tahun_terbit', 'stok_buku', 'deskripsi',
+        'id_buku', 'judul', 'jilid', 'isbn', 'pengarang', 'class_id', 'tmp_terbit',
+        'penerbit', 'tahun_terbit', 'stok_buku', 'deskripsi',
         'created_at', 'updated_at'
     ];
 
     public function klasifikasi()
     {
-        return $this->belongsTo(MdDDC::class, 'class_id', 'id_class')->withDefault([
-            'ket' => 'Tidak ada'
-        ]);
+        return $this->belongsTo(MdDDC::class, 'class_id', 'id_class');
     }
-    public function penerbit()
-    {
-        return $this->belongsTo(MdPenerbit::class, 'penerbit_id', 'id_penerbit');
-    }
-    public function kategori()
-    {
-        return $this->belongsTo(MdKategori::class, 'kategori_id', 'id_kategori');
-    }
+
+    // public function penerbit()
+    // {
+    //     return $this->belongsTo(MdPenerbit::class, 'penerbit_id', 'id_penerbit');
+    // }
+    // public function kategori()
+    // {
+    //     return $this->belongsTo(MdKategori::class, 'kategori_id', 'id_kategori');
+    // }
 
     public function pengembalian()
     {
@@ -48,16 +47,24 @@ class MdBuku extends Model
     public static function kode()
     {
         # code...
-        $kd_buku = DB::table('tb_buku')->max('id_buku', 6);
+        // Mendapatkan ID buku maksimum dari database, jika ada
+        $kd_buku = DB::table('tb_buku')->max('id_buku');
+
+        // Mengambil semua ID buku untuk pengecekan
         $query = DB::table('tb_buku')->get('id_buku');
 
-        if (strlen($query) <> 0) {
-            $incrementKode = intval($kd_buku) + 1;
+        // Menentukan nilai increment kode berdasarkan ID buku yang ada
+        if (strlen($kd_buku) != 0) {
+            $incrementKode = intval(substr($kd_buku, 2)) + 1; // Mengabaikan prefiks "BK" saat konversi ke integer
         } else {
             $incrementKode = 1;
         }
+
+        // Membuat ID buku baru dengan padding nol di depan
         $kodebaruMax = str_pad($incrementKode, 6, "0", STR_PAD_LEFT);
-        $kodebaru = "" . $kodebaruMax;
+
+        // Menambahkan prefiks "BK" di depan kode buku baru
+        $kodebaru = "BK" . $kodebaruMax;
 
         return $kodebaru;
     }
@@ -82,11 +89,12 @@ class MdBuku extends Model
         DB::table('tb_buku')->insert([
             'id_buku' => $buku->id_buku,
             'judul' => $buku->judul,
+            'jilid' => $buku->jilid,
             'isbn' => $buku->ISBN,
             'pengarang' => $buku->pengarang,
-            'penerbit_id' => $buku->penerbit_id,
             'class_id' => $buku->class_id,
-            'kategori_id' => $buku->kategori_id,
+            'tmp_terbit' => $buku->tmp_terbit,
+            'penerbit' => $buku->penerbit,
             'tahun_terbit' => $buku->tahun_terbit,
             'stok_buku' => $buku->stok_buku,
             'sisa_exemplar' => $buku->stok_buku,
@@ -131,11 +139,12 @@ class MdBuku extends Model
 
         DB::table('tb_buku')->where('id_buku', $buku->id_buku)->update([
             'judul' => $buku->judul,
+            'jilid' => $buku->jilid,
             'isbn' => $buku->ISBN,
             'pengarang' => $buku->pengarang,
-            'penerbit_id' => $buku->penerbit_id,
             'class_id' => $buku->class_id,
-            'kategori_id' => $buku->kategori_id,
+            'tmp_terbit' => $buku->tmp_terbit,
+            'penerbit' => $buku->penerbit,
             'tahun_terbit' => $buku->tahun_terbit,
             'stok_buku' => $buku->stok_buku,
             'sisa_exemplar' => $buku->stok_buku,

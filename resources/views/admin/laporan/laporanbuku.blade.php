@@ -32,24 +32,78 @@
                         <h5 class="m-0 bi"> <i class="fa-solid fa-book"></i> Laporan Buku</h5>
                     </div>
                     <div class="card-body">
+                        <div class="row">
+                            <form action="{{ url('laporan/buku/filter') }}" method="GET">
+                                <div class="form-row">
+                                    <div class="form-group col-auto">
+                                        <label for="tahun_input">Tahun Input:&nbsp;</label>
+                                        <select id="tahun_input" name="tahun_input" class="form-control">
+                                            @foreach ($tahunInput as $ti)
+                                                <option value="{{ $ti }}"
+                                                    {{ isset($selectedTahunInput) && $selectedTahunInput == $ti ? 'selected' : '' }}>
+                                                    {{ $ti }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-auto">
+                                        <label>&nbsp;</label>
+                                        <button type="submit" class="btn btn-primary form-control">Filter</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="row">
+                            @if (isset($selectedTahunInput) && $selectedTahunInput)
+                                <div class="mb-3">
+                                    <a href="{{ url('laporan/viewBUKU') }}?tahun_input={{ urlencode($selectedTahunInput) }}"
+                                        target="_blank" class="btn btn-primary">
+                                        <i class="fa fa-print"></i> Preview Cetak Laporan
+                                    </a>
+                                </div>
+                                &nbsp;
+                                <div class="mb-3">
+                                    <a href="{{ url('laporan/cetakLaporanBK') }}?tahun_input={{ urlencode($selectedTahunInput) }}"
+                                        target="_blank" class="btn btn-primary">
+                                        <i class="fa fa-print"></i> Cetak Laporan
+                                    </a>
+                                </div>
+                            @else
+                                <div class="mb-3">
+                                    <a href="{{ url('laporan/viewBUKU') }}" target="_blank" class="btn btn-primary">
+                                        <i class="fa fa-print"></i> Preview Cetak Laporan
+                                    </a>
+                                </div>
+                                &nbsp;
+                                <div class="mb-3">
+                                    <a href="{{ url('laporan/cetakLaporanBK') }}" target="_blank" class="btn btn-primary">
+                                        <i class="fa fa-print"></i> Cetak Laporan
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
+
                         <table id="example2" class="table table-hover table-sm table-responsive-sm">
                             <thead class="thead-light">
                                 <tr>
                                     <th style="width:1px; white-space:nowrap; text-align:center;">No</th>
+                                    <th style="width:1px; white-space:nowrap;">Kode Buku</th>
                                     <th style="width:1px; white-space:nowrap;">Judul Buku</th>
                                     <th style="width:1px; white-space:nowrap;">Cover</th>
-                                    <th style="width:1px; white-space:nowrap;">Stock Buku</th>
-                                    <th style="width:1px; white-space:nowrap;">Buku Tersedia</th>
-                                    <th style="width:1px; white-space:nowrap;">Action</th>
+                                    <th style="width:1px; white-space:nowrap;">Jumlah Buku</th>
+                                    <th style="width:1px; white-space:nowrap;">Sisa Exemplar</th>
+                                    <th style="width:1px; white-space:nowrap;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                 $no = 1;
                                 ?>
-                                @foreach ($buku as $katalog)
+                                @foreach ($reports ?? $buku as $katalog)
                                     <tr>
-                                        <td style="text-align:center"><?php echo $no++; ?></td>
+                                        <td><?php echo $no++; ?></td>
+                                        <td>{{ $katalog->id_buku }}</td>
                                         <td>{{ $katalog->judul }}</td>
                                         <td>
                                             @if ($katalog->cover)
@@ -65,26 +119,29 @@
                                         <td>{{ $katalog->sisa_exemplar }}</td>
                                         <td>
                                             <a id="detail-buku" class="btn btn-default btn-sm" data-toggle="modal"
-                                                data-target="#modal-detail-buku" data-id_buku="{{ $katalog->id_buku }}"
-                                                data-judul="{{ $katalog->judul }}" data-isbn="{{ $katalog->isbn }}"
+                                                data-target="#modal-detail-buku" data-judul="{{ $katalog->judul }}"
+                                                data-isbn="{{ $katalog->isbn }}" data-jilid="{{ $katalog->jilid }}"
                                                 data-pengarang="{{ $katalog->pengarang }}"
-                                                data-id_penerbit="{{ $katalog->penerbit->nama_penerbit }}"
-                                                data-klasifikasi="{{ $katalog->class_id }}"data-id_kategori="{{ $katalog->kategori->kategori }}"
+                                                data-klasifikasi="{{ $katalog->klasifikasi->kode_class }}"
+                                                data-tmp_terbit="{{ $katalog->tmp_terbit }}"
+                                                data-penerbit="{{ $katalog->penerbit }}"
                                                 data-tahun_terbit="{{ $katalog->tahun_terbit }}"
+                                                data-stok_buku="{{ $katalog->stok_buku }}"
+                                                data-sisa_exemplar="{{ $katalog->sisa_exemplar }}"
                                                 data-deskripsi="{{ $katalog->deskripsi }}">
                                                 <i class="fa-regular fa-eye"></i>&nbsp;Detail
                                             </a>
-                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                             <tfoot>
                                 <th style="width:1px; white-space:nowrap; text-align:center;">No</th>
+                                <th style="width:1px; white-space:nowrap;">Kode Buku</th>
                                 <th style="width:1px; white-space:nowrap;">Judul Buku</th>
                                 <th style="width:1px; white-space:nowrap;">Cover</th>
-                                <th style="width:1px; white-space:nowrap;">Stock Buku</th>
-                                <th style="width:1px; white-space:nowrap;">Buku Tersedia</th>
-                                <th style="width:1px; white-space:nowrap;">Action</th>
+                                <th style="width:1px; white-space:nowrap;">Jumlah Buku</th>
+                                <th style="width:1px; white-space:nowrap;">Sisa Exemplar</th>
+                                <th style="width:1px; white-space:nowrap;">Actions</th>
                             </tfoot>
                         </table>
                     </div>
@@ -101,20 +158,20 @@
                                     <table class="table table-bordered no-margin">
                                         <tbody>
                                             <tr>
-                                                <th style="">Id Buku</th>
-                                                <td><span id="id_buku"></span></td>
-                                            </tr>
-                                            <tr>
                                                 <th style="">Judul</th>
                                                 <td><span id="judul"></span></td>
                                             </tr>
                                             <tr>
-                                                <th style="">ISBN</th>
-                                                <td><span id="isbn"></span></td>
-                                            </tr>
-                                            <tr>
                                                 <th style="">Pengarang</th>
                                                 <td><span id="pengarang"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="">Jilid</th>
+                                                <td><span id="jilid"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="">ISBN</th>
+                                                <td><span id="isbn"></span></td>
                                             </tr>
                                             <tr>
                                                 <th style="">Penerbit</th>
@@ -125,12 +182,20 @@
                                                 <td><span id="klasifikasi"></span></td>
                                             </tr>
                                             <tr>
-                                                <th style="">Kategori</th>
-                                                <td><span id="kategori"></span></td>
+                                                <th style="">Tempat Terbit</th>
+                                                <td><span id="tmp_terbit"></span></td>
                                             </tr>
                                             <tr>
                                                 <th style="">Tahun Terbit</th>
                                                 <td><span id="tahun_terbit"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="">Stok</th>
+                                                <td><span id="stok_buku"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <th style="">Status</th>
+                                                <td><span id="sisa_exemplar"></span></td>
                                             </tr>
                                             <tr>
                                                 <th style="">Deskripsi</th>
@@ -154,25 +219,29 @@
         $(document).ready(function() {
             //Modal Detail Buku
             $(document).on('click', '#detail-buku', function() {
-                var id_buku = $(this).data('id_buku');
+                // var id_buku = $(this).data('id_buku');
                 var judul = $(this).data('judul');
                 var isbn = $(this).data('isbn');
+                var jilid = $(this).data('jilid');
                 var pengarang = $(this).data('pengarang');
-                var id_penerbit = $(this).data('id_penerbit');
                 var klasifikasi = $(this).data('klasifikasi');
-                var id_kategori = $(this).data('id_kategori');
+                var tmp_terbit = $(this).data('tmp_terbit');
+                var penerbit = $(this).data('penerbit');
                 var tahun_terbit = $(this).data('tahun_terbit');
                 var stok_buku = $(this).data('stok_buku');
+                var sisa_exemplar = $(this).data('sisa_exemplar');
                 var deskripsi = $(this).data('deskripsi');
-                $('#id_buku').text(id_buku);
+                // $('#id_buku').text(id_buku);
                 $('#judul').text(judul);
                 $('#isbn').text(isbn);
+                $('#jilid').text(jilid);
                 $('#pengarang').text(pengarang);
-                $('#penerbit').text(id_penerbit);
                 $('#klasifikasi').text(klasifikasi);
-                $('#kategori').text(id_kategori);
+                $('#tmp_terbit').text(tmp_terbit);
+                $('#penerbit').text(penerbit);
                 $('#tahun_terbit').text(tahun_terbit);
                 $('#stok_buku').text(stok_buku);
+                $('#sisa_exemplar').text(sisa_exemplar);
                 $('#deskripsi').text(deskripsi);
             })
             // Tabel

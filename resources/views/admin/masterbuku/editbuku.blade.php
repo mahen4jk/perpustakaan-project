@@ -38,7 +38,7 @@
                         <form action="updateBUKU" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             @foreach ($kode as $BUKU)
-                                <div class="form-group row" hidden>
+                                <div class="form-group row">
                                     <label for="staticKdBUKU" class="col-sm-2 col-form-label">Kode Buku</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" name="id_buku" id="id_buku"
@@ -60,13 +60,20 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label for="staticPengarang" class="col-sm-2 col-form-label">Jilid/Editis</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="jilid" id="jilid"
+                                            value="{{ $BUKU->jilid }}" placeholder="Pengarang Buku">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label for="staticPengarang" class="col-sm-2 col-form-label">Pengarang</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" name="pengarang" id="pengarang"
                                             value="{{ $BUKU->pengarang }}" placeholder="Pengarang Buku" required>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                {{-- <div class="form-group row">
                                     <label for="penerbit_id" class="col-sm-2 col-form-label">Penerbit</label>
                                     <div class="col-sm-10">
                                         <select class="form-control penerbit" name="penerbit_id" required>
@@ -78,7 +85,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="form-group row">
                                     <label for="class_id" class="col-sm-2 col-form-label">Klasifikasi</label>
                                     <div class="col-sm-10">
@@ -87,13 +94,13 @@
                                             @foreach ($klasifikasi as $class)
                                                 <option value="{{ $class->id_class }}"
                                                     {{ $BUKU->class_id == $class->id_class ? 'selected' : '' }}>
-                                                    {{ $class->id_class }}&nbsp;{{ $class->ket }}
+                                                    {{ $class->kode_class }}&nbsp;{{ $class->ket }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                {{-- <div class="form-group row">
                                     <label for="kategori_id" class="col-sm-2 col-form-label">Kategori</label>
                                     <div class="col-sm-10">
                                         <select class="form-control kategori" name="kategori_id" required>
@@ -105,6 +112,20 @@
                                                 </option>
                                             @endforeach
                                         </select>
+                                    </div>
+                                </div> --}}
+                                <div class="form-group row">
+                                    <label for="staticPengarang" class="col-sm-2 col-form-label">Tempat Terbit</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="tmp_terbit" id="tmp_terbit"
+                                            value="{{ $BUKU->tmp_terbit }}" placeholder="Tempat Terbit" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="staticPengarang" class="col-sm-2 col-form-label">Penerbit</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="penerbit" id="penerbit"
+                                            value="{{ $BUKU->penerbit }}" placeholder="Penerbit" required>
                                     </div>
                                 </div>
                                 <div class="form-group row">

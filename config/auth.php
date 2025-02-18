@@ -41,6 +41,11 @@ return [
             'provider' => 'users',
         ],
 
+        'pendik' => [
+            'driver' => 'session',
+            'provider' => 'pendiks',
+        ],
+
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -69,6 +74,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+        ],
+
+        'pendiks' => [
+            'driver' => 'eloquent',
+            'model' => App\MdPendik::class,
         ],
 
         // 'users' => [

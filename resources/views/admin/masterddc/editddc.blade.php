@@ -37,11 +37,18 @@
                         <form action="ubahDDC" method="POST">
                             {{ csrf_field() }}
                             @foreach ($ddc as $klasifikasi)
+                                <div class="form-group row" hidden>
+                                    <label for="staticEmail" class="col-sm-2 col-form-label">ID Class</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" name="id_class" id="DDC"
+                                            placeholder="Masukan Kode DDC" value="{{ $klasifikasi->id_class }}" readonly>
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <label for="staticEmail" class="col-sm-2 col-form-label">Kode DDC</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" name="id_class" id="DDC"
-                                            placeholder="Masukan Kode DDC" value="{{ $klasifikasi->id_class }}">
+                                        <input type="text" class="form-control" name="kode_class" id="DDC"
+                                            placeholder="Masukan Kode DDC" value="{{ $klasifikasi->kode_class }}">
                                     </div>
                                 </div>
                                 <div class="form-group row">

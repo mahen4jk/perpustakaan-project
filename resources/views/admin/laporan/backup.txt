@@ -35,3 +35,135 @@
         //         }
         //     }
         // });
+
+
+// Insert Pengembalian
+        //Denda dengan status
+        $stsDenda = MdDenda::all()->where('status', 'A');
+        foreach ($stsDenda as $nom_Denda) {
+            # code...
+            $id_denda = $nom_Denda->id_denda;
+            $denda = $nom_Denda->nominal_denda;
+        }
+        //Membuat selisih hari
+        // $pinjam = MdPinjam::find($kembali);
+        $pinjam = MdPinjam::all();
+        foreach ($pinjam as $pinjam11) {
+            # code...
+            $tg_kembali = $pinjam11->tgl_kembali;
+        }
+        $tg_kembali = Carbon::parse($tg_kembali);
+        $tgl_pengembalian = $kembali->input('tgl_dikembalikan');
+        $tgl_pengembalian = Carbon::parse($tgl_pengembalian);
+
+        $selisih = $tg_kembali->diffInDays($tgl_pengembalian, false);
+        if ($selisih > 0) {
+            $jmldenda = $denda * $selisih;
+            $status = 'Terlambat';
+        } else {
+            $selisih = 0;
+            $jmldenda = 0;
+            $status = 'Tepat';
+        }
+        $jmldenda;
+
+        DB::table('tb_pengembalian')->insert([
+            'kode_kembali' => $kembali->kode_kembali,
+            'pinjam_kode' => $kembali->pinjam_kode,
+            'tgl_dikembalikan' => $kembali->tgl_dikembalikan,
+            'terlambat' => $selisih,
+            'status' => $status,
+            'denda_id' => $id_denda,
+            'total_denda' => $jmldenda,
+            'created_at' => now()
+        ]);
+
+// Controller Dashboard Piechart
+// $total_buku = [];
+        // $judul_buku = [];
+
+        // $jumlah_buku = MdPinjam::select(DB::raw("count(buku_id) as jumlah_buku"))
+        //     ->GroupBy(DB::raw("buku_id"))
+        //     ->pluck('jumlah_buku');
+
+
+        // $judul = DB::table('tb_peminjaman')
+        //     ->join('tb_buku', 'buku_id', '=', 'id_buku')
+        //     ->select(
+        //         'tb_buku.judul',
+        //         DB::raw('MAX(tb_peminjaman.buku_id) as buku_id'),
+        //         DB::raw('count(tb_peminjaman.buku_id)as jumlah_buku')
+        //     )
+        //     ->groupBy('tb_buku.judul')->take(10)->get();
+
+
+        // dd (json_encode($dataPinjam));
+        // foreach ($Peminjaman as $pinjam) {
+        //     # code...
+        //     foreach ($Buku as $buku) {
+        //         if ($buku->id_buku == $pinjam->buku_id) {
+        //             $judul_buku[] = $buku->judul;
+        //             $total_buku[] = $pinjam->jumlah_buku;
+        //         }
+        //     }
+        // }
+
+        //dd(json_encode($Peminjaman));
+
+        // dd(json_encode($total_buku));
+        // dd(json_encode($judul_buku));
+
+        // return view('admin.dashboard', [
+        //     'judul_buku' => $judul_buku,
+        //     'total_buku' => $total_buku
+        // ], compact('Buku', 'Anggota'));
+
+
+// Preview Label Buku
+<style>
+        .labels-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(10cm, 1fr));
+            /* Kolom landscape, minimal 10cm, isi area */
+            grid-gap: 5px;
+            /* Ruang antara grid item */
+        }
+
+        .label {
+            font-family: Arial, sans-serif;
+            border: 1px solid #000;
+            padding: 5px;
+            margin-bottom: 10px;
+            width: 5cm;
+            /* Ukuran lebar 5 cm */
+            height: 6cm;
+            /* Ukuran tinggi 6 cm */
+            position: relative;
+            /* Menjadikan posisi relatif untuk elemen teks tambahan */
+            text-align: center;
+            /* Teks di dalam label center */
+        }
+
+        .label-text {
+            font-size: 20px;
+            /* Ukuran font teks tambahan */
+            white-space: pre-line;
+            /* Menjaga baris pemisah (br) */
+        }
+
+        .label-item {
+            font-size: 25px;
+            text-align: center;
+            /* Teks dalam item center */
+            /* margin-bottom: 5px; Jarak bawah antara item */
+            margin-top: 20px;
+            /* Jarak atas dari label-text */
+        }
+
+        .line {
+            border-bottom: 1px solid #000;
+            /* Garis bawah */
+            margin-bottom: 5px;
+            /* Jarak antara teks tambahan dan nomor klasifikasi */
+        }
+    </style>

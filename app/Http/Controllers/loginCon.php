@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\MdPendik;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\DB;
 
 class loginCon extends Controller
 {
@@ -17,46 +19,38 @@ class loginCon extends Controller
 
     public function postLogin(Request $request)
     {
-        # sistem login...
-        $input = $request->all();
-
         // Validasi input
-        $request->validate([
-            'email' => 'required|string',
-            'password' => 'required|string',
-        ]);
-
-        // Cek apakah input adalah email atau username
-        $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        if (Auth::attempt([$fieldType => $input['email'], 'password' => $input['password']])) {
-            return redirect('dashboard')->with('toast_success', 'Selamat Datang');
-        } else {
-            return redirect('login')->with('toast_warning', 'Email/Password yang dimasukkan salah');
-        }
-
-        // $input = $request->all();
-
-        // // Validasi input
         // $request->validate([
-        //     'email' => 'required|string',
+        //     'username' => 'required|string',
         //     'password' => 'required|string',
         // ]);
 
-        // // Cek apakah input adalah email atau username
-        // $fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        // Ambil kredensial dari request
+        $credentials = $request->only('username','password');
 
-        // // Coba autentikasi berdasarkan email atau username
-        // if (Auth::attempt([$fieldType => $input['email'], 'password' => $input['password']])) {
-        //     return redirect()->route('dashboard')->with('toast_success', 'Selamat Datang');
-        // } else {
-        //     return redirect()->route('login')->with('toast_warning', 'Email/Username atau Password yang dimasukkan salah');
-        // }
+        // Coba login dengan kredensial yang diberikan
+        if (Auth::guard('pendik')->attempt($credentials)) {
+            $user = Auth::guard('pendik')->user();
+
+            \Log::info('Logged in User Roles: ' . trim($user->roles));
+
+            // Hanya izinkan role tertentu untuk login
+            if (in_array(trim($user->roles), ['admin', 'pustaka', 'kep_perpus'])) {
+                return redirect()->intended('dashboard')->with('toast_success', "Selamat Datang {$user->nama_pendik}");
+            } else {
+                Auth::guard('pendik')->logout();
+                return redirect('login')->with('toast_warning', 'Anda tidak memiliki akses');
+            }
+        }
+
+        // Jika login gagal, kembali ke halaman login dengan pesan error
+        return redirect('login')->with('toast_warning', 'Username atau Password salah');
     }
 
-    public function Logout(Request $request)
+
+    public function logout()
     {
-        # sistem logout...
-        Auth::logout();
-        return redirect('login')->with('toast_success', 'Berhasil Logout');
+        Auth::guard('pendik')->logout();
+        return redirect('login');
     }
 }

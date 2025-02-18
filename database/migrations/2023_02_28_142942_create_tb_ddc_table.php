@@ -14,8 +14,8 @@ class CreateTbDdcTable extends Migration
     public function up()
     {
         Schema::create('tb_ddc', function (Blueprint $table) {
-            $table->char('id_class',25);
-            $table->primary('id_class');
+            $table->increments('id_class');
+            $table->char('kode_class',250);
             $table->longText('ket');
             $table->timestamps();
         });

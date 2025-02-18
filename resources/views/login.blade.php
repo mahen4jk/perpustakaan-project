@@ -41,13 +41,14 @@
         <!-- /.login-logo -->
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <a href="#" class="h2"><img src="{{ url('assets/image/logo.png') }}" alt="logo smpn4waru" class="logo">&nbsp;<b>Perpustakaan</b><br>SMP Negeri 4 Waru</a>
+                <a href="#" class="h2"><img src="{{ url('assets/image/logo.png') }}" alt="logo smpn4waru"
+                        class="logo">&nbsp;<b>Perpustakaan</b><br>SMP Negeri 4 Waru</a>
             </div>
             <div class="card-body">
                 <form action="{{ route('postlogin') }}" method="post">
                     {{ csrf_field() }}
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="email" value="{{ old('email') }}"
+                        <input type="text" class="form-control" name="username"
                             placeholder="Masukkan Email/Username">
                         <div class="input-group-append">
                             <div class="input-group-text">

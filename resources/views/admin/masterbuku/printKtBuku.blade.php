@@ -11,8 +11,9 @@
             margin: 0;
             padding: 0;
             width: 30cm;
-            /* Increased width to accommodate two tables side by side */
+            /* Lebar kertas A4 dalam landscape */
             height: 20cm;
+            /* Tinggi kertas A4 dalam landscape */
         }
 
         .box-model {
@@ -20,11 +21,12 @@
             border: 1px solid #ccc;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             page-break-inside: avoid;
+            /* Hindari pemisahan elemen di dalam halaman */
             float: left;
-            /* Add this to make the boxes float next to each other */
             width: 33.33%;
-            /* Set width to 50% for two columns */
+            /* Lebar 33.33% untuk tiga kolom dalam satu baris */
             margin-right: 10px;
+            margin-bottom: 10px;
         }
 
         h4 {
@@ -84,7 +86,7 @@
                     </div>
                 </div>
                 <table>
-                    <!-- Your table content here -->
+                    <!-- Isi tabel Anda di sini -->
                     <thead>
                         <tr>
                             <th style="text-align: center">Peminjam</th>
@@ -105,7 +107,7 @@
                     </tbody>
                 </table>
             </div>
-            @if ($i % 3 == 0)
+            @if ($i % 2 == 0)
                 <div style="clear: both;"></div>
             @endif
         @endfor

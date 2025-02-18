@@ -41,7 +41,7 @@
                                     <label for="staticKdBUKU" class="col-sm-2 col-form-label">Kode Kembali</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" name="kode_kembali" id="kd_kembali"
-                                            placeholder="" value="{{ 'IN-' . date('d-m-Y') . '-' . $kode_kembali }}"
+                                            placeholder="" value="{{ 'IN-' . date('dmY') . '-' . $kode_kembali }}"
                                             required readonly>
                                     </div>
                                 </div>

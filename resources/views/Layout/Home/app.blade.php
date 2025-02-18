@@ -19,6 +19,10 @@
     <link rel="stylesheet" href="{{ url('assets/fontawesome-free/css/fontawesome.css') }}">
     <link rel="stylesheet" href="{{ url('assets/fontawesome-free/css/solid.css') }}">
     <link rel="stylesheet" href="{{ url('assets/fontawesome-free/css/brands.css') }}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ url('lte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ url('lte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ url('lte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
     <!-- Bootstrap -->
     <link rel="stylesheet" href="{{ url('assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url('assets/css/haldepan.css') }}">
@@ -121,8 +125,23 @@
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     {{-- Js LTE --}}
     <script src="{{ url('lte/dist/js/adminlte.min.js') }}"></script>
+    <!-- Datatables -->
+    <script src="{{ url('lte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url('lte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ url('lte/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ url('lte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ url('lte/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ url('lte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ url('lte/plugins/jszip/jszip.min.js') }}"></script>
+    <script src="{{ url('lte/plugins/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ url('lte/plugins/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ url('lte/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ url('lte/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ url('lte/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
     {{-- Select2 --}}
     <script src="{{ asset('lte/plugins/select2/js/select2.full.min.js') }}"></script>
+
+    @include('sweetalert::alert')
     @yield('js')
 </body>
 

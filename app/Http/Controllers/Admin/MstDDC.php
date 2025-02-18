@@ -27,11 +27,11 @@ class MstDDC extends Controller
     {
         # code...
         $validate_DDC = $ddc->validate([
-            'id_class' => 'required',
+            'kode_class' => 'required',
             'ket' => 'required'
         ]);
         $simpan = new MdDDC();
-        $simpan->insertDDC($ddc, ['id_class' => $validate_DDC]);
+        $simpan->insertDDC($ddc, ['kode_class' => $validate_DDC]);
         return redirect('ddc/masterddc')->with('toast_success', 'Data Berhasil disimpan');
     }
 
@@ -46,11 +46,11 @@ class MstDDC extends Controller
     {
         # code...
         $validate_DDC = $ddc->validate([
-            'id_class' => 'required',
+            'kode_class' => 'required',
             'ket' => 'required'
         ]);
         $simpan = new MdDDC();
-        $simpan->updateDDC($ddc, ['id_class' => $validate_DDC]);
+        $simpan->updateDDC($ddc, ['kode_class' => $validate_DDC]);
         return redirect('ddc/masterddc')->with('toast_success', 'Data Berhasil disimpan');
     }
 

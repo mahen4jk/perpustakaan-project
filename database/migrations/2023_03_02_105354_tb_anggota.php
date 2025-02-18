@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTbAnggotaTable extends Migration
+class TbAnggota extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,14 @@ class CreateTbAnggotaTable extends Migration
      */
     public function up()
     {
+        //
         Schema::create('tb_anggota', function (Blueprint $table) {
             $table->increments('id_anggota');
             $table->char('nis',25);
-            $table->string('nama_anggota',150);
-            $table->enum('j_kelamin',['L','P']);
             $table->unsignedInteger('kelas_id');
             $table->foreign('kelas_id')->references('id_kelas')->on('tb_kelas')->onDelete('cascade')->onUpdate('cascade');
-            $table->longText('alamat');
-            $table->char('hp',25);
-            $table->unique('hp');
-            $table->enum('status',['Aktif','Tdk_Aktif']);
+            $table->string('nama_anggota',200);
+            $table->enum('j_kelamin',['L','P']);
             $table->timestamps();
         });
     }
@@ -35,6 +32,7 @@ class CreateTbAnggotaTable extends Migration
      */
     public function down()
     {
+        //
         Schema::dropIfExists('tb_anggota');
     }
 }

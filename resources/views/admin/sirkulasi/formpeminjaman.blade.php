@@ -36,24 +36,26 @@
                         <!-- Form -->
                         <form action="simpanpinjam" method="POST">
                             {{ csrf_field() }}
-                            <div class="form-group row" hidden>
+                            <div class="form-group row">
                                 <label for="staticKdBUKU" class="col-sm-2 col-form-label">Kode Transaksi</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="kode_pinjam" id="kd_pinjam"
-                                        placeholder="" value="{{ 'OUT-' . date('d-m-Y') . '-' . $kode_pinjam }}" required
+                                        placeholder="" value="{{ 'OUT-' . date('dmY') . '-' . $kode_pinjam }}" required
                                         readonly>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="staticISBN" class="col-sm-2 col-form-label">Tanggal Pinjam</label>
                                 <div class="col-sm-10 input-group date datepinjam">
-                                    <input type="text" class="form-control" name="tgl_pinjam" id="tanggal_pinjam"
+                                    {{-- <input type="date"class="form-control" name="tgl_pinjam" id="tanggal_pinjam"
                                         placeholder="Tanggal Pinjam"
                                         value="{{ date('Y-m-d', strtotime(Carbon\Carbon::today()->toDateString())) }}"
-                                        required readonly>
-                                    <div class="input-group-prepend">
+                                        required readonly> --}}
+                                    <input type="date" class="form-control" name="tgl_pinjam" id="datepinjam"
+                                        placeholder="Tanggal Pinjam" required>
+                                    {{-- <div class="input-group-prepend">
                                         <span class="input-group-text btn"><i class="far fa-calendar-alt"></i></span>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -67,11 +69,11 @@
                                 @endphp
                                 <label for="staticJudul" class="col-sm-2 col-form-label">Tanggal Kembali</label>
                                 <div class="col-sm-10 input-group date datekembali">
-                                    <input type="text" class="form-control" name="tgl_kembali" id="datekembali"
+                                    <input type="date" class="form-control" name="tgl_kembali" id="datekembali"
                                         placeholder="Tanggal Kembali" value="{{ $value }}" required>
-                                    <div class="input-group-prepend">
+                                    {{-- <div class="input-group-prepend">
                                         <span class="input-group-text btn"><i class="far fa-calendar-alt"></i></span>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -134,7 +136,6 @@
                                         <th style="">Nama Anggota</th>
                                         <th style="">Jenis Kelamin</th>
                                         <th style="">Kelas</th>
-                                        <th style="">No. Handphone</th>
                                         <th style="">Action</th>
                                     </tr>
                                 </thead>
@@ -146,7 +147,6 @@
                                                 <td>{{ $anggota->nama_anggota }}</td>
                                                 <td>{{ $anggota->j_kelamin }}</td>
                                                 <td>{{ $anggota->kelas->kelas }}</td>
-                                                <td>{{ $anggota->hp }}</td>
                                                 <td><button class="pilih_anggota btn btn-warning btn-secondary"
                                                         data-anggota_id="<?php echo $anggota->id_anggota; ?>"
                                                         data-nama_anggota="<?php echo $anggota->nama_anggota; ?>">Pilih&nbsp;<span
@@ -269,14 +269,22 @@
             //         $(this).datepicker('show');
             //     }
             // );
-            $('.datekembali').off('focus').datepicker({
-                format: "yyyy-mm-dd",
-                daysOfWeekDisabled: [0],
-            }).click(
-                function() {
-                    $(this).datepicker('show');
-                }
-            );
+            // $('.datepinjam').off('focus').datepicker({
+            //     format: "yyyy-mm-dd",
+            //     daysOfWeekDisabled: [0],
+            // }).click(
+            //     function() {
+            //         $(this).datepicker('show');
+            //     }
+            // );
+            // $('.datekembali').off('focus').datepicker({
+            //     format: "yyyy-mm-dd",
+            //     daysOfWeekDisabled: [0],
+            // }).click(
+            //     function() {
+            //         $(this).datepicker('show');
+            //     }
+            // );
         })
     </script>
 @endsection

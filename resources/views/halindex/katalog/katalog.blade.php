@@ -58,11 +58,15 @@
                             <div class="row no-gutters" id="searchResult">
                                 <div class="col-md-3">
                                     @if ($katalog->cover)
-                                        <img src="{{ asset('image/buku/' . $katalog->cover) }}" alt="Cover Buku"
-                                            class="img-katalog img-thumbnail">
+                                        <a href="{{ url('detail-buku', encrypt($katalog->id_buku)) }}" class="detail-buku-cv">
+                                            <img src="{{ asset('image/buku/' . $katalog->cover) }}" alt="Cover Buku"
+                                                class="img-katalog img-thumbnail">
+                                        </a>
                                     @else
-                                        <img src="{{ asset('image/no-image.png') }}" alt="No Image"
-                                            class="img-katalog img-thumbnail ">
+                                        <a href="{{ url('detail-buku', encrypt($katalog->id_buku)) }}" class="detail-buku">
+                                            <img src="{{ asset('image/no-image.png') }}" alt="No Image"
+                                                class="img-katalog img-thumbnail ">
+                                        </a>
                                     @endif
                                 </div>
                                 <div class="col-md-9">
@@ -72,7 +76,6 @@
                                                 class="detail-buku">
                                                 {{ $katalog->judul }}
                                             </a>
-
                                         </h5>
                                         <p class="card-text">
                                             <small class="text-muted">
@@ -82,10 +85,10 @@
                                                 <i class="fa-solid fa-user"></i>
                                                 &nbsp;{{ $katalog->pengarang }}
                                             </small><br>
-                                            <small class="text-muted">
+                                            {{-- <small class="text-muted">
                                                 <i class="fa-solid fa-circle-check"></i>
                                                 &nbsp;{{ $katalog->kategori->kategori }}
-                                            </small></br>
+                                            </small></br> --}}
                                             <small class="text-muted">
                                                 <i class="fa-solid fa-calendar-days"></i>
                                                 &nbsp;{{ $katalog->tahun_terbit }}

@@ -67,41 +67,52 @@ class MdKembali extends Model
 
     public function Kembali($kembali)
     {
-
         // Insert Pengembalian
-        //Denda dengan status
-        $stsDenda = MdDenda::all()->where('status', 'A');
-        foreach ($stsDenda as $nom_Denda) {
-            # code...
-            $id_denda = $nom_Denda->id_denda;
-            $denda = $nom_Denda->nominal_denda;
-        }
-        //Membuat selisih hari
-        // $pinjam = MdPinjam::find($kembali);
-        $pinjam = MdPinjam::all();
-        foreach ($pinjam as $pinjam11) {
-            # code...
-            $tg_kembali = $pinjam11->tgl_kembali;
-        }
-        $tg_kembali = Carbon::parse($tg_kembali);
-        $tgl_pengembalian = $kembali->input('tgl_dikembalikan');
-        $tgl_pengembalian = Carbon::parse($tgl_pengembalian);
+        // Denda dengan status 'A'
+        // $stsDenda = MdDenda::where('status', 'A')->first();
+        // if (!$stsDenda) {
+        //     return back()->withErrors('Denda dengan status aktif tidak ditemukan.');
+        // }
 
+        // $id_denda = $stsDenda->id_denda;
+        // $denda = $stsDenda->nominal_denda;
+
+        // Mengambil semua denda dengan status 'A'
+        $activeDendas = MdDenda::where('status', 'A')->get();
+
+        if ($activeDendas->count() == 0) {
+            return back()->withErrors('Denda dengan status aktif tidak ditemukan.');
+        }
+
+        // Pilih denda tertinggi jika ada lebih dari satu
+        $denda = $activeDendas->max('nominal_denda');
+        $id_denda = $activeDendas->where('nominal_denda', $denda)->first()->id_denda;
+
+        // Mengambil data pinjam berdasarkan pinjam_kode
+        $pinjam = MdPinjam::where('kode_pinjam', $kembali->pinjam_kode)->first();
+        if (!$pinjam) {
+            return back()->withErrors('Data pinjaman tidak ditemukan.');
+        }
+
+        $tg_kembali = Carbon::parse($pinjam->tgl_kembali);
+        $tgl_pengembalian = Carbon::parse($kembali->input('tgl_dikembalikan'));
+
+        // Membuat selisih hari
         $selisih = $tg_kembali->diffInDays($tgl_pengembalian, false);
         if ($selisih > 0) {
             $jmldenda = $denda * $selisih;
-            $status = 'Terlambat';
+            $status = 'terlambat';
         } else {
             $selisih = 0;
             $jmldenda = 0;
-            $status = 'Tepat';
+            $status = 'tepat';
         }
-        $jmldenda;
 
+        // Insert data pengembalian ke database
         DB::table('tb_pengembalian')->insert([
             'kode_kembali' => $kembali->kode_kembali,
             'pinjam_kode' => $kembali->pinjam_kode,
-            'tgl_dikembalikan' => $kembali->tgl_dikembalikan,
+            'tgl_dikembalikan' => $tgl_pengembalian->toDateString(),
             'terlambat' => $selisih,
             'status' => $status,
             'denda_id' => $id_denda,

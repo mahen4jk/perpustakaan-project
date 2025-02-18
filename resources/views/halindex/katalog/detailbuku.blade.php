@@ -76,8 +76,16 @@
                         <table class="table table-striped table-hover">
                             <tbody>
                                 <tr>
+                                    <th style="">ID Buku</th>
+                                    <td>{{ $buku->id_buku }}</td>
+                                </tr>
+                                <tr>
                                     <th style="">Judul</th>
                                     <td>{{ $buku->judul }}</td>
+                                </tr>
+                                <tr>
+                                    <th style="">Jilid</th>
+                                    <td>{{ $buku->jilid }}</td>
                                 </tr>
                                 <tr>
                                     <th style="">ISBN</th>
@@ -87,7 +95,7 @@
                                     <th style="">Pengarang</th>
                                     <td>{{ $buku->pengarang }}</td>
                                 </tr>
-                                <tr>
+                                {{-- <tr>
                                     <th style="">Penerbit</th>
                                     <td>
                                         @foreach ($penerbit as $penerbit1)
@@ -96,10 +104,16 @@
                                             @endif
                                         @endforeach
                                     </td>
-                                </tr>
+                                </tr> --}}
                                 <tr>
                                     <th style="">Class</th>
-                                    <td>{{ $buku->class_id }}
+                                    <td>
+                                        @foreach ($klasifikasi as $class)
+                                            @if ($class->id_class == $buku->class_id)
+                                                {{ $class->kode_class }}
+                                            @endif
+                                        @endforeach
+
                                         @foreach ($klasifikasi as $class)
                                             @if ($class->id_class == $buku->class_id)
                                                 {{ $class->ket }}
@@ -107,7 +121,7 @@
                                         @endforeach
                                     </td>
                                 </tr>
-                                <tr>
+                                {{-- <tr>
                                     <th style="">Kategori</th>
                                     <td>
                                         @foreach ($kategori as $kategori1)
@@ -117,6 +131,14 @@
                                             @endif
                                         @endforeach
                                     </td>
+                                </tr> --}}
+                                <tr>
+                                    <th style="">Tempat Terbit</th>
+                                    <td>{{ $buku->tmp_terbit }}</td>
+                                </tr>
+                                <tr>
+                                    <th style="">Penerbit</th>
+                                    <td>{{ $buku->penerbit }}</td>
                                 </tr>
                                 <tr>
                                     <th style="">Tahun Terbit</th>

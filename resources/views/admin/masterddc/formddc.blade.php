@@ -39,7 +39,7 @@
                             <div class="form-group row">
                                 <label for="staticEmail" class="col-sm-2 col-form-label">Kode DDC</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" name="id_class" id="DDC"
+                                    <input type="text" class="form-control" name="kode_class" id="DDC"
                                         placeholder="Masukan Kode DDC">
                                 </div>
                             </div>

@@ -33,7 +33,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{ url('lte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ url('lte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ url('lte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
-
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet"
         href="{{ url('lte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
@@ -74,17 +73,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <div class="card-body box-profile">
                             <div class="text-center">
                                 <div class="image">
-                                    @if (Auth::user()->avatar)
+                                    @if (auth()->user()->avatar)
                                         <img class="img-circle" style="max-height: 50px; max-width: 50px"
-                                            src="{{ asset('image/user/' . Auth::user()->avatar) }}" alt="User Image">
+                                            src="{{ asset('image/user/' . auth()->user()->avatar) }}" alt="User Image">
                                     @else
                                         <img class="img-circle elevation-2" src="{{ asset('image/no-image.png') }}"
-                                            alt="User Image">
+                                            style="max-height: 50px; max-width: 50px" alt="User Image">
                                     @endif
                                 </div>
                             </div>
-                            <h3 class="profile-username text-center">{{ auth()->user()->name }}</h3>
-                            <p class="text-muted text-center">{{ auth()->user()->level }}</p>
+                            <h3 class="profile-username text-center">{{ auth()->user()->nama_pendik }}</h3>
+                            <p class="text-muted text-center">{{ auth()->user()->roles }}</p>
+                            {{-- <h3 class="profile-username text-center">Backup</h3>
+                            <p class="text-muted text-center">Backup</p> --}}
                             <a href="{{ route('logout') }}" class="btn btn-primary btn-block"><i
                                     class="fa-solid fa-power-off"></i><b>Logout</b></a>
                         </div>
@@ -97,7 +98,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- Main Sidebar Container -->
         @section('siderbar')
-            @include('Layout.Dashboard.sidebar', ['user' => Auth::user()])
+            @include('Layout.Dashboard.sidebar', ['user' => Auth::guard('pendik')->user()])
         @show
 
         <!-- Content Wrapper. Contains page content -->

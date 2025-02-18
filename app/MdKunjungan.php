@@ -11,8 +11,8 @@ class MdKunjungan extends Model
     //
     protected $table = 'tb_kunjungan';
     protected $primarykey = 'id_kunjungan';
-    public $incrementing = false;
-    public $timestamps = false;
+    public $incrementing = true;
+    public $timestamps = true;
     protected $fillable = [
         'id_kunjungan', 'anggota_id', 'nis', 'nama_anggota', 'kelas', 'tgl_kunjungan'
     ];
@@ -25,11 +25,12 @@ class MdKunjungan extends Model
         ]);
     }
 
-    public function insKunjung($kunjungan) {
+    public function insKunjung($kunjungan)
+    {
         $tgl_sekarang = Carbon::now();
 
         DB::table('tb_kunjungan')->insert([
-            'id_kunjungan' => $kunjungan->id_kunjungan,
+            // 'id_kunjungan' => $kunjungan->id_kunjungan,
             'anggota_id' => $kunjungan->anggota_id,
             'nis' => $kunjungan->nis,
             'nama_anggota' => $kunjungan->nama_anggota,
