@@ -10,10 +10,7 @@ Proyek ini adalah sistem manajemen perpustakaan digital sederhana berbasis web/a
 ## Daftar Isi
 1.  [Fitur Utama](#fitur-utama)
 2.  [Teknologi yang Digunakan](#teknologi-yang-digunakan)
-3.  [Instalasi](#instalasi)
-4.  [Cara Menjalankan Proyek](#cara-menjalankan-proyek)
-5.  [Kontribusi](#kontribusi)
-6.  [Lisensi](#lisensi)
+
 
 ## Fitur Utama
 * **Manajemen Buku:** CRUD (Create, Read, Update, Delete) data buku, termasuk judul, penulis, penerbit, dan stok.
@@ -21,12 +18,12 @@ Proyek ini adalah sistem manajemen perpustakaan digital sederhana berbasis web/a
 * **Sistem Peminjaman:** Mencatat transaksi peminjaman buku.
 * **Sistem Pengembalian:** Mencatat pengembalian dan menghitung denda (jika ada).
 * **Pencarian Cepat:** Fitur pencarian untuk mempermudah anggota menemukan buku.
-* *[Tambahkan fitur spesifik lainnya jika ada, misalnya: Laporan PDF/Excel]*
+* **Pembuatan Laporan:** Fitur pembuatan laporan peminjaman, pengembalian, dan siswa yang berkunjung ke perpustakaan
 
 ## Teknologi yang Digunakan
 Proyek ini dibangun menggunakan kombinasi teknologi berikut:
 
-* **Bahasa Pemrograman Utama:** `[Contoh: PHP, Python, JavaScript (Node.js/React)]`
-* **Framework:** `[Contoh: Laravel, CodeIgniter, Django, Express.js]`
-* **Database:** `[Contoh: MySQL, PostgreSQL, SQLite]`
-* **Frontend:** `[Contoh: HTML5, CSS3, Bootstrap/Tailwind CSS]`
+* **Bahasa Pemrograman Utama:** PHP, JavaScript (JQuery)
+* **Framework:** Laravel
+* **Database:** MySQL
+* **Frontend:** Bootstrap
